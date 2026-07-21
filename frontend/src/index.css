@@ -1,0 +1,223 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── Design tokens — Qyntro Dark (default) ────────────────────────── */
+:root {
+  --color-canvas:       #09090f;
+  --color-surface:      #111118;
+  --color-surface-2:    #18181f;
+  --color-border:       #252535;
+  --color-border-hover: #3d3d58;
+  --color-accent:       #a855f7;     /* violet-500 */
+  --color-accent-2:     #6366f1;     /* indigo-500 */
+  --color-accent-dim:   #7c3aed;     /* violet-700 */
+  --color-accent-glow:  rgba(168,85,247,0.18);
+  --color-accent-glow2: rgba(99,102,241,0.12);
+  --color-ink:          #f0eeff;
+  --color-ink-muted:    #8b8aac;
+  --color-ink-faint:    #3f3f5a;
+  --color-success:      #34d399;     /* emerald */
+  --color-warning:      #fbbf24;     /* amber */
+  --color-danger:       #f87171;     /* red */
+  --color-node-bg:      #111118;
+  --color-grid-dot:     #1c1c2e;
+  --color-handle:       #a855f7;
+
+  /* Category accents */
+  --color-io:        #6366f1;   /* indigo */
+  --color-clean:     #a855f7;   /* violet */
+  --color-transform: #f59e0b;   /* amber */
+  --color-organize:  #ec4899;   /* pink */
+  --color-combine:   #06b6d4;   /* cyan */
+}
+
+/* ─── Light mode ────────────────────────────────────────────────────── */
+.light {
+  --color-canvas:       #f4f3ff;
+  --color-surface:      #ffffff;
+  --color-surface-2:    #f9f8ff;
+  --color-border:       #e2dff7;
+  --color-border-hover: #b8b0e8;
+  --color-accent:       #7c3aed;
+  --color-accent-2:     #4f46e5;
+  --color-accent-dim:   #6d28d9;
+  --color-accent-glow:  rgba(124,58,237,0.12);
+  --color-accent-glow2: rgba(79,70,229,0.10);
+  --color-ink:          #1a1535;
+  --color-ink-muted:    #6b6891;
+  --color-ink-faint:    #c4c0dc;
+  --color-success:      #059669;
+  --color-warning:      #d97706;
+  --color-danger:       #dc2626;
+  --color-node-bg:      #ffffff;
+  --color-grid-dot:     #e2dff7;
+  --color-handle:       #7c3aed;
+  --color-io:        #4f46e5;
+  --color-clean:     #7c3aed;
+  --color-transform: #d97706;
+  --color-organize:  #db2777;
+  --color-combine:   #0891b2;
+}
+
+/* ─── Base ─────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: 'Outfit', system-ui, sans-serif;
+  background: var(--color-canvas);
+  color: var(--color-ink);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ─── React Flow overrides ──────────────────────────────────────────── */
+.react-flow__renderer { background: var(--color-canvas); }
+
+.react-flow__handle {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: var(--color-handle);
+  border: 2px solid var(--color-canvas);
+  transition: transform 0.15s, box-shadow 0.15s;
+  box-shadow: 0 0 6px var(--color-accent-glow);
+}
+.react-flow__handle:hover {
+  transform: scale(1.4);
+  box-shadow: 0 0 0 4px var(--color-accent-glow), 0 0 12px var(--color-accent);
+}
+.react-flow__handle-left  { left:  -6px; }
+.react-flow__handle-right { right: -6px; }
+
+.react-flow__edge-path {
+  stroke: var(--color-border-hover);
+  stroke-width: 2;
+}
+.react-flow__edge.selected .react-flow__edge-path,
+.react-flow__edge:hover .react-flow__edge-path {
+  stroke: var(--color-accent);
+  filter: drop-shadow(0 0 4px var(--color-accent-glow));
+}
+.react-flow__edge.cycle .react-flow__edge-path { stroke: var(--color-warning); }
+
+.react-flow__controls {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.4), 0 0 0 1px var(--color-accent-glow);
+  overflow: hidden;
+}
+.react-flow__controls-button {
+  background: var(--color-surface);
+  border: none;
+  border-bottom: 1px solid var(--color-border);
+  color: var(--color-ink-muted);
+  width: 28px;
+  height: 28px;
+  transition: background 0.15s, color 0.15s;
+}
+.react-flow__controls-button:hover {
+  background: var(--color-surface-2);
+  color: var(--color-accent);
+}
+.react-flow__controls-button svg { fill: currentColor; }
+.react-flow__controls-button:last-child { border-bottom: none; }
+
+.react-flow__minimap {
+  background: var(--color-surface) !important;
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 0 0 1px var(--color-accent-glow);
+}
+.react-flow__minimap-mask { fill: rgba(0,0,0,0.4); }
+
+.react-flow__background { background: var(--color-canvas); }
+
+/* ─── Node card base ────────────────────────────────────────────────── */
+.df-node {
+  background: var(--color-node-bg);
+  border: 1.5px solid var(--color-border);
+  border-radius: 12px;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.5);
+  transition: border-color 0.15s, box-shadow 0.2s;
+  position: relative;
+  overflow: visible;
+}
+.df-node:hover {
+  border-color: var(--color-border-hover);
+  box-shadow: 0 4px 24px rgba(0,0,0,0.5), 0 0 0 1px var(--color-accent-glow2);
+}
+.df-node.selected {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 2px var(--color-accent-glow), 0 6px 24px rgba(0,0,0,0.6);
+}
+
+/* ─── Custom scrollbar ──────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: var(--color-border-hover);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover { background: var(--color-accent-dim); }
+
+/* ─── Animations ────────────────────────────────────────────────────── */
+@keyframes fadeIn  { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+@keyframes slideIn { from { opacity: 0; transform: translateX(10px); } to { opacity: 1; transform: none; } }
+@keyframes pulse   { 0%, 100% { opacity: 1; } 50% { opacity: 0.45; } }
+@keyframes spin    { to { transform: rotate(360deg); } }
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position:  200% center; }
+}
+@keyframes glow-pulse {
+  0%, 100% { box-shadow: 0 0 8px var(--color-accent-glow); }
+  50%       { box-shadow: 0 0 20px var(--color-accent-glow), 0 0 40px var(--color-accent-glow2); }
+}
+
+.animate-fadein  { animation: fadeIn  0.22s ease both; }
+.animate-slidein { animation: slideIn 0.22s ease both; }
+.animate-pulse   { animation: pulse  1.6s ease infinite; }
+.animate-spin    { animation: spin   0.8s linear infinite; }
+.animate-glow    { animation: glow-pulse 2.5s ease-in-out infinite; }
+
+/* ─── Qyntro brand gradient text ────────────────────────────────────── */
+.brand-gradient {
+  background: linear-gradient(135deg, #a855f7 0%, #6366f1 60%, #06b6d4 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ─── Data table ────────────────────────────────────────────────────── */
+.df-table { border-collapse: collapse; width: 100%; font-family: 'JetBrains Mono', monospace; font-size: 11px; }
+.df-table th {
+  position: sticky; top: 0; z-index: 1;
+  background: var(--color-surface-2);
+  border-bottom: 1.5px solid var(--color-border);
+  padding: 6px 10px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 10px;
+  color: var(--color-ink-muted);
+  white-space: nowrap;
+  letter-spacing: 0.04em;
+}
+.df-table td {
+  padding: 4px 10px;
+  border-bottom: 1px solid var(--color-border);
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--color-ink);
+}
+.df-table tr:nth-child(even) td { background: rgba(168,85,247,0.03); }
+.df-table tr:hover td { background: var(--color-accent-glow); }
+
+/* null values */
+.df-null { color: var(--color-ink-faint); font-style: italic; }
