@@ -14,19 +14,23 @@ export const RunButton = () => {
     const {
       clearCycleEdges, setExecutionRunning, setNodeExecutionState,
       setExecutionDone, setExecutionError, setPreviewData, markCycleEdges,
-      updateNodeField, nodes: currentNodes, edges: currentEdges,
+      setNodeOutputColumns, updateNodeField, nodes: currentNodes, edges: currentEdges,
     } = useStore.getState();
 
     clearCycleEdges();
     setExecutionRunning();
 
     try {
-      await runPipeline(currentNodes, currentEdges, {
+      const outputMap = await runPipeline(currentNodes, currentEdges, {
         onNodeUpdate: (nodeId, patch) => setNodeExecutionState(nodeId, patch),
         onPreviewReady: (nodeId, df) => {
           setPreviewData(nodeId, df);
           updateNodeField(nodeId, '_previewRows', df.rows.length);
         },
+      });
+      // Store column names from every node's output for inspector dropdowns
+      outputMap.forEach((df, nodeId) => {
+        if (df?.columns) setNodeOutputColumns(nodeId, df.columns);
       });
       setExecutionDone();
     } catch (err) {

@@ -3,7 +3,7 @@ import { useStore } from '../store';
 import { templateByType } from '../nodes/nodeTemplates';
 import { DataTable } from '../components/DataTable';
 
-function FieldEditor({ nodeId, field, value, onChange, locked }) {
+function FieldEditor({ nodeId, field, value, onChange, locked, columns = [] }) {
   const inputClass = `w-full rounded-md border border-border bg-canvas px-2.5 py-1.5 text-xs text-ink outline-none
     focus:border-accent transition-colors duration-150 disabled:opacity-50 disabled:cursor-not-allowed
     ${field.monospace ? 'font-mono' : ''}`;
@@ -65,6 +65,32 @@ function FieldEditor({ nodeId, field, value, onChange, locked }) {
     );
   }
 
+  // col-select: text input + datalist of available columns
+  if (field.type === 'col-select') {
+    const listId = `col-list-${nodeId}-${field.id}`;
+    return (
+      <div className="relative">
+        <input
+          type="text"
+          list={listId}
+          value={value ?? ''}
+          onChange={e => onChange(e.target.value)}
+          disabled={locked}
+          placeholder={columns.length ? 'Pick or type a column…' : field.placeholder}
+          className={inputClass}
+        />
+        <datalist id={listId}>
+          {columns.map(col => <option key={col} value={col} />)}
+        </datalist>
+        {columns.length > 0 && (
+          <p className="mt-1 font-mono text-[9px] text-ink-faint">
+            {columns.length} columns available
+          </p>
+        )}
+      </div>
+    );
+  }
+
   return (
     <input
       type="text"
@@ -79,11 +105,21 @@ function FieldEditor({ nodeId, field, value, onChange, locked }) {
 
 const NodeInspectorInner = () => {
   const nodes = useStore(s => s.nodes);
+  const edges = useStore(s => s.edges);
   const updateNodeField = useStore(s => s.updateNodeField);
   const previewData = useStore(s => s.previewData);
   const selectedPreviewNodeId = useStore(s => s.selectedPreviewNodeId);
   const nodeExecutionState = useStore(s => s.nodeExecutionState);
+  const nodeOutputColumns = useStore(s => s.nodeOutputColumns);
   const selectedNode = nodes.find(n => n.selected);
+
+  // Find columns from the node directly upstream of selectedNode
+  const upstreamColumns = (() => {
+    if (!selectedNode) return [];
+    const inEdge = edges.find(e => e.target === selectedNode.id);
+    if (!inEdge) return [];
+    return nodeOutputColumns[inEdge.source] ?? [];
+  })();
 
   // Show preview panel if a preview node was clicked
   if (selectedPreviewNodeId && previewData[selectedPreviewNodeId]) {
@@ -186,6 +222,7 @@ const NodeInspectorInner = () => {
               value={data[field.id]}
               onChange={val => updateNodeField(selectedNode.id, field.id, val)}
               locked={locked}
+              columns={upstreamColumns}
             />
           </div>
         ))}

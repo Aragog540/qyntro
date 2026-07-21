@@ -12,7 +12,7 @@ export const transformNodes = [
     defaultData: () => ({ col: '', op: '=', value: '', mode: 'keep' }),
     fields: [
       { id: 'mode', label: 'Action', type: 'select', options: [{ value: 'keep', label: 'Keep matching' }, { value: 'drop', label: 'Drop matching' }] },
-      { id: 'col',  label: 'Column', type: 'text', monospace: true, placeholder: 'column name' },
+      { id: 'col',  label: 'Column', type: 'col-select', monospace: true, placeholder: 'select a column' },
       {
         id: 'op',
         label: 'Operator',
@@ -44,7 +44,7 @@ export const transformNodes = [
     handles: mapHandles,
     run: async (df, data) => {
       if (!df) throw new Error('No data connected.');
-      if (!data?.col) throw new Error('Column name required.');
+      if (!data?.col?.trim()) throw new Error('Column name required. Select a node, pick a column from the inspector, then re-run.');
       let result = filterRows(df, data.col, data.op || '=', data.value ?? '');
       if (data?.mode === 'drop') {
         // Invert: keep rows that did NOT match

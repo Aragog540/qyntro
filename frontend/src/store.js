@@ -13,12 +13,15 @@ export const useStore = create((set, get) => ({
   executionStatus: 'idle', // 'idle' | 'running' | 'done' | 'error'
   executionError: '',
   nodeExecutionState: {},  // nodeId -> { status, rowCount?, error? }
+  nodeOutputColumns: {},   // nodeId -> string[] (column names from last run)
   previewData: {},          // nodeId -> DataFrame (for Preview nodes)
   selectedPreviewNodeId: null,
 
   setExecutionRunning: () => set({ executionStatus: 'running', executionError: '', nodeExecutionState: {}, previewData: {} }),
   setNodeExecutionState: (nodeId, patch) =>
     set(s => ({ nodeExecutionState: { ...s.nodeExecutionState, [nodeId]: { ...s.nodeExecutionState[nodeId], ...patch } } })),
+  setNodeOutputColumns: (nodeId, columns) =>
+    set(s => ({ nodeOutputColumns: { ...s.nodeOutputColumns, [nodeId]: columns } })),
   setExecutionDone: () => set({ executionStatus: 'done' }),
   setExecutionError: (msg) => set({ executionStatus: 'error', executionError: msg }),
   clearExecution: () => set({ executionStatus: 'idle', executionError: '', nodeExecutionState: {} }),
