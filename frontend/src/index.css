@@ -49,6 +49,8 @@
   --color-transform: #f59e0b;   /* amber */
   --color-organize:  #ec4899;   /* pink */
   --color-combine:   #06b6d4;   /* cyan */
+  --color-visualise: #10b981;   /* emerald */
+
 }
 
 /* ─── Light mode ────────────────────────────────────────────────────── */
@@ -77,6 +79,8 @@
   --color-transform: #d97706;
   --color-organize:  #db2777;
   --color-combine:   #0891b2;
+  --color-visualise: #059669;
+
 }
 
 /* ─── Base ─────────────────────────────────────────────────────────── */
@@ -563,4 +567,56 @@ html, body, #root {
 .template-use-btn:active { transform: translateY(0); }
 .template-use-arrow { font-size: 13px; transition: transform 0.18s; }
 .template-use-btn:hover .template-use-arrow { transform: translateX(3px); }
+
+/* ─── Chart Inspector Panel ─────────────────────────────────────────── */
+.chart-inspector-panel {
+  margin-top: 8px;
+  border-top: 1px solid var(--color-border);
+  padding-top: 16px;
+}
+.chart-inspector-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+.chart-inspector-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--color-ink);
+  font-family: 'Outfit', system-ui, sans-serif;
+}
+.chart-inspector-meta {
+  font-size: 9px;
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--color-ink-muted);
+  background: var(--color-accent-glow2);
+  border: 1px solid var(--color-border);
+  border-radius: 20px;
+  padding: 2px 8px;
+}
+
+/* ─── Chart Placeholder ─────────────────────────────────────────────── */
+.chart-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  height: 220px;
+  border: 1.5px dashed var(--color-border);
+  border-radius: 10px;
+  color: var(--color-ink-muted);
+  font-size: 11px;
+  text-align: center;
+  padding: 20px;
+  background: var(--color-canvas);
+}
+.chart-placeholder-icon { font-size: 28px; opacity: 0.4; }
+
+/* ─── Recharts overrides ────────────────────────────────────────────── */
+.recharts-legend-item-text { color: var(--color-ink-muted) !important; font-size: 10px; }
+.recharts-tooltip-wrapper { outline: none; }
+.recharts-default-tooltip { border-radius: 8px !important; }
+
 

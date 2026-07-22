@@ -7,7 +7,9 @@ export const CATEGORIES = [
   { id: 'transform', label: 'Transform',      color: 'var(--color-transform)' },
   { id: 'organize',  label: 'Organize',       color: 'var(--color-organize)' },
   { id: 'combine',   label: 'Combine',        color: 'var(--color-combine)' },
+  { id: 'visualise', label: 'Visualise',      color: 'var(--color-visualise)' },
 ];
+
 
 const CAT_COLOR = Object.fromEntries(CATEGORIES.map(c => [c.id, c.color]));
 

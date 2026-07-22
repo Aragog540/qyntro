@@ -4,6 +4,7 @@ import { cleanNodes }     from './clean';
 import { transformNodes } from './transform';
 import { organizeNodes }  from './organize';
 import { combineNodes }   from './combine';
+import { visualiseNodes } from './visualise';
 export { CATEGORIES }     from './shared';
 
 export const nodeTemplates = [
@@ -12,7 +13,9 @@ export const nodeTemplates = [
   ...transformNodes,
   ...organizeNodes,
   ...combineNodes,
+  ...visualiseNodes,
 ];
+
 
 export const templateByType = Object.fromEntries(nodeTemplates.map(t => [t.type, t]));
 

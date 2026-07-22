@@ -15,7 +15,9 @@ export const useStore = create((set, get) => ({
   nodeExecutionState: {},  // nodeId -> { status, rowCount?, error? }
   nodeOutputColumns: {},   // nodeId -> string[] (column names from last run)
   previewData: {},          // nodeId -> DataFrame (for Preview nodes)
+  chartData: {},             // nodeId -> DataFrame (for Chart nodes)
   selectedPreviewNodeId: null,
+
 
   setExecutionRunning: () => set({ executionStatus: 'running', executionError: '', nodeExecutionState: {}, previewData: {} }),
   setNodeExecutionState: (nodeId, patch) =>
@@ -27,7 +29,10 @@ export const useStore = create((set, get) => ({
   clearExecution: () => set({ executionStatus: 'idle', executionError: '', nodeExecutionState: {} }),
   setPreviewData: (nodeId, df) =>
     set(s => ({ previewData: { ...s.previewData, [nodeId]: df }, selectedPreviewNodeId: nodeId })),
+  setChartData: (nodeId, df) =>
+    set(s => ({ chartData: { ...s.chartData, [nodeId]: df } })),
   selectPreviewNode: (nodeId) => set({ selectedPreviewNodeId: nodeId }),
+
 
   getNodeID: (type) => {
     const ids = { ...get().nodeIDs };
@@ -78,6 +83,7 @@ export const useStore = create((set, get) => ({
     executionError: '',
     nodeExecutionState: {},
     previewData: {},
+    chartData: {},
     selectedPreviewNodeId: null,
     nodeOutputColumns: {},
   }),
@@ -127,6 +133,7 @@ export const useStore = create((set, get) => ({
       executionError: '',
       nodeExecutionState: {},
       previewData: {},
+      chartData: {},
       selectedPreviewNodeId: null,
       nodeOutputColumns: {},
     });

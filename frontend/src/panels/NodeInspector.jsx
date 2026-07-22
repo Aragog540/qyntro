@@ -2,6 +2,8 @@
 import { useStore } from '../store';
 import { templateByType } from '../nodes/nodeTemplates';
 import { DataTable } from '../components/DataTable';
+import { ChartRenderer } from '../components/ChartRenderer';
+
 
 function FieldEditor({ nodeId, field, value, onChange, locked, columns = [] }) {
   const inputClass = `w-full rounded-md border border-border bg-canvas px-2.5 py-1.5 text-xs text-ink outline-none
@@ -108,7 +110,9 @@ const NodeInspectorInner = () => {
   const edges = useStore(s => s.edges);
   const updateNodeField = useStore(s => s.updateNodeField);
   const previewData = useStore(s => s.previewData);
+  const chartData = useStore(s => s.chartData);
   const selectedPreviewNodeId = useStore(s => s.selectedPreviewNodeId);
+
   const nodeExecutionState = useStore(s => s.nodeExecutionState);
   const nodeOutputColumns = useStore(s => s.nodeOutputColumns);
   const selectedNode = nodes.find(n => n.selected);
@@ -166,8 +170,13 @@ const NodeInspectorInner = () => {
   const execState = nodeExecutionState[selectedNode.id];
   const fields = (template.fields || []).filter(f => !f.showIf || f.showIf(data));
 
+  // Chart node — wider panel with chart rendered below fields
+  const isChartNode = selectedNode.type === 'chart';
+  const chartDF = chartData[selectedNode.id];
+  const panelWidth = isChartNode ? 'w-[480px]' : 'w-72';
+
   return (
-    <aside className="flex w-72 shrink-0 flex-col border-l border-border bg-surface shadow-panel animate-slidein">
+    <aside className={`flex ${panelWidth} shrink-0 flex-col border-l border-border bg-surface shadow-panel animate-slidein`}>
       {/* Node header */}
       <div className="shrink-0 border-b border-border px-4 py-3.5">
         <div className="flex items-center gap-2.5">
@@ -212,7 +221,7 @@ const NodeInspectorInner = () => {
           <p className="text-xs text-ink-muted text-center py-8">No configurable fields</p>
         )}
         {fields.map(field => (
-          <div key={field.id} className="space-y-1.5">
+          <div key={field.id + (field.showIf?.toString() ?? '')} className="space-y-1.5">
             <label className="block text-[11px] font-medium text-ink-muted uppercase tracking-wide">
               {field.label}
             </label>
@@ -226,9 +235,27 @@ const NodeInspectorInner = () => {
             />
           </div>
         ))}
+
+        {/* Chart panel — shown after pipeline runs */}
+        {isChartNode && (
+          <div className="chart-inspector-panel">
+            <div className="chart-inspector-header">
+              <span className="chart-inspector-title">
+                {data.title || 'Chart Preview'}
+              </span>
+              {chartDF && (
+                <span className="chart-inspector-meta">
+                  {chartDF.rows.length.toLocaleString()} rows
+                </span>
+              )}
+            </div>
+            <ChartRenderer df={chartDF} config={data} />
+          </div>
+        )}
       </div>
     </aside>
   );
 };
 
 export const NodeInspector = NodeInspectorInner;
+

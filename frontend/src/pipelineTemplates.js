@@ -228,10 +228,83 @@ export const PIPELINE_TEMPLATES = [
       { sourceIndex: 4, targetIndex: 5 },
     ],
   },
+  {
+    id: 'bar-chart',
+    title: 'Bar Chart',
+    description: 'Load data, aggregate by a category column, then visualise the totals as a bar chart.',
+    icon: '📊',
+    tags: ['visualise', 'analysis'],
+    pipeline: ['Load', 'Drop Nulls', 'Aggregate', 'Chart'],
+    nodes: [
+      {
+        type: 'load',
+        position: { x: 60, y: 160 },
+        data: { sourceType: 'file', fileList: [] },
+      },
+      {
+        type: 'dropNulls',
+        position: { x: 340, y: 160 },
+        data: { mode: 'any', cols: '' },
+      },
+      {
+        type: 'aggregate',
+        position: { x: 620, y: 160 },
+        data: { groupBy: '', aggCol: '', aggFn: 'sum' },
+      },
+      {
+        type: 'chart',
+        position: { x: 900, y: 160 },
+        data: { chartType: 'bar', xCol: '', yCol: '', colorCol: '', title: 'Bar Chart' },
+      },
+    ],
+    edges: [
+      { sourceIndex: 0, targetIndex: 1 },
+      { sourceIndex: 1, targetIndex: 2 },
+      { sourceIndex: 2, targetIndex: 3 },
+    ],
+  },
+
+  {
+    id: 'line-chart',
+    title: 'Line Chart',
+    description: 'Sort your data by a time or sequence column and visualise trends with a smooth line chart.',
+    icon: '📈',
+    tags: ['visualise', 'analysis'],
+    pipeline: ['Load', 'Drop Nulls', 'Sort', 'Chart'],
+    nodes: [
+      {
+        type: 'load',
+        position: { x: 60, y: 160 },
+        data: { sourceType: 'file', fileList: [] },
+      },
+      {
+        type: 'dropNulls',
+        position: { x: 340, y: 160 },
+        data: { mode: 'any', cols: '' },
+      },
+      {
+        type: 'sort',
+        position: { x: 620, y: 160 },
+        data: { col: '', dir: 'asc' },
+      },
+      {
+        type: 'chart',
+        position: { x: 900, y: 160 },
+        data: { chartType: 'line', xCol: '', yCol: '', colorCol: '', title: 'Line Chart' },
+      },
+    ],
+    edges: [
+      { sourceIndex: 0, targetIndex: 1 },
+      { sourceIndex: 1, targetIndex: 2 },
+      { sourceIndex: 2, targetIndex: 3 },
+    ],
+  },
 ];
 
 // Tag color mapping
 export const TAG_COLORS = {
+
+
   beginner:  { bg: 'rgba(52,211,153,0.15)',  text: '#34d399' },
   io:        { bg: 'rgba(99,102,241,0.15)',   text: '#818cf8' },
   cleaning:  { bg: 'rgba(168,85,247,0.15)',   text: '#c084fc' },
@@ -240,4 +313,5 @@ export const TAG_COLORS = {
   types:     { bg: 'rgba(6,182,212,0.15)',    text: '#22d3ee' },
   organize:  { bg: 'rgba(236,72,153,0.15)',   text: '#f472b6' },
   advanced:  { bg: 'rgba(248,113,113,0.15)',  text: '#f87171' },
+  visualise: { bg: 'rgba(16,185,129,0.15)',   text: '#34d399' },
 };

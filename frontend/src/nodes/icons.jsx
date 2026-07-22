@@ -23,6 +23,8 @@ export const IconSort        = (p) => <I {...p} d={['M3 6h18', 'M7 12h10', 'M10 
 export const IconSlice       = (p) => <I {...p} d={['M8 6h13', 'M8 18h13', 'M3 6l4 6-4 6']} />;
 export const IconAggregate   = (p) => <I {...p} d={['M18 20V10', 'M12 20V4', 'M6 20v-6']} />;
 export const IconJoin        = (p) => <I {...p} d={['M4 12h16', 'M4 7l5 5-5 5', 'M20 7l-5 5 5 5']} />;
+export const IconChart       = (p) => <I {...p} d={['M18 20V10', 'M12 20V4', 'M6 20v-6', 'M2 20h20']} />;
+
 
 // Icon map by node type
 export const NODE_ICONS = {
@@ -42,4 +44,5 @@ export const NODE_ICONS = {
   slice:       IconSlice,
   aggregate:   IconAggregate,
   join:        IconJoin,
+  chart:       IconChart,
 };
