@@ -68,4 +68,55 @@ export const useStore = create((set, get) => ({
         return n;
       }),
     }),
+
+  loadTemplate: (template) => {
+    // Build a type→counter map so IDs stay sequential
+    const typeCounts = {};
+    const nodeIdMap = {}; // templateIndex -> generated nodeId
+
+    const nodes = template.nodes.map((nodeDef, i) => {
+      typeCounts[nodeDef.type] = (typeCounts[nodeDef.type] ?? 0) + 1;
+      const id = `${nodeDef.type}-${typeCounts[nodeDef.type]}`;
+      nodeIdMap[i] = id;
+      return {
+        id,
+        type: nodeDef.type,
+        position: nodeDef.position,
+        data: {
+          id,
+          nodeType: nodeDef.type,
+          label: nodeDef.type,   // CanvasNode will resolve real label from template
+          ...nodeDef.data,
+        },
+      };
+    });
+
+    const edges = template.edges.map((edgeDef, i) => {
+      const sourceId = nodeIdMap[edgeDef.sourceIndex];
+      const targetId = nodeIdMap[edgeDef.targetIndex];
+      return {
+        id: `e-template-${i}`,
+        source: sourceId,
+        target: targetId,
+        sourceHandle: `${sourceId}-output`,
+        targetHandle: `${targetId}-input`,
+        type: 'flow',
+        style: { stroke: 'var(--color-border-hover)', strokeWidth: 2 },
+      };
+    });
+
+    set({
+      nodes,
+      edges,
+      nodeIDs: typeCounts,
+      cycleEdgeIds: [],
+      executionStatus: 'idle',
+      executionError: '',
+      nodeExecutionState: {},
+      previewData: {},
+      selectedPreviewNodeId: null,
+      nodeOutputColumns: {},
+    });
+  },
 }));
+
