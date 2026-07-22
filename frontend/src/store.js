@@ -69,6 +69,19 @@ export const useStore = create((set, get) => ({
       }),
     }),
 
+  clearCanvas: () => set({
+    nodes: [],
+    edges: [],
+    nodeIDs: {},
+    cycleEdgeIds: [],
+    executionStatus: 'idle',
+    executionError: '',
+    nodeExecutionState: {},
+    previewData: {},
+    selectedPreviewNodeId: null,
+    nodeOutputColumns: {},
+  }),
+
   loadTemplate: (template) => {
     // Build a type→counter map so IDs stay sequential
     const typeCounts = {};

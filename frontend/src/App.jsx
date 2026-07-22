@@ -1,5 +1,5 @@
 // App.jsx — Root layout
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { NodePalette } from './panels/NodePalette';
 import { NodeInspector } from './panels/NodeInspector';
 import { PipelineUI } from './ui';
@@ -61,6 +61,9 @@ export default function App() {
             {isDark ? <SunIcon /> : <MoonIcon />}
           </button>
 
+          {/* Clear canvas */}
+          <ClearCanvasButton />
+
           {/* Run */}
           <RunButton />
         </div>
@@ -82,7 +85,56 @@ export default function App() {
   );
 }
 
+function ClearCanvasButton() {
+  const hasNodes = useStore(s => s.nodes.length > 0);
+  const clearCanvas = useStore(s => s.clearCanvas);
+  const [armed, setArmed] = useState(false);
+
+  const handleClick = useCallback(() => {
+    if (!armed) {
+      setArmed(true);
+      // Auto-disarm after 3 seconds if not confirmed
+      setTimeout(() => setArmed(false), 3000);
+    } else {
+      clearCanvas();
+      setArmed(false);
+    }
+  }, [armed, clearCanvas]);
+
+  if (!hasNodes) return null;
+
+  return (
+    <button
+      id="clear-canvas-btn"
+      onClick={handleClick}
+      title={armed ? 'Click again to confirm clear' : 'Clear canvas'}
+      className={`clear-canvas-btn${armed ? ' clear-canvas-btn--armed' : ''}`}
+    >
+      {armed ? (
+        <>
+          <TrashIcon />
+          <span className="clear-canvas-btn-label">Confirm?</span>
+        </>
+      ) : (
+        <TrashIcon />
+      )}
+    </button>
+  );
+}
+
+function TrashIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-4 w-4">
+      <polyline points="3 6 5 6 21 6" />
+      <path d="M19 6l-1 14H6L5 6" />
+      <path d="M10 11v6M14 11v6" />
+      <path d="M9 6V4h6v2" />
+    </svg>
+  );
+}
+
 function EmptyState() {
+
   const hasNodes = useStore(s => s.nodes.length > 0);
   if (hasNodes) return null;
   return (
