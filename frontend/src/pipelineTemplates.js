@@ -12,7 +12,7 @@ export const PIPELINE_TEMPLATES = [
       {
         type: 'load',
         position: { x: 80, y: 160 },
-        data: { sourceType: 'file', fileList: [] },
+        data: { sourceType: 'sample', sampleName: 'sales' },
       },
       {
         type: 'preview',
@@ -36,7 +36,7 @@ export const PIPELINE_TEMPLATES = [
       {
         type: 'load',
         position: { x: 60, y: 160 },
-        data: { sourceType: 'file', fileList: [] },
+        data: { sourceType: 'sample', sampleName: 'sales' },
       },
       {
         type: 'dropNulls',
@@ -64,7 +64,7 @@ export const PIPELINE_TEMPLATES = [
   {
     id: 'sales-analysis',
     title: 'Sales Analysis',
-    description: 'Clean string whitespace, filter to relevant records, sort by a key column, then export for reporting.',
+    description: 'Clean string whitespace, filter to relevant records, sort by revenue, then export for reporting.',
     icon: '📊',
     tags: ['analysis', 'transform'],
     pipeline: ['Load', 'Trim Strings', 'Filter Rows', 'Sort', 'Export'],
@@ -72,7 +72,7 @@ export const PIPELINE_TEMPLATES = [
       {
         type: 'load',
         position: { x: 60, y: 160 },
-        data: { sourceType: 'file', fileList: [] },
+        data: { sourceType: 'sample', sampleName: 'sales' },
       },
       {
         type: 'trimStrings',
@@ -82,12 +82,12 @@ export const PIPELINE_TEMPLATES = [
       {
         type: 'filterRows',
         position: { x: 620, y: 160 },
-        data: { col: '', op: 'not null', value: '', mode: 'keep' },
+        data: { col: 'revenue', op: '>', value: '200', mode: 'keep' },
       },
       {
         type: 'sort',
         position: { x: 900, y: 160 },
-        data: { col: '', dir: 'desc' },
+        data: { col: 'revenue', dir: 'desc' },
       },
       {
         type: 'export',
@@ -114,17 +114,17 @@ export const PIPELINE_TEMPLATES = [
       {
         type: 'load',
         position: { x: 60, y: 160 },
-        data: { sourceType: 'file', fileList: [] },
+        data: { sourceType: 'sample', sampleName: 'sales' },
       },
       {
         type: 'typeCast',
         position: { x: 340, y: 160 },
-        data: { col: '', targetType: 'number' },
+        data: { col: 'revenue', targetType: 'number' },
       },
       {
         type: 'fillNulls',
         position: { x: 620, y: 160 },
-        data: { col: '', strategy: 'mean', value: '' },
+        data: { col: 'revenue', strategy: 'mean', value: '' },
       },
       {
         type: 'preview',
@@ -142,7 +142,7 @@ export const PIPELINE_TEMPLATES = [
   {
     id: 'aggregate-report',
     title: 'Aggregate & Report',
-    description: 'Group your data by a category column, compute a summary metric (sum/avg/count), then export the report.',
+    description: 'Group your data by category, compute total revenue, sort descending, then export the report.',
     icon: '📈',
     tags: ['analysis', 'organize'],
     pipeline: ['Load', 'Drop Nulls', 'Aggregate', 'Sort', 'Export'],
@@ -150,7 +150,7 @@ export const PIPELINE_TEMPLATES = [
       {
         type: 'load',
         position: { x: 60, y: 160 },
-        data: { sourceType: 'file', fileList: [] },
+        data: { sourceType: 'sample', sampleName: 'sales' },
       },
       {
         type: 'dropNulls',
@@ -160,12 +160,12 @@ export const PIPELINE_TEMPLATES = [
       {
         type: 'aggregate',
         position: { x: 620, y: 160 },
-        data: { groupBy: '', aggCol: '', aggFn: 'sum' },
+        data: { groupBy: 'category', aggCol: 'revenue', aggFn: 'sum' },
       },
       {
         type: 'sort',
         position: { x: 900, y: 160 },
-        data: { col: '', dir: 'desc' },
+        data: { col: 'sum(revenue)', dir: 'desc' },
       },
       {
         type: 'export',
@@ -184,7 +184,7 @@ export const PIPELINE_TEMPLATES = [
   {
     id: 'full-clean',
     title: 'Full Clean Pipeline',
-    description: 'The complete cleaning workflow: drop nulls, fill remaining gaps, deduplicate, trim whitespace, then export pristine data.',
+    description: 'The complete cleaning workflow: drop nulls, fill gaps, deduplicate, trim whitespace, then export.',
     icon: '✨',
     tags: ['cleaning', 'advanced'],
     pipeline: ['Load', 'Drop Nulls', 'Fill Nulls', 'Deduplicate', 'Trim Strings', 'Export'],
@@ -192,7 +192,7 @@ export const PIPELINE_TEMPLATES = [
       {
         type: 'load',
         position: { x: 60, y: 200 },
-        data: { sourceType: 'file', fileList: [] },
+        data: { sourceType: 'sample', sampleName: 'sales' },
       },
       {
         type: 'dropNulls',
@@ -202,7 +202,7 @@ export const PIPELINE_TEMPLATES = [
       {
         type: 'fillNulls',
         position: { x: 620, y: 200 },
-        data: { col: '', strategy: 'mean', value: '' },
+        data: { col: 'revenue', strategy: 'mean', value: '' },
       },
       {
         type: 'dedupe',
@@ -228,6 +228,7 @@ export const PIPELINE_TEMPLATES = [
       { sourceIndex: 4, targetIndex: 5 },
     ],
   },
+
   {
     id: 'bar-chart',
     title: 'Bar Chart',
@@ -239,7 +240,7 @@ export const PIPELINE_TEMPLATES = [
       {
         type: 'load',
         position: { x: 60, y: 160 },
-        data: { sourceType: 'file', fileList: [] },
+        data: { sourceType: 'sample', sampleName: 'sales' },
       },
       {
         type: 'dropNulls',
@@ -249,12 +250,12 @@ export const PIPELINE_TEMPLATES = [
       {
         type: 'aggregate',
         position: { x: 620, y: 160 },
-        data: { groupBy: '', aggCol: '', aggFn: 'sum' },
+        data: { groupBy: 'category', aggCol: 'revenue', aggFn: 'sum' },
       },
       {
         type: 'chart',
         position: { x: 900, y: 160 },
-        data: { chartType: 'bar', xCol: '', yCol: '', colorCol: '', title: 'Bar Chart' },
+        data: { chartType: 'bar', xCol: 'category', yCol: 'sum(revenue)', colorCol: '', title: 'Revenue by Category' },
       },
     ],
     edges: [
@@ -267,7 +268,7 @@ export const PIPELINE_TEMPLATES = [
   {
     id: 'line-chart',
     title: 'Line Chart',
-    description: 'Sort your data by a time or sequence column and visualise trends with a smooth line chart.',
+    description: 'Sort your data by date and visualise revenue trends over time with a smooth line chart.',
     icon: '📈',
     tags: ['visualise', 'analysis'],
     pipeline: ['Load', 'Drop Nulls', 'Sort', 'Chart'],
@@ -275,7 +276,7 @@ export const PIPELINE_TEMPLATES = [
       {
         type: 'load',
         position: { x: 60, y: 160 },
-        data: { sourceType: 'file', fileList: [] },
+        data: { sourceType: 'sample', sampleName: 'sales' },
       },
       {
         type: 'dropNulls',
@@ -285,12 +286,12 @@ export const PIPELINE_TEMPLATES = [
       {
         type: 'sort',
         position: { x: 620, y: 160 },
-        data: { col: '', dir: 'asc' },
+        data: { col: 'date', dir: 'asc' },
       },
       {
         type: 'chart',
         position: { x: 900, y: 160 },
-        data: { chartType: 'line', xCol: '', yCol: '', colorCol: '', title: 'Line Chart' },
+        data: { chartType: 'line', xCol: 'date', yCol: 'revenue', colorCol: '', title: 'Revenue Trend' },
       },
     ],
     edges: [
@@ -299,9 +300,9 @@ export const PIPELINE_TEMPLATES = [
       { sourceIndex: 2, targetIndex: 3 },
     ],
   },
+
   {
     id: 'data-profiler',
-
     title: 'Data Profiling & Quality',
     description: 'Load sample data, automatically profile every column, and validate schema integrity.',
     icon: '🔬',
@@ -331,11 +332,8 @@ export const PIPELINE_TEMPLATES = [
   },
 ];
 
-
 // Tag color mapping
 export const TAG_COLORS = {
-
-
   beginner:  { bg: 'rgba(52,211,153,0.15)',  text: '#34d399' },
   io:        { bg: 'rgba(99,102,241,0.15)',   text: '#818cf8' },
   cleaning:  { bg: 'rgba(168,85,247,0.15)',   text: '#c084fc' },
@@ -347,4 +345,3 @@ export const TAG_COLORS = {
   visualise: { bg: 'rgba(16,185,129,0.15)',   text: '#34d399' },
   quality:   { bg: 'rgba(249,115,22,0.15)',   text: '#fb923c' },
 };
-

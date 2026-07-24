@@ -1,4 +1,4 @@
-﻿// nodes/definitions/io.js -- Load, Preview, Export
+// nodes/definitions/io.js -- Load, Preview, Export
 import { Position } from 'reactflow';
 import { defineNode } from './shared';
 import { parseFile, exportCSV, exportJSON, exportTSV } from '../../utils/dataOps';
@@ -158,7 +158,7 @@ export const ioNodes = [
       }
       if (src === 'sample') return parseSample(data?.sampleName || 'iris');
       const file = data?.fileList?.[0];
-      if (!file) throw new Error('No file selected.');
+      if (!file) return parseSample(data?.sampleName || 'sales');
       return parseFile(file);
     },
   }),
