@@ -29,7 +29,8 @@ export function topoSort(nodes, edges) {
   return order;
 }
 
-export async function runPipeline(nodes, edges, { onNodeUpdate, onPreviewReady, onChartReady } = {}) {
+export async function runPipeline(nodes, edges, { onNodeUpdate, onPreviewReady, onChartReady, onProfileReady } = {}) {
+
   const order = topoSort(nodes, edges);
   const nodeById = new Map(nodes.map(n => [n.id, n]));
   // outputByNodeId stores the DataFrame output of each node
@@ -84,9 +85,15 @@ export async function runPipeline(nodes, edges, { onNodeUpdate, onPreviewReady, 
         onPreviewReady?.(nodeId, result);
       }
 
-      // Chart node callback — store DataFrame for chart rendering
+      // Chart node callback
       if (template.type === 'chart' && result) {
         onChartReady?.(nodeId, result);
+      }
+
+      // Profiler node callback -- profile the input df
+      if (template.type === 'profiler' && inputDF) {
+        const { profileDF } = await import('../utils/dataOps.js');
+        onProfileReady?.(nodeId, profileDF(inputDF));
       }
 
       const rowCount = result?.rows?.length ?? 0;

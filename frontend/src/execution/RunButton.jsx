@@ -14,8 +14,9 @@ export const RunButton = () => {
     const {
       clearCycleEdges, setExecutionRunning, setNodeExecutionState,
       setExecutionDone, setExecutionError, setPreviewData, markCycleEdges,
-      setNodeOutputColumns, setChartData, updateNodeField,
+      setNodeOutputColumns, setChartData, setProfileData, updateNodeField,
       nodes: currentNodes, edges: currentEdges,
+
     } = useStore.getState();
 
     clearCycleEdges();
@@ -29,6 +30,8 @@ export const RunButton = () => {
           updateNodeField(nodeId, '_previewRows', df.rows.length);
         },
         onChartReady: (nodeId, df) => setChartData(nodeId, df),
+        onProfileReady: (nodeId, profile) => setProfileData(nodeId, profile),
+
       });
       // Store column names from every node's output for inspector dropdowns
       outputMap.forEach((df, nodeId) => {

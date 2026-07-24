@@ -22,27 +22,46 @@ export const IconAddColumn   = (p) => <I {...p} d={['M11 12H3', 'M16 6l6 6-6 6',
 export const IconSort        = (p) => <I {...p} d={['M3 6h18', 'M7 12h10', 'M10 18h4']} />;
 export const IconSlice       = (p) => <I {...p} d={['M8 6h13', 'M8 18h13', 'M3 6l4 6-4 6']} />;
 export const IconAggregate   = (p) => <I {...p} d={['M18 20V10', 'M12 20V4', 'M6 20v-6']} />;
-export const IconJoin        = (p) => <I {...p} d={['M4 12h16', 'M4 7l5 5-5 5', 'M20 7l-5 5 5 5']} />;
-export const IconChart       = (p) => <I {...p} d={['M18 20V10', 'M12 20V4', 'M6 20v-6', 'M2 20h20']} />;
+export const IconJoin          = (p) => <I {...p} d={['M4 12h16', 'M4 7l5 5-5 5', 'M20 7l-5 5 5 5']} />;
+export const IconChart         = (p) => <I {...p} d={['M18 20V10', 'M12 20V4', 'M6 20v-6', 'M2 20h20']} />;
+export const IconPivot         = (p) => <I {...p} d={['M3 3h18v18H3z', 'M3 9h18', 'M9 3v18']} />;
+export const IconMelt          = (p) => <I {...p} d={['M8 3H5a2 2 0 0 0-2 2v14c0 1.1.9 2 2 2h3', 'M16 3h3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-3', 'M12 8v8', 'M8 12h8']} />;
+export const IconRolling       = (p) => <I {...p} d={['M2 12c0-5.5 4.5-10 10-10s10 4.5 10 10', 'M2 12h4', 'M18 12h4', 'M7 7l3 5h4l3-5']} />;
+export const IconStringOps     = (p) => <I {...p} d={['M4 7V4h16v3', 'M9 20h6', 'M12 4v16']} />;
+export const IconDescribe      = (p) => <I {...p} d={['M9 11l3 3L22 4', 'M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11']} />;
+export const IconSample        = (p) => <I {...p} d={['M12 2l9 4.9V17L12 22 3 17V6.9L12 2z', 'M12 22V12', 'M3 7l9 5 9-5']} />;
+export const IconConcat        = (p) => <I {...p} d={['M17 11H7', 'M17 7H7', 'M7 15h.01', 'M12 15h.01', 'M17 15h.01', 'M5 3h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z']} />;
+export const IconProfiler      = (p) => <I {...p} d={['M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z', 'M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z']} />;
+export const IconSchemaVal     = (p) => <I {...p} d={['M9 11l3 3L22 4', 'M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11']} />;
+export const IconComment       = (p) => <I {...p} d={['M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z']} />;
 
 
-// Icon map by node type
 export const NODE_ICONS = {
-  load:        IconLoad,
-  preview:     IconPreview,
-  export:      IconExport,
-  dropNulls:   IconDropNulls,
-  fillNulls:   IconFillNulls,
-  dedupe:      IconDedupe,
-  typeCast:    IconTypeCast,
-  trimStrings: IconTrimStrings,
-  filterRows:  IconFilter,
-  selectCols:  IconSelectCols,
-  rename:      IconRename,
-  addColumn:   IconAddColumn,
-  sort:        IconSort,
-  slice:       IconSlice,
-  aggregate:   IconAggregate,
-  join:        IconJoin,
-  chart:       IconChart,
+  load:            IconLoad,
+  preview:         IconPreview,
+  export:          IconExport,
+  dropNulls:       IconDropNulls,
+  fillNulls:       IconFillNulls,
+  dedupe:          IconDedupe,
+  typeCast:        IconTypeCast,
+  trimStrings:     IconTrimStrings,
+  filterRows:      IconFilter,
+  selectCols:      IconSelectCols,
+  rename:          IconRename,
+  addColumn:       IconAddColumn,
+  sort:            IconSort,
+  slice:           IconSlice,
+  aggregate:       IconAggregate,
+  join:            IconJoin,
+  chart:           IconChart,
+  pivot:           IconPivot,
+  melt:            IconMelt,
+  rolling:         IconRolling,
+  stringOps:       IconStringOps,
+  describe:        IconDescribe,
+  sample:          IconSample,
+  concat:          IconConcat,
+  profiler:        IconProfiler,
+  schemaValidator: IconSchemaVal,
+  comment:         IconComment,
 };

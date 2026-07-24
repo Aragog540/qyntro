@@ -3,6 +3,8 @@ import { useStore } from '../store';
 import { templateByType } from '../nodes/nodeTemplates';
 import { DataTable } from '../components/DataTable';
 import { ChartRenderer } from '../components/ChartRenderer';
+import { ProfilerPanel } from '../components/ProfilerPanel';
+
 
 
 function FieldEditor({ nodeId, field, value, onChange, locked, columns = [] }) {
@@ -111,7 +113,9 @@ const NodeInspectorInner = () => {
   const updateNodeField = useStore(s => s.updateNodeField);
   const previewData = useStore(s => s.previewData);
   const chartData = useStore(s => s.chartData);
+  const profileData = useStore(s => s.profileData);
   const selectedPreviewNodeId = useStore(s => s.selectedPreviewNodeId);
+
 
   const nodeExecutionState = useStore(s => s.nodeExecutionState);
   const nodeOutputColumns = useStore(s => s.nodeOutputColumns);
@@ -170,10 +174,13 @@ const NodeInspectorInner = () => {
   const execState = nodeExecutionState[selectedNode.id];
   const fields = (template.fields || []).filter(f => !f.showIf || f.showIf(data));
 
-  // Chart node — wider panel with chart rendered below fields
+  // Chart & Profiler nodes — wider panel width
   const isChartNode = selectedNode.type === 'chart';
+  const isProfilerNode = selectedNode.type === 'profiler';
   const chartDF = chartData[selectedNode.id];
-  const panelWidth = isChartNode ? 'w-[480px]' : 'w-72';
+  const profile = profileData[selectedNode.id];
+  const panelWidth = isProfilerNode ? 'w-[640px]' : isChartNode ? 'w-[480px]' : 'w-72';
+
 
   return (
     <aside className={`flex ${panelWidth} shrink-0 flex-col border-l border-border bg-surface shadow-panel animate-slidein`}>
@@ -250,6 +257,13 @@ const NodeInspectorInner = () => {
               )}
             </div>
             <ChartRenderer df={chartDF} config={data} />
+          </div>
+        )}
+
+        {/* Profiler panel — shown after pipeline runs */}
+        {isProfilerNode && (
+          <div className="profiler-inspector-panel mt-4">
+            <ProfilerPanel profile={profile} />
           </div>
         )}
       </div>

@@ -27,7 +27,11 @@ export const visualiseNodes = [
           { value: 'scatter',   label: '✦ Scatter Plot' },
           { value: 'histogram', label: '📉 Histogram' },
           { value: 'pie',       label: '🥧 Pie Chart' },
+          { value: 'box',       label: '📦 Box Plot' },
+          { value: 'violin',    label: '🎻 Violin Plot' },
+          { value: 'heatmap',   label: '🔥 Heatmap (Correlation)' },
         ],
+
       },
       {
         id: 'xCol',

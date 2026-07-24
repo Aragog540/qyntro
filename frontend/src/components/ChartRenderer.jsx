@@ -198,6 +198,83 @@ function PieChartView({ df, config }) {
   );
 }
 
+// ─── Plotly integration for Advanced Charts ─────────────────────────────────
+import { useEffect, useRef } from 'react';
+import Plotly from 'plotly.js-dist-min';
+
+function PlotlyWrapper({ data, layout }) {
+  const containerRef = useRef(null);
+  useEffect(() => {
+    if (!containerRef.current) return;
+    const defaultLayout = {
+      margin: { t: 30, r: 20, l: 40, b: 40 },
+      paper_bgcolor: 'transparent',
+      plot_bgcolor: 'transparent',
+      font: { color: 'var(--color-ink)', family: 'Outfit, sans-serif', size: 11 },
+      showlegend: false,
+      ...layout,
+    };
+    Plotly.newPlot(containerRef.current, data, defaultLayout, { displayModeBar: false, responsive: true });
+    return () => { if (containerRef.current) Plotly.purge(containerRef.current); };
+  }, [data, layout]);
+
+  return <div ref={containerRef} className="w-full h-[320px]" />;
+}
+
+function BoxPlotView({ df, config }) {
+  const { yCol, xCol } = config;
+  if (!yCol) return <ChartPlaceholder message="Select a numeric Y column for Box Plot" />;
+  const plotData = [{
+    y: df.rows.map(r => Number(r[yCol])).filter(n => !isNaN(n)),
+    x: xCol ? df.rows.map(r => r[xCol]) : undefined,
+    type: 'box',
+    marker: { color: COLORS[0] },
+    boxpoints: 'outliers',
+  }];
+  return <PlotlyWrapper data={plotData} layout={{ yaxis: { title: yCol } }} />;
+}
+
+function ViolinPlotView({ df, config }) {
+  const { yCol, xCol } = config;
+  if (!yCol) return <ChartPlaceholder message="Select a numeric Y column for Violin Plot" />;
+  const plotData = [{
+    y: df.rows.map(r => Number(r[yCol])).filter(n => !isNaN(n)),
+    x: xCol ? df.rows.map(r => r[xCol]) : undefined,
+    type: 'violin',
+    marker: { color: COLORS[1] },
+    points: 'all',
+    jitter: 0.3,
+    box: { visible: true },
+  }];
+  return <PlotlyWrapper data={plotData} layout={{ yaxis: { title: yCol } }} />;
+}
+
+function HeatmapView({ df }) {
+  const numCols = df.columns.filter(col => {
+    const sample = df.rows.slice(0, 20).map(r => r[col]).filter(v => v != null && v !== '');
+    return sample.some(v => typeof v === 'number' || !isNaN(Number(v)));
+  });
+  if (numCols.length < 2) return <ChartPlaceholder message="At least 2 numeric columns required for Heatmap" />;
+
+  const getCol = col => df.rows.map(r => Number(r[col])).filter(n => !isNaN(n));
+  const pearson = (xs, ys) => {
+    const n = Math.min(xs.length, ys.length);
+    if (n < 2) return 0;
+    const mx = xs.slice(0, n).reduce((a, b) => a + b, 0) / n;
+    const my = ys.slice(0, n).reduce((a, b) => a + b, 0) / n;
+    let num = 0, dx = 0, dy = 0;
+    for (let i = 0; i < n; i++) { const ex = xs[i] - mx, ey = ys[i] - my; num += ex * ey; dx += ex * ex; dy += ey * ey; }
+    return dx && dy ? +(num / Math.sqrt(dx * dy)).toFixed(2) : 0;
+  };
+  const colsData = numCols.map(c => ({ col: c, vals: getCol(c) }));
+  const z = colsData.map(a => colsData.map(b => pearson(a.vals, b.vals)));
+
+  const plotData = [{
+    z, x: numCols, y: numCols, type: 'heatmap', colorscale: 'Viridis', zmin: -1, zmax: 1
+  }];
+  return <PlotlyWrapper data={plotData} layout={{ margin: { t: 20, r: 20, l: 60, b: 60 } }} />;
+}
+
 // ─── Main export ─────────────────────────────────────────────────────────────
 export function ChartRenderer({ df, config }) {
   if (!df || !df.rows?.length) {
@@ -205,12 +282,16 @@ export function ChartRenderer({ df, config }) {
   }
 
   const props = { df, config };
-  switch (config.chartType) {
+  switch (config?.chartType) {
     case 'line':      return <LineChartView {...props} />;
     case 'area':      return <AreaChartView {...props} />;
     case 'scatter':   return <ScatterChartView {...props} />;
     case 'histogram': return <HistogramView {...props} />;
     case 'pie':       return <PieChartView {...props} />;
+    case 'box':       return <BoxPlotView {...props} />;
+    case 'violin':    return <ViolinPlotView {...props} />;
+    case 'heatmap':   return <HeatmapView {...props} />;
     default:          return <BarChartView {...props} />;
   }
 }
+

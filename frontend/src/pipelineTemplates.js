@@ -299,7 +299,38 @@ export const PIPELINE_TEMPLATES = [
       { sourceIndex: 2, targetIndex: 3 },
     ],
   },
+  {
+    id: 'data-profiler',
+
+    title: 'Data Profiling & Quality',
+    description: 'Load sample data, automatically profile every column, and validate schema integrity.',
+    icon: '🔬',
+    tags: ['quality', 'analysis'],
+    pipeline: ['Load', 'Data Profiler', 'Schema Validator'],
+    nodes: [
+      {
+        type: 'load',
+        position: { x: 60, y: 160 },
+        data: { sourceType: 'sample', sampleName: 'sales' },
+      },
+      {
+        type: 'profiler',
+        position: { x: 340, y: 160 },
+        data: {},
+      },
+      {
+        type: 'schemaValidator',
+        position: { x: 620, y: 160 },
+        data: { schema: 'order_id:number, product:string, date:date' },
+      },
+    ],
+    edges: [
+      { sourceIndex: 0, targetIndex: 1 },
+      { sourceIndex: 1, targetIndex: 2 },
+    ],
+  },
 ];
+
 
 // Tag color mapping
 export const TAG_COLORS = {
@@ -314,4 +345,6 @@ export const TAG_COLORS = {
   organize:  { bg: 'rgba(236,72,153,0.15)',   text: '#f472b6' },
   advanced:  { bg: 'rgba(248,113,113,0.15)',  text: '#f87171' },
   visualise: { bg: 'rgba(16,185,129,0.15)',   text: '#34d399' },
+  quality:   { bg: 'rgba(249,115,22,0.15)',   text: '#fb923c' },
 };
+

@@ -86,9 +86,10 @@ export const NodePalette = () => {
         {/* Footer */}
         <div className="border-t border-border px-3 py-3 text-center">
           <span className="text-[10px] text-ink-muted">
-            17 nodes · client-side processing
+            27 nodes · client-side processing
           </span>
         </div>
+
       </aside>
 
       {/* Template Gallery Modal */}

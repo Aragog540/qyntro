@@ -7,7 +7,9 @@ export const CATEGORIES = [
   { id: 'transform', label: 'Transform',      color: 'var(--color-transform)' },
   { id: 'organize',  label: 'Organize',       color: 'var(--color-organize)' },
   { id: 'combine',   label: 'Combine',        color: 'var(--color-combine)' },
+  { id: 'quality',   label: 'Quality',        color: 'var(--color-quality)' },
   { id: 'visualise', label: 'Visualise',      color: 'var(--color-visualise)' },
+  { id: 'utility',   label: 'Utility',        color: 'var(--color-utility)' },
 ];
 
 

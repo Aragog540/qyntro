@@ -5,7 +5,10 @@ import { NodeInspector } from './panels/NodeInspector';
 import { PipelineUI } from './ui';
 import { RunButton } from './execution/RunButton';
 import { ExecutionToast } from './components/ExecutionToast';
+import { Dashboard } from './components/Dashboard';
+import { ExportModal } from './components/ExportModal';
 import { useStore } from './store';
+
 
 const THEME_KEY = 'qyntro-theme';
 
@@ -28,11 +31,34 @@ function MoonIcon() {
 
 export default function App() {
   const [isDark, setIsDark] = useState(() => localStorage.getItem(THEME_KEY) !== 'light');
+  const [showExportModal, setShowExportModal] = useState(false);
+
+  const savePipeline = useStore(s => s.savePipeline);
+  const loadPipelineFromJSON = useStore(s => s.loadPipelineFromJSON);
+  const toggleDashboard = useStore(s => s.toggleDashboard);
+  const hasChartNodes = useStore(s => s.nodes.some(n => n.type === 'chart'));
 
   useEffect(() => {
     document.documentElement.classList.toggle('light', !isDark);
     localStorage.setItem(THEME_KEY, isDark ? 'dark' : 'light');
   }, [isDark]);
+
+  // Auto-restore from localStorage on initial load
+  useEffect(() => {
+    const saved = localStorage.getItem('qyntro-pipeline');
+    if (saved) loadPipelineFromJSON(saved);
+  }, [loadPipelineFromJSON]);
+
+  const handleFileUpload = (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (evt) => {
+      if (evt.target?.result) loadPipelineFromJSON(evt.target.result);
+    };
+    reader.readAsText(file);
+  };
+
 
   return (
     <div className="flex h-screen flex-col bg-canvas overflow-hidden">
@@ -50,7 +76,44 @@ export default function App() {
           </div>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2">
+          {/* Dashboard drawer toggle */}
+          {hasChartNodes && (
+            <button
+              onClick={toggleDashboard}
+              className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-border text-xs font-semibold text-ink-muted hover:bg-surface-2 hover:text-ink transition-all"
+              title="Toggle Dashboard drawer"
+            >
+              📊 Dashboard
+            </button>
+          )}
+
+          {/* Save / Load Pipeline */}
+          <button
+            onClick={savePipeline}
+            className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg border border-border text-xs font-semibold text-ink-muted hover:bg-surface-2 hover:text-ink transition-all"
+            title="Save pipeline as JSON"
+          >
+            💾 Save
+          </button>
+
+          <label
+            className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg border border-border text-xs font-semibold text-ink-muted hover:bg-surface-2 hover:text-ink transition-all cursor-pointer"
+            title="Load pipeline from JSON"
+          >
+            📂 Load
+            <input type="file" accept=".json" onChange={handleFileUpload} className="hidden" />
+          </label>
+
+          {/* Export Code */}
+          <button
+            onClick={() => setShowExportModal(true)}
+            className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg border border-border text-xs font-semibold text-ink-muted hover:bg-surface-2 hover:text-ink transition-all"
+            title="Export pipeline to Python/SQL code"
+          >
+            💻 Code
+          </button>
+
           {/* Theme toggle */}
           <button
             onClick={() => setIsDark(d => !d)}
@@ -75,12 +138,15 @@ export default function App() {
         <main className="relative flex-1 overflow-hidden">
           <PipelineUI />
           <ExecutionToast />
+          <Dashboard />
 
           {/* Empty state hint */}
           <EmptyState />
         </main>
         <NodeInspector />
       </div>
+
+      {showExportModal && <ExportModal onClose={() => setShowExportModal(false)} />}
     </div>
   );
 }

@@ -16,10 +16,13 @@ export const useStore = create((set, get) => ({
   nodeOutputColumns: {},   // nodeId -> string[] (column names from last run)
   previewData: {},          // nodeId -> DataFrame (for Preview nodes)
   chartData: {},             // nodeId -> DataFrame (for Chart nodes)
+  profileData: {},           // nodeId -> profile[] (for Profiler nodes)
   selectedPreviewNodeId: null,
+  dashboardOpen: false,
 
 
-  setExecutionRunning: () => set({ executionStatus: 'running', executionError: '', nodeExecutionState: {}, previewData: {} }),
+  setExecutionRunning: () => set({ executionStatus: 'running', executionError: '', nodeExecutionState: {}, previewData: {}, profileData: {} }),
+
   setNodeExecutionState: (nodeId, patch) =>
     set(s => ({ nodeExecutionState: { ...s.nodeExecutionState, [nodeId]: { ...s.nodeExecutionState[nodeId], ...patch } } })),
   setNodeOutputColumns: (nodeId, columns) =>
@@ -31,7 +34,10 @@ export const useStore = create((set, get) => ({
     set(s => ({ previewData: { ...s.previewData, [nodeId]: df }, selectedPreviewNodeId: nodeId })),
   setChartData: (nodeId, df) =>
     set(s => ({ chartData: { ...s.chartData, [nodeId]: df } })),
+  setProfileData: (nodeId, profile) =>
+    set(s => ({ profileData: { ...s.profileData, [nodeId]: profile } })),
   selectPreviewNode: (nodeId) => set({ selectedPreviewNodeId: nodeId }),
+  toggleDashboard: () => set(s => ({ dashboardOpen: !s.dashboardOpen })),
 
 
   getNodeID: (type) => {
@@ -74,19 +80,54 @@ export const useStore = create((set, get) => ({
       }),
     }),
 
-  clearCanvas: () => set({
-    nodes: [],
-    edges: [],
-    nodeIDs: {},
-    cycleEdgeIds: [],
-    executionStatus: 'idle',
-    executionError: '',
-    nodeExecutionState: {},
-    previewData: {},
-    chartData: {},
-    selectedPreviewNodeId: null,
-    nodeOutputColumns: {},
-  }),
+  clearCanvas: () => {
+    localStorage.removeItem('qyntro-pipeline');
+    set({
+      nodes: [], edges: [], nodeIDs: {}, cycleEdgeIds: [],
+      executionStatus: 'idle', executionError: '',
+      nodeExecutionState: {}, previewData: {}, chartData: {}, profileData: {},
+      selectedPreviewNodeId: null, nodeOutputColumns: {},
+    });
+  },
+
+  savePipeline: () => {
+    const { nodes, edges, nodeIDs } = get();
+    // Strip runtime-only data (file objects, preview rows) before serializing
+    const safeNodes = nodes.map(n => ({
+      ...n,
+      data: {
+        ...n.data,
+        fileList: [],        // File objects can't be serialized
+        _previewRows: null,
+      },
+    }));
+    const state = { nodes: safeNodes, edges, nodeIDs, savedAt: new Date().toISOString() };
+    const json = JSON.stringify(state, null, 2);
+    localStorage.setItem('qyntro-pipeline', json);
+    const blob = new Blob([json], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = 'pipeline.qyntro.json';
+    document.body.appendChild(a); a.click(); a.remove();
+    URL.revokeObjectURL(url);
+  },
+
+  loadPipelineFromJSON: (json) => {
+    try {
+      const state = typeof json === 'string' ? JSON.parse(json) : json;
+      set({
+        nodes: state.nodes || [],
+        edges: state.edges || [],
+        nodeIDs: state.nodeIDs || {},
+        cycleEdgeIds: [],
+        executionStatus: 'idle', executionError: '',
+        nodeExecutionState: {}, previewData: {}, chartData: {}, profileData: {},
+        selectedPreviewNodeId: null, nodeOutputColumns: {},
+      });
+      return true;
+    } catch { return false; }
+  },
+
 
   loadTemplate: (template) => {
     // Build a type→counter map so IDs stay sequential

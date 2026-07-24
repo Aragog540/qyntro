@@ -362,3 +362,161 @@ function mode(arr) {
   arr.forEach(v => { freq[v] = (freq[v] || 0) + 1; });
   return Object.entries(freq).sort((a, b) => b[1] - a[1])[0][0];
 }
+
+// ─── Pivot ────────────────────────────────────────────────────────────────────
+
+export function pivotDF(df, indexCol, columnsCol, valuesCol, aggFn = 'sum') {
+  const uniqueCols = [...new Set(df.rows.map(r => String(r[columnsCol])))].sort();
+  const groups = new Map();
+  df.rows.forEach(row => {
+    const key = String(row[indexCol]);
+    if (!groups.has(key)) groups.set(key, { [indexCol]: row[indexCol] });
+    const g = groups.get(key);
+    const colKey = String(row[columnsCol]);
+    if (!g[colKey]) g[colKey] = [];
+    g[colKey].push(Number(row[valuesCol]));
+  });
+  const rows = [];
+  groups.forEach(g => {
+    const row = { [indexCol]: g[indexCol] };
+    uniqueCols.forEach(c => {
+      const vals = (g[c] || []).filter(n => !isNaN(n));
+      row[c] = applyAgg(vals, aggFn, []);
+    });
+    rows.push(row);
+  });
+  return makeDF(rows, [indexCol, ...uniqueCols], {});
+}
+
+export function meltDF(df, idCols, valueVarName = 'variable', valueName = 'value') {
+  const valueCols = df.columns.filter(c => !idCols.includes(c));
+  const rows = [];
+  df.rows.forEach(row => {
+    valueCols.forEach(vc => {
+      const newRow = {};
+      idCols.forEach(ic => { newRow[ic] = row[ic]; });
+      newRow[valueVarName] = vc;
+      newRow[valueName] = row[vc];
+      rows.push(newRow);
+    });
+  });
+  return makeDF(rows, [...idCols, valueVarName, valueName], {});
+}
+
+export function rollingWindow(df, col, windowSize, fn = 'mean', outputCol) {
+  const out = outputCol || `${fn}_${windowSize}(${col})`;
+  const rows = df.rows.map((row, i) => {
+    const start = Math.max(0, i - windowSize + 1);
+    const win = df.rows.slice(start, i + 1).map(r => Number(r[col])).filter(n => !isNaN(n));
+    let val = null;
+    if (fn === 'mean') val = win.length ? win.reduce((a, b) => a + b, 0) / win.length : null;
+    if (fn === 'sum')  val = win.reduce((a, b) => a + b, 0);
+    if (fn === 'max')  val = win.length ? Math.max(...win) : null;
+    if (fn === 'min')  val = win.length ? Math.min(...win) : null;
+    return { ...row, [out]: val !== null ? +val.toFixed(4) : null };
+  });
+  const columns = df.columns.includes(out) ? df.columns : [...df.columns, out];
+  return makeDF(rows, columns, df.meta);
+}
+
+export function stringOps(df, col, op, param1 = '', param2 = '', outputCol) {
+  const out = outputCol || col;
+  const rows = df.rows.map(row => {
+    const v = String(row[col] ?? '');
+    let result = v;
+    if (op === 'upper')   result = v.toUpperCase();
+    else if (op === 'lower')   result = v.toLowerCase();
+    else if (op === 'trim')    result = v.trim();
+    else if (op === 'replace') result = v.replaceAll(param1, param2);
+    else if (op === 'extract') { try { const m = v.match(new RegExp(param1)); result = m ? (m[param2 ? Number(param2) : 0] ?? null) : null; } catch { result = null; } }
+    else if (op === 'split')   result = v.split(param1)[param2 ? Number(param2) : 0] ?? null;
+    else if (op === 'length')  result = v.length;
+    else if (op === 'prefix')  result = param1 + v;
+    else if (op === 'suffix')  result = v + param1;
+    return out === col ? { ...row, [col]: result } : { ...row, [out]: result };
+  });
+  const columns = df.columns.includes(out) ? df.columns : [...df.columns, out];
+  return makeDF(rows, columns, df.meta);
+}
+
+export function describeDF(df) {
+  const numCols = df.columns.filter(col => {
+    const sample = df.rows.slice(0, 20).map(r => r[col]).filter(v => v != null && v !== '');
+    return sample.some(v => typeof v === 'number' || !isNaN(Number(v)));
+  });
+  const rows = numCols.map(col => {
+    const vals = df.rows.map(r => Number(r[col])).filter(n => !isNaN(n));
+    const sorted = [...vals].sort((a, b) => a - b);
+    const n = vals.length;
+    const q = p => sorted[Math.floor(p * (n - 1))] ?? null;
+    const avg = n ? vals.reduce((a, b) => a + b, 0) / n : null;
+    const std = n > 1 ? Math.sqrt(vals.map(v => (v - avg) ** 2).reduce((a, b) => a + b, 0) / (n - 1)) : null;
+    return { column: col, count: n, mean: avg !== null ? +avg.toFixed(4) : null, std: std !== null ? +std.toFixed(4) : null, min: n ? sorted[0] : null, '25%': n ? q(0.25) : null, '50%': n ? q(0.50) : null, '75%': n ? q(0.75) : null, max: n ? sorted[n - 1] : null, nulls: df.rows.length - n };
+  });
+  return makeDF(rows, ['column', 'count', 'mean', 'std', 'min', '25%', '50%', '75%', 'max', 'nulls'], {});
+}
+
+export function sampleDF(df, n, mode = 'rows', seed = 42) {
+  const count = mode === 'percent' ? Math.round(df.rows.length * (n / 100)) : Math.min(n, df.rows.length);
+  let s = seed;
+  const rand = () => { s = (s + 0x6D2B79F5) | 0; let t = Math.imul(s ^ (s >>> 15), 1 | s); t = t + Math.imul(t ^ (t >>> 7), 61 | t) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; };
+  const indices = df.rows.map((_, i) => i).sort(() => rand() - 0.5).slice(0, count).sort((a, b) => a - b);
+  return makeDF(indices.map(i => df.rows[i]), df.columns, { ...df.meta, rowCount: count });
+}
+
+export function concatDF(dfs) {
+  const allCols = [...new Set(dfs.flatMap(d => d.columns))];
+  const rows = dfs.flatMap(d => d.rows.map(row => Object.fromEntries(allCols.map(c => [c, row[c] ?? null]))));
+  return makeDF(rows, allCols, { rowCount: rows.length });
+}
+
+export function profileDF(df) {
+  return df.columns.map(col => {
+    const vals = df.rows.map(r => r[col]);
+    const isNullish2 = v => v === null || v === undefined || v === '' || (typeof v === 'number' && isNaN(v));
+    const nonNull = vals.filter(v => !isNullish2(v));
+    const nullCount = vals.length - nonNull.length;
+    const unique = new Set(nonNull.map(String)).size;
+    const nums = nonNull.map(Number).filter(n => !isNaN(n));
+    const type = inferColType(nonNull);
+    const freq = {};
+    nonNull.slice(0, 500).forEach(v => { const k = String(v); freq[k] = (freq[k] || 0) + 1; });
+    const topValues = Object.entries(freq).sort((a, b) => b[1] - a[1]).slice(0, 5).map(([v, c]) => `${v} (${c})`).join(' | ');
+    return { col, type, count: nonNull.length, nullPct: vals.length ? +((nullCount / vals.length) * 100).toFixed(1) : 0, unique, min: nums.length ? Math.min(...nums) : null, max: nums.length ? Math.max(...nums) : null, mean: nums.length ? +(nums.reduce((a, b) => a + b, 0) / nums.length).toFixed(3) : null, topValues };
+  });
+}
+
+export function correlationMatrix(df) {
+  const isNullish2 = v => v === null || v === undefined || v === '' || (typeof v === 'number' && isNaN(v));
+  const numCols = df.columns.filter(col => { const s = df.rows.slice(0, 20).map(r => r[col]).filter(v => !isNullish2(v)); return s.some(v => typeof v === 'number' || !isNaN(Number(v))); });
+  const getCol = col => df.rows.map(r => Number(r[col])).filter(n => !isNaN(n));
+  const pearson = (xs, ys) => {
+    const n = Math.min(xs.length, ys.length);
+    if (n < 2) return null;
+    const mx = xs.slice(0, n).reduce((a, b) => a + b, 0) / n;
+    const my = ys.slice(0, n).reduce((a, b) => a + b, 0) / n;
+    let num = 0, dx = 0, dy = 0;
+    for (let i = 0; i < n; i++) { const ex = xs[i] - mx, ey = ys[i] - my; num += ex * ey; dx += ex * ex; dy += ey * ey; }
+    return dx && dy ? +(num / Math.sqrt(dx * dy)).toFixed(3) : null;
+  };
+  const cols = numCols.map(c => ({ col: c, vals: getCol(c) }));
+  return { cols: numCols, matrix: cols.map(a => cols.map(b => pearson(a.vals, b.vals))) };
+}
+
+export function schemaValidate(df, schemaStr) {
+  const schema = schemaStr.split(',').map(s => { const [col, type] = s.trim().split(':').map(x => x.trim()); return { col, type }; }).filter(s => s.col && s.type);
+  const isNullish2 = v => v === null || v === undefined || v === '';
+  const rows = df.rows.map(row => {
+    let valid = true; const errors = [];
+    schema.forEach(({ col, type }) => {
+      if (!(col in row)) { valid = false; errors.push(`missing:${col}`); return; }
+      const v = row[col];
+      if (isNullish2(v)) return;
+      if (type === 'number' && isNaN(Number(v))) { valid = false; errors.push(`${col}:not_number`); }
+      if (type === 'date' && isNaN(Date.parse(String(v)))) { valid = false; errors.push(`${col}:not_date`); }
+    });
+    return { ...row, _valid: valid, _errors: errors.join('; ') };
+  });
+  const columns = [...df.columns.filter(c => c !== '_valid' && c !== '_errors'), '_valid', '_errors'];
+  return makeDF(rows, columns, df.meta);
+}
