@@ -1,7 +1,8 @@
 # ⚡ DataFlow (Qyntro)
 
 > **Visual ETL & AI-Powered Data Pipeline Engineering Platform**  
-> An intuitive, web-based node graph editor for visually designing, validating, executing, profiling, and generating data transformation pipelines in real-time.
+> An intuitive, web-based node graph editor for visually designing, validating, executing, profiling, and generating data transformation pipelines in real-time.  
+> 📖 *For complete technical architecture & specification details, see [approach.txt](approach.txt).*
 ---
 
 ## 📌 Overview
