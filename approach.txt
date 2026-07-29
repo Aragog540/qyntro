@@ -12,8 +12,12 @@ in real-time inside the web browser.
 Key Highlights:
   - Dual Execution Architecture: Fast Python FastAPI (Pandas/Polars) backend paired 
     with a zero-latency client-side JavaScript engine fallback.
+  - Live Database & API Connectors: Direct connectors for PostgreSQL, MySQL, SQLite, 
+    and HTTP REST API endpoints.
   - Natural Language AI Pipeline Generator: Powered by Groq's Llama-3.3-70b-versatile 
     with structured JSON DAG synthesis and smart offline fallback rules.
+  - Programmatic Code Exporter: Generates executable Python (Pandas/Polars) code 
+    and production-ready SQL queries from any visual node graph.
   - Programmatic Artifact Export Bundler: Packages CSV/JSON datasets and 2x high-res 
     PNG chart renders into a single clean ZIP archive in 1 click.
   - ChatGPT-Inspired Monochrome Aesthetics: Premium dark and light theme tokens with 
@@ -31,21 +35,23 @@ The application is structured as a decoupled full-stack monorepo:
                    │
        ┌───────────┴───────────┐
        ▼                       ▼
- [ Python Backend ]    [ Client JS Engine ]  (Fallback if server is unreachable)
- (FastAPI + Pandas)    (Vectorized JS Ops)
+ [ Python Backend Engine ] [ Client JS Fallback Engine ]
+ (FastAPI + Pandas/SQL)   (Vectorized In-Browser Ops)
        │                       │
        └───────────┬───────────┘
                    ▼
   [ Result Map: DataFrames, Charts, Profiles, Preview Data ]
                    │
-                   ▼
-  [ Export Bundler (JSZip + HTML2Canvas) ] ──> Downloads zip file (CSV + PNGs)
+       ┌───────────┴───────────┐
+       ▼                       ▼
+ [ Code Exporter Engine ] [ ZIP Artifact Export Bundler ]
+ (Python / SQL Output)    (JSZip + Offscreen HTML2Canvas PNG Renders)
 
 Core Tech Stack:
   - Frontend: React 19, Vite 8, ReactFlow 11, Zustand 5, Tailwind CSS v4, PapaParse
   - Charting & Virtualization: Plotly.js, Recharts, @tanstack/react-virtual
   - Export Engine: JSZip, HTML2Canvas
-  - Backend: Python 3.11, FastAPI, Pandas, Pydantic v2, Uvicorn
+  - Backend: Python 3.11, FastAPI, Pandas, SQLAlchemy, Pydantic v2, Uvicorn
   - AI Engine: Groq REST API (`llama-3.3-70b-versatile`)
   - Deployment: Vercel Serverless Functions (`/api/index.py`) + Static Asset Hosting
 
@@ -56,14 +62,14 @@ Qyntro guarantees 100% operational uptime by implementing a seamless dual execut
 
   A. Python FastAPI Backend Engine (`/pipelines/execute`):
      - Executes Directed Acyclic Graphs (DAGs) topographically via Topological Sort.
-     - Utilizes Pandas vectorized memory operations for maximum throughput.
-     - Computes full column profiling statistics (mean, median, standard deviation, nulls, unique count, quantiles).
+     - Utilizes Pandas vectorized memory operations and SQLAlchemy database connection pools.
+     - Computes full column profiling statistics (mean, median, std, null ratio, quantiles).
      - Returns structured node execution results, preview tables, and chart datasets.
 
   B. Client-side JavaScript Fallback Engine (`executor.js` + `dataOps.js`):
      - Automatically kicks in if the Python server is offline, cold-starting, or running locally without backend.
      - Pure functional immutable DataFrame operations (never mutates in place).
-     - Handles dataset parsing, filtering, aggregation, deduplication, and joins in-memory.
+     - Handles dataset parsing, filtering, aggregation, deduplication, normalization, and joins in-memory.
 
 --------------------------------------------------------------------------------
 4. GROQ AI PIPELINE BUILDER
@@ -77,52 +83,59 @@ The AI Mode drawer enables natural language prompt-to-pipeline generation:
   5. One-Click Canvas Mount: User clicks "✨ Build on Canvas" to instantly replace canvas nodes and run the pipeline.
 
 --------------------------------------------------------------------------------
-5. NODE CATALOG (30 NODES ACROSS 6 CATEGORIES)
+5. COMPLETE NODE CATALOG (30 NODES ACROSS 6 CATEGORIES)
 --------------------------------------------------------------------------------
 
 [ I/O CATEGORY ]
-  1. Load: Upload CSV/TSV/JSON files, paste raw CSV text, fetch via URL, or pick sample datasets (Iris, Titanic, Sales).
-  2. SQL Database: Connect and run live SQL SELECT queries against PostgreSQL, MySQL, SQLite, or Public Sandbox databases.
+  1. Load: Upload CSV/TSV/JSON files, paste raw CSV text, fetch via URL, or pick sample datasets.
+  2. SQL Database: Connect and run live SQL SELECT queries against PostgreSQL, MySQL, SQLite, or Public Sandbox.
   3. REST API Source: Fetch live JSON/CSV data from remote HTTP REST API endpoints in real-time.
   4. Preview: Scrollable virtualized data grid inspector for real-time table inspection.
   5. Export: Packages data (CSV, JSON, TSV) and generated chart images (PNG) into a ZIP bundle.
 
 [ CLEAN CATEGORY ]
-  4. Drop Nulls: Remove rows with null/missing values across all or specific columns.
-  5. Fill Nulls: Replace null values using mean, median, mode, or custom static values.
-  6. Deduplicate: Remove duplicate records based on specified subset columns.
-  7. Type Cast: Cast column types to number, string, boolean, or date.
-  8. Trim Strings: Strip leading/trailing whitespace from string fields.
-  9. Scale & Normalize: Feature engineering scaler (Min-Max [0, 1], Z-Score Standardization, Log transform).
+  6. Drop Nulls: Remove rows with null/missing values across all or specific columns.
+  7. Fill Nulls: Replace null values using mean, median, mode, or custom static values.
+  8. Deduplicate: Remove duplicate records based on specified subset columns.
+  9. Type Cast: Cast column types to number, string, boolean, or date.
+ 10. Trim Strings: Strip leading/trailing whitespace from string fields.
+ 11. Scale & Normalize: Feature engineering scaler (Min-Max [0, 1], Z-Score Standardization, Log transform).
 
 [ TRANSFORM CATEGORY ]
-  9. Filter Rows: Filter rows by comparison operations (=, ≠, >, <, >=, <=, contains, starts with, regex, is null).
- 10. Select Columns: Keep or drop specific column subsets.
- 11. Rename Columns: Rename fields using `old_name -> new_name` mapping syntax.
- 12. Add Column: Compute calculated fields (e.g. `unit_price * quantity`).
- 13. Sort Rows: Sort data ascending or descending by specified columns.
- 14. Slice / Limit: Limit output to top N or bottom N rows.
+ 12. Filter Rows: Filter rows by comparison operations (=, ≠, >, <, >=, <=, contains, starts with, regex, is null).
+ 13. Select Columns: Keep or drop specific column subsets.
+ 14. Rename Columns: Rename fields using `old_name -> new_name` mapping syntax.
+ 15. Add Column: Compute calculated fields (e.g. `unit_price * quantity`).
+ 16. Sort Rows: Sort data ascending or descending by specified columns.
+ 17. Slice / Limit: Limit output to top N or bottom N rows.
 
 [ AGGREGATE & RESHAPE CATEGORY ]
- 15. Aggregate / Group By: Group data by dimensions and compute aggregations (sum, avg, count, min, max).
- 16. Pivot Table: Reshape dataset into a cross-tabulation pivot matrix.
- 17. Join: Merge two DataFrames via inner, left, or right join keys.
+ 18. Aggregate / Group By: Group data by dimensions and compute aggregations (sum, avg, count, min, max).
+ 19. Pivot Table: Reshape dataset into a cross-tabulation pivot matrix.
+ 20. Join: Merge two DataFrames via inner, left, or right join keys.
+ 21. Melt / Unpivot: Transform wide-format DataFrame into long format.
+ 22. Concatenate: Stack two DataFrames vertically or side-by-side.
 
 [ OUTPUT & ANALYTICS CATEGORY ]
- 18. Chart / Visualizer: Render interactive Bar, Line, Area, Scatter, Histogram, Pie, Box Plot, Violin, and Heatmap charts.
- 19. Profiler: Detailed statistical dataset summary (distribution, null ratio, unique counts, quantiles).
+ 23. Chart / Visualizer: Render interactive Bar, Line, Area, Scatter, Histogram, Pie, Box Plot, Violin, and Heatmap charts.
+ 24. Profiler: Detailed statistical dataset summary (distribution, null ratio, unique counts, quantiles).
+ 25. String Ops: Advanced string manipulations (uppercase, lowercase, replace, substring).
+ 26. Rolling Window: Moving average, cumulative sum, and sliding window calculations.
+ 27. Describe Stats: Summary statistics table for numerical features.
+ 28. Sample Rows: Random row sampling or percentage sub-sampling.
+ 29. Schema Validator: Verify column data types against expected schema rules.
+
+[ ANNOTATIONS CATEGORY ]
+ 30. Sticky Note / Comment: Custom canvas documentation and workflow notes.
 
 --------------------------------------------------------------------------------
-6. BUILT-IN PIPELINE TEMPLATES
+6. CODE GENERATION ENGINE (`codeGen.js`)
 --------------------------------------------------------------------------------
-Qyntro includes pre-built pipeline templates accessible via the Templates modal:
+Qyntro converts visual node graphs into clean, production-ready code:
 
-  - Quick Preview: Load dataset -> Table Preview.
-  - Clean & Export: Load -> Drop Nulls -> Deduplicate -> Export.
-  - Sales Analysis: Load -> Trim Strings -> Filter Rows -> Sort -> Export.
-  - Data Type Fixer: Load -> Type Cast -> Fill Nulls -> Table Preview.
-  - Aggregate & Report: Load -> Drop Nulls -> Group By Aggregate -> Sort -> Export.
-  - Full Clean Workflow: Load -> Drop Nulls -> Deduplicate -> Trim Strings -> Export.
+  - Python (Pandas): Generates a standalone Python script loading data, executing vector operations, and saving results.
+  - Python (Polars): Generates high-performance Polars LazyFrame code.
+  - SQL Query: Converts data pipeline steps (Filter, Join, Group By, Sort, Limit) into executable standard SQL queries.
 
 --------------------------------------------------------------------------------
 7. SMART ZIP EXPORT BUNDLER
@@ -139,7 +152,14 @@ When an Export node is attached or executed:
   4. Automatic Download: Triggers a single clean browser download, preventing multi-window popups.
 
 --------------------------------------------------------------------------------
-8. VERCEL DEPLOYMENT ARCHITECTURE
+8. DESIGN SYSTEM & CHATGPT MONOCHROME THEME
+--------------------------------------------------------------------------------
+  - Design Tokens: Tailored CSS variables (`--color-canvas`, `--color-surface`, `--color-accent`, etc.).
+  - Dark / Light Theme: Toggle between ChatGPT monochrome dark mode and high-contrast light mode with zero layout shift.
+  - Subpixel Typography: Native `-webkit-font-smoothing: antialiased` rendering across WebKit and Gecko engines.
+
+--------------------------------------------------------------------------------
+9. VERCEL DEPLOYMENT ARCHITECTURE
 --------------------------------------------------------------------------------
   - Repository Root: `./`
   - Build Command: `cd frontend && npm run build` (Output: `frontend/dist`)
