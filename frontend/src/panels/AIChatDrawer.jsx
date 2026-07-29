@@ -43,27 +43,36 @@ export const AIChatDrawer = () => {
     setLoading(true);
 
     try {
+      let result = null;
       const baseUrl = import.meta.env.VITE_API_URL !== undefined
         ? import.meta.env.VITE_API_URL
         : (import.meta.env.DEV ? 'http://localhost:8000' : '');
-      const response = await fetch(`${baseUrl}/ai/generate-pipeline`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ prompt, apiKey: groqApiKey || undefined })
-      });
 
-      if (!response.ok) {
-        throw new Error(`API Error ${response.status}: Failed to generate pipeline`);
+      try {
+        const response = await fetch(`${baseUrl}/ai/generate-pipeline`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ prompt, apiKey: groqApiKey || undefined })
+        });
+        if (response.ok) {
+          result = await response.json();
+        }
+      } catch (fetchErr) {
+        console.warn('Backend AI service unreachable, using smart client fallback:', fetchErr.message);
       }
 
-      const result = await response.json();
+      if (!result) {
+        const { generateAIPipelineFallback } = await import('../utils/aiFallback');
+        result = generateAIPipelineFallback(prompt);
+      }
+
       setMessages(prev => [
         ...prev,
         {
           role: 'assistant',
           text: result.explanation || 'Pipeline generated successfully.',
           aiResult: result,
-          engine: result.engine || 'Groq AI'
+          engine: result.engine || 'DataFlow AI'
         }
       ]);
     } catch (err) {
@@ -71,7 +80,7 @@ export const AIChatDrawer = () => {
         ...prev,
         {
           role: 'assistant',
-          text: `⚠️ **Error generating pipeline**: ${err.message}. Please check backend service status or Groq API key.`
+          text: `⚠️ **Error generating pipeline**: ${err.message}.`
         }
       ]);
     } finally {
