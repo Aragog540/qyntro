@@ -129,4 +129,29 @@ export const cleanNodes = [
       return trimStrings(df, cols);
     },
   }),
+
+  defineNode({
+    type: 'normalize',
+    category: 'clean',
+    shape: 'card',
+    label: 'Scale & Normalize',
+    lane: 'client',
+    defaultData: () => ({ col: '', method: 'minmax', newCol: '' }),
+    fields: [
+      { id: 'col', label: 'Column to Scale', type: 'col-select' },
+      { id: 'method', label: 'Scaling Method', type: 'select', options: [
+        { value: 'minmax', label: 'Min-Max Scaling [0, 1]' },
+        { value: 'zscore', label: 'Z-Score Standardization (μ=0, σ=1)' },
+        { value: 'log',    label: 'Log(x + 1) Transformation' },
+      ]},
+      { id: 'newCol', label: 'New Column Name (blank = col_scaled)', type: 'text', monospace: true },
+    ],
+    subtitle: (data) => `${data?.method || 'minmax'} on ${data?.col || 'col'}`,
+    handles: mapHandles,
+    run: async (df, data) => {
+      if (!df || !df.rows) throw new Error('No dataset connected.');
+      const { normalizeColumn } = await import('../../utils/dataOps');
+      return normalizeColumn(df, data?.col, data?.method || 'minmax', data?.newCol);
+    },
+  }),
 ];

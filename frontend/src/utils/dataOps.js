@@ -525,3 +525,43 @@ export function schemaValidate(df, schemaStr) {
   const columns = [...df.columns.filter(c => c !== '_valid' && c !== '_errors'), '_valid', '_errors'];
   return makeDF(rows, columns, df.meta);
 }
+
+/**
+ * Scales and normalizes a numeric column using Min-Max [0, 1], Z-Score standardization, or Log transform.
+ * @param {Object} df - Input DataFrame
+ * @param {string} col - Target numeric column
+ * @param {'minmax'|'zscore'|'log'} method - Scaling algorithm
+ * @param {string} newColName - Output column name (optional)
+ */
+export function normalizeColumn(df, col, method = 'minmax', newColName = '') {
+  if (!col || !df.columns.includes(col)) return df;
+
+  const targetCol = (newColName || '').trim() || `${col}_scaled`;
+  const vals = df.rows.map(r => Number(r[col])).filter(v => !isNaN(v) && v !== null);
+
+  if (!vals.length) return df;
+
+  let transformFn;
+  if (method === 'zscore') {
+    const mean = vals.reduce((a, b) => a + b, 0) / vals.length;
+    const variance = vals.reduce((a, b) => a + Math.pow(b - mean, 2), 0) / (vals.length || 1);
+    const std = Math.sqrt(variance) || 1;
+    transformFn = (v) => isNaN(Number(v)) ? v : +((Number(v) - mean) / std).toFixed(4);
+  } else if (method === 'log') {
+    transformFn = (v) => isNaN(Number(v)) ? v : +(Math.log1p(Math.max(0, Number(v)))).toFixed(4);
+  } else {
+    // minmax (default)
+    const min = Math.min(...vals);
+    const max = Math.max(...vals);
+    const range = (max - min) || 1;
+    transformFn = (v) => isNaN(Number(v)) ? v : +((Number(v) - min) / range).toFixed(4);
+  }
+
+  const rows = df.rows.map(row => ({
+    ...row,
+    [targetCol]: transformFn(row[col])
+  }));
+
+  const columns = df.columns.includes(targetCol) ? df.columns : [...df.columns, targetCol];
+  return makeDF(rows, columns, df.meta);
+}

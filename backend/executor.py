@@ -147,6 +147,24 @@ def execute_pipeline(nodes: List[Dict[str, Any]], edges: List[Dict[str, Any]]) -
                 cols = [c.strip() for c in data.get("cols", "").split(",") if c.strip()]
                 res_df = trim_strings(input_df, cols=cols)
 
+            elif node_type == "normalize":
+                if input_df is None: raise ValueError("No input data.")
+                res_df = input_df.copy()
+                col = data.get("col", "").strip()
+                if col and col in res_df.columns:
+                    target_col = (data.get("newCol") or "").strip() or f"{col}_scaled"
+                    method = data.get("method", "minmax")
+                    import numpy as np
+                    series = pd.to_numeric(res_df[col], errors="coerce")
+                    if method == "zscore":
+                        std = series.std()
+                        res_df[target_col] = ((series - series.mean()) / (std if std != 0 else 1)).round(4)
+                    elif method == "log":
+                        res_df[target_col] = np.log1p(series.clip(lower=0)).round(4)
+                    else:
+                        rng = series.max() - series.min()
+                        res_df[target_col] = ((series - series.min()) / (rng if rng != 0 else 1)).round(4)
+
             # Transform Nodes
             elif node_type == "filterRows":
                 if input_df is None: raise ValueError("No input data.")

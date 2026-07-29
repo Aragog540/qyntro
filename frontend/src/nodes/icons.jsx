@@ -33,8 +33,7 @@ export const IconSample        = (p) => <I {...p} d={['M12 2l9 4.9V17L12 22 3 17
 export const IconConcat        = (p) => <I {...p} d={['M17 11H7', 'M17 7H7', 'M7 15h.01', 'M12 15h.01', 'M17 15h.01', 'M5 3h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z']} />;
 export const IconProfiler      = (p) => <I {...p} d={['M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z', 'M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z']} />;
 export const IconSchemaVal     = (p) => <I {...p} d={['M9 11l3 3L22 4', 'M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11']} />;
-export const IconComment       = (p) => <I {...p} d={['M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z']} />;
-
+export const IconNormalize     = (p) => <I {...p} d={['M3 20h18', 'M4 17l6-10 5 6 5-9', 'M12 4v16']} />;
 
 export const NODE_ICONS = {
   load:            IconLoad,
@@ -45,6 +44,7 @@ export const NODE_ICONS = {
   dedupe:          IconDedupe,
   typeCast:        IconTypeCast,
   trimStrings:     IconTrimStrings,
+  normalize:       IconNormalize,
   filterRows:      IconFilter,
   selectCols:      IconSelectCols,
   rename:          IconRename,
