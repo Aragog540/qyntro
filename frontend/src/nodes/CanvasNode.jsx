@@ -12,7 +12,7 @@ const ROUND_D = 60;
 const TRIGGER_D = 64;
 const COMPACT_W = 110;
 
-// Status ring colors for execution state
+/** Status ring classes corresponding to node execution status state */
 const STATUS_RING = {
   running: 'ring-2 ring-accent animate-pulse',
   done:    'ring-2 ring-success',
