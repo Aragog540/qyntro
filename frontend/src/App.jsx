@@ -10,6 +10,7 @@ import { Dashboard } from './components/Dashboard';
 import { ExportModal } from './components/ExportModal';
 import { DocsModal } from './components/DocsModal';
 import { useStore } from './store';
+import { APP_VERSION } from './version';
 
 const THEME_KEY = 'qyntro-theme';
 
@@ -70,7 +71,7 @@ export default function App() {
           <span className="text-lg animate-glow rounded-lg p-0.5">⚡</span>
           <div>
             <span className="text-sm font-bold tracking-tight brand-gradient">Qyntro</span>
-            <span className="ml-2 font-mono text-[9px] text-ink-muted">v1.0</span>
+            <span className="ml-2 font-mono text-[9px] text-ink-muted">{APP_VERSION}</span>
           </div>
         </div>
 
