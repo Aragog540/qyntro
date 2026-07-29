@@ -25,7 +25,7 @@ DataFlow Node Catalog & Config Parameters:
 16. `profiler`: statistical data profiling. data: {}
 17. `chart`: data visualization. data: { "chartType": "bar" | "line" | "scatter" | "pie" | "area" | "histogram", "xCol": "category_col", "yCol": "numeric_col", "title": "Chart Title" }
 18. `preview`: table preview node. data: {}
-19. `export`: file download node. data: { "format": "csv" | "json" | "tsv", "filename": "output" }
+19. `export`: file download node. data: { "format": "csv" | "json" | "tsv", "filename": "output", "bundleZip": "auto" | "always" }
 
 OUTPUT REQUIREMENTS:
 You MUST output raw valid JSON (no markdown formatting, no extra text) with this exact schema:
