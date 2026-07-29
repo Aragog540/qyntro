@@ -108,8 +108,11 @@ function parseSample(name) {
 }
 
 function parsePastedCSV(text) {
-  const result = Papa.parse(text.trim(), { header: true, dynamicTyping: true, skipEmptyLines: true });
-  return { rows: result.data, columns: result.meta.fields || [], meta: { source: 'paste', rowCount: result.data.length } };
+  const trimmed = (text || '').trim();
+  if (!trimmed) throw new Error('Cannot parse empty CSV content.');
+  const result = Papa.parse(trimmed, { header: true, dynamicTyping: true, skipEmptyLines: true });
+  const rows = result.data || [];
+  return { rows, columns: result.meta.fields || [], meta: { source: 'paste', rowCount: rows.length } };
 }
 
 export const ioNodes = [
