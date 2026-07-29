@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: 'Outfit', system-ui, sans-serif;
-  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+  --font-sans: 'Geist', system-ui, sans-serif;
+  --font-mono: 'Geist Mono', 'Fira Code', monospace;
 
   --color-canvas:      var(--color-canvas);
   --color-surface:     var(--color-surface);
@@ -98,7 +98,7 @@ html, body, #root {
   height: 100%;
   margin: 0;
   padding: 0;
-  font-family: 'Outfit', system-ui, sans-serif;
+  font-family: 'Geist', system-ui, sans-serif;
   background: var(--color-canvas);
   color: var(--color-ink);
   -webkit-font-smoothing: antialiased;
@@ -225,7 +225,7 @@ html, body, #root {
 }
 
 /* ─── Data table ────────────────────────────────────────────────────── */
-.df-table { border-collapse: collapse; width: 100%; font-family: 'JetBrains Mono', monospace; font-size: 11px; }
+.df-table { border-collapse: collapse; width: 100%; font-family: 'Geist Mono', monospace; font-size: 11px; }
 .df-table th {
   position: sticky; top: 0; z-index: 1;
   background: var(--color-surface-2);
@@ -266,7 +266,7 @@ html, body, #root {
   color: var(--color-ink-muted);
   font-size: 11px;
   font-weight: 600;
-  font-family: 'Outfit', system-ui, sans-serif;
+  font-family: 'Geist', system-ui, sans-serif;
   cursor: pointer;
   transition: all 0.18s ease;
 }
@@ -301,7 +301,7 @@ html, body, #root {
   color: var(--color-ink);
   font-size: 12px;
   font-weight: 600;
-  font-family: 'Outfit', system-ui, sans-serif;
+  font-family: 'Geist', system-ui, sans-serif;
   cursor: pointer;
   transition: all 0.18s ease;
   position: relative;
@@ -387,14 +387,14 @@ html, body, #root {
   font-weight: 700;
   color: var(--color-ink);
   margin: 0 0 4px;
-  font-family: 'Outfit', system-ui, sans-serif;
+  font-family: 'Geist', system-ui, sans-serif;
 }
 .template-modal-title-icon { font-size: 20px; }
 .template-modal-subtitle {
   font-size: 12px;
   color: var(--color-ink-muted);
   margin: 0;
-  font-family: 'Outfit', system-ui, sans-serif;
+  font-family: 'Geist', system-ui, sans-serif;
 }
 .template-close-btn {
   display: flex;
@@ -489,7 +489,7 @@ html, body, #root {
   color: var(--color-ink);
   margin: 0;
   line-height: 1.2;
-  font-family: 'Outfit', system-ui, sans-serif;
+  font-family: 'Geist', system-ui, sans-serif;
 }
 .template-tags { display: flex; flex-wrap: wrap; gap: 4px; }
 .template-tag {
@@ -498,7 +498,7 @@ html, body, #root {
   border-radius: 20px;
   font-size: 9px;
   font-weight: 600;
-  font-family: 'JetBrains Mono', monospace;
+  font-family: 'Geist Mono', monospace;
   letter-spacing: 0.04em;
   text-transform: uppercase;
 }
@@ -508,7 +508,7 @@ html, body, #root {
   color: var(--color-ink-muted);
   line-height: 1.55;
   margin: 0;
-  font-family: 'Outfit', system-ui, sans-serif;
+  font-family: 'Geist', system-ui, sans-serif;
 }
 
 /* ─── Mini Pipeline Diagram ─────────────────────────────────────────── */
@@ -534,7 +534,7 @@ html, body, #root {
   border-radius: 20px;
   font-size: 9px;
   font-weight: 600;
-  font-family: 'JetBrains Mono', monospace;
+  font-family: 'Geist Mono', monospace;
   background: var(--color-accent-glow2);
   color: var(--color-ink-muted);
   border: 1px solid var(--color-border);
@@ -561,7 +561,7 @@ html, body, #root {
   color: var(--color-canvas) !important;
   font-size: 12.5px;
   font-weight: 700;
-  font-family: 'Outfit', system-ui, sans-serif;
+  font-family: 'Geist', system-ui, sans-serif;
   cursor: pointer;
   transition: all 0.18s ease;
   margin-top: auto;
@@ -595,11 +595,11 @@ html, body, #root {
   font-size: 12px;
   font-weight: 700;
   color: var(--color-ink);
-  font-family: 'Outfit', system-ui, sans-serif;
+  font-family: 'Geist', system-ui, sans-serif;
 }
 .chart-inspector-meta {
   font-size: 9px;
-  font-family: 'JetBrains Mono', monospace;
+  font-family: 'Geist Mono', monospace;
   color: var(--color-ink-muted);
   background: var(--color-accent-glow2);
   border: 1px solid var(--color-border);
@@ -637,9 +637,9 @@ html, body, #root {
 }
 .profiler-table-wrap { overflow-x: auto; margin-top: 8px; }
 .profiler-table { width: 100%; border-collapse: collapse; font-size: 11px; text-align: left; }
-.profiler-table th { padding: 6px 8px; border-bottom: 1px solid var(--color-border); color: var(--color-ink-muted); font-weight: 600; font-family: 'Outfit', sans-serif; text-transform: uppercase; font-size: 9px; letter-spacing: 0.5px; }
-.profiler-table td { padding: 6px 8px; border-bottom: 1px solid var(--color-border); font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--color-ink); }
-.profiler-col-name { font-weight: 600; color: var(--color-ink); font-family: 'Outfit', sans-serif; }
+.profiler-table th { padding: 6px 8px; border-bottom: 1px solid var(--color-border); color: var(--color-ink-muted); font-weight: 600; font-family: 'Geist', sans-serif; text-transform: uppercase; font-size: 9px; letter-spacing: 0.5px; }
+.profiler-table td { padding: 6px 8px; border-bottom: 1px solid var(--color-border); font-family: 'Geist Mono', monospace; font-size: 10px; color: var(--color-ink); }
+.profiler-col-name { font-weight: 600; color: var(--color-ink); font-family: 'Geist', sans-serif; }
 .profiler-type-badge { padding: 1px 6px; border-radius: 4px; font-size: 9px; font-weight: 600; display: inline-block; }
 .profiler-num { text-align: right; }
 .profiler-top-vals { max-width: 140px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--color-ink-muted); }
@@ -654,16 +654,16 @@ html, body, #root {
 .dashboard-header { display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--color-border); padding-bottom: 12px; }
 .dashboard-title-group { display: flex; items-center: center; gap: 8px; }
 .dashboard-icon { font-size: 18px; }
-.dashboard-title { font-size: 15px; font-weight: 700; color: var(--color-ink); font-family: 'Outfit', sans-serif; }
-.dashboard-meta { font-size: 10px; font-family: 'JetBrains Mono', monospace; color: var(--color-ink-muted); background: var(--color-accent-glow2); border: 1px solid var(--color-border); border-radius: 12px; padding: 2px 8px; }
+.dashboard-title { font-size: 15px; font-weight: 700; color: var(--color-ink); font-family: 'Geist', sans-serif; }
+.dashboard-meta { font-size: 10px; font-family: 'Geist Mono', monospace; color: var(--color-ink-muted); background: var(--color-accent-glow2); border: 1px solid var(--color-border); border-radius: 12px; padding: 2px 8px; }
 .dashboard-close { border: none; background: transparent; color: var(--color-ink-muted); cursor: pointer; padding: 4px; border-radius: 6px; }
 .dashboard-close:hover { color: var(--color-ink); background: var(--color-surface-2); }
 .dashboard-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 16px; overflow-y: auto; padding-right: 4px; }
 .dashboard-chart-card { border: 1px solid var(--color-border); border-radius: 12px; padding: 12px; background: var(--color-canvas); }
 .dashboard-chart-card--empty { opacity: 0.6; }
 .dashboard-chart-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
-.dashboard-chart-title { font-size: 12px; font-weight: 600; color: var(--color-ink); font-family: 'Outfit', sans-serif; }
-.dashboard-chart-type { font-size: 9px; font-family: 'JetBrains Mono', monospace; text-transform: uppercase; color: var(--color-accent); background: var(--color-accent-glow2); border-radius: 4px; padding: 1px 5px; }
+.dashboard-chart-title { font-size: 12px; font-weight: 600; color: var(--color-ink); font-family: 'Geist', sans-serif; }
+.dashboard-chart-type { font-size: 9px; font-family: 'Geist Mono', monospace; text-transform: uppercase; color: var(--color-accent); background: var(--color-accent-glow2); border-radius: 4px; padding: 1px 5px; }
 .dashboard-chart-placeholder { height: 200px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; color: var(--color-ink-muted); font-size: 11px; }
 .dashboard-empty { grid-column: 1 / -1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; padding: 60px 20px; color: var(--color-ink-muted); font-size: 13px; }
 .dashboard-empty-sub { font-size: 11px; opacity: 0.7; }

@@ -1,4 +1,5 @@
 // execution/RunButton.jsx — Run the pipeline
+import { Icon } from '@iconify/react';
 import { useStore } from '../store';
 import { runPipeline } from '../utils/executor';
 
@@ -74,9 +75,7 @@ export const RunButton = () => {
           </>
         ) : (
           <>
-            <svg viewBox="0 0 24 24" fill="currentColor" className="h-3.5 w-3.5">
-              <path d="M8 5v14l11-7L8 5z" />
-            </svg>
+            <Icon icon="ci:play" className="h-3.5 w-3.5" />
             Run Pipeline
           </>
         )}

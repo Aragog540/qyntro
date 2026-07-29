@@ -22,9 +22,9 @@ export default {
         'node-bg': 'var(--color-node-bg)',
       },
       fontFamily: {
-        sans: ['Outfit', 'system-ui', 'sans-serif'],
-        mono: ['JetBrains Mono', 'Fira Code', 'monospace'],
-        title: ['Outfit', 'system-ui', 'sans-serif'],
+        sans: ['Geist', 'system-ui', 'sans-serif'],
+        mono: ['Geist Mono', 'Fira Code', 'monospace'],
+        title: ['Geist', 'system-ui', 'sans-serif'],
       },
       boxShadow: {
         node: '0 2px 8px 0 rgba(0,0,0,0.35), 0 0 0 0 transparent',

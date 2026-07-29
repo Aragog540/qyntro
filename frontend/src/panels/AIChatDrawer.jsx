@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
+import { Icon } from '@iconify/react';
 import { useStore } from '../store';
 
 const SAMPLE_PROMPTS = [
@@ -131,9 +132,9 @@ export const AIChatDrawer = () => {
 
           <button
             onClick={() => setAIDrawerOpen(false)}
-            className="rounded-md p-1 text-ink-muted hover:bg-surface-2 hover:text-ink"
+            className="rounded-md p-1.5 text-ink-muted hover:bg-surface-2 hover:text-ink transition-colors"
           >
-            ✕
+            <Icon icon="ci:close-md" className="h-4 w-4" />
           </button>
         </div>
       </div>
@@ -259,9 +260,7 @@ export const AIChatDrawer = () => {
             disabled={loading || !inputPrompt.trim()}
             className="absolute right-2 bottom-2.5 rounded-lg bg-accent p-1.5 text-canvas shadow-md hover:opacity-90 disabled:opacity-40"
           >
-            <svg viewBox="0 0 24 24" fill="currentColor" className="h-4 w-4">
-              <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" />
-            </svg>
+            <Icon icon="ci:paper-plane" className="h-4 w-4" />
           </button>
         </div>
         <p className="mt-1 text-[10px] text-ink-muted text-center">Press Enter to generate pipeline</p>

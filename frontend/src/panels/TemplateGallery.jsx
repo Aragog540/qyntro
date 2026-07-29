@@ -1,5 +1,6 @@
 // panels/TemplateGallery.jsx — Template picker modal
 import { useEffect, useCallback } from 'react';
+import { Icon } from '@iconify/react';
 import { PIPELINE_TEMPLATES, TAG_COLORS } from '../pipelineTemplates';
 import { useStore } from '../store';
 
@@ -92,26 +93,26 @@ export function TemplateGallery({ onClose }) {
         {/* Modal header */}
         <div className="template-modal-header">
           <div>
-            <h2 className="template-modal-title">
-              <span className="template-modal-title-icon">📋</span>
-              Pipeline Templates
+            <h2 className="template-modal-title flex items-center gap-2">
+              <Icon icon="ci:layers" className="text-xl text-accent" />
+              <span>Pipeline Templates</span>
             </h2>
             <p className="template-modal-subtitle">
               Choose a pre-built pipeline to get started instantly
             </p>
           </div>
           <button
-            className="template-close-btn"
+            className="template-close-btn flex items-center justify-center"
             onClick={onClose}
             aria-label="Close templates"
           >
-            ✕
+            <Icon icon="ci:close-md" className="h-5 w-5" />
           </button>
         </div>
 
         {/* Warning */}
-        <div className="template-warning">
-          <span className="template-warning-icon">⚠️</span>
+        <div className="template-warning flex items-center gap-2">
+          <Icon icon="ci:warning-outline" className="text-base text-warning shrink-0" />
           <span>Loading a template will replace your current canvas.</span>
         </div>
 

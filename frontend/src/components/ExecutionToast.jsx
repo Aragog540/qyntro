@@ -1,4 +1,5 @@
 // components/ExecutionToast.jsx — Bottom-of-canvas status toast
+import { Icon } from '@iconify/react';
 import { useStore } from '../store';
 
 export const ExecutionToast = () => {
@@ -24,8 +25,8 @@ export const ExecutionToast = () => {
         {executionStatus === 'running' && (
           <span className="h-3 w-3 rounded-full border-2 border-current border-t-transparent animate-spin" />
         )}
-        {executionStatus === 'done' && <span>✓</span>}
-        {executionStatus === 'error' && <span>✗</span>}
+        {executionStatus === 'done' && <Icon icon="ci:check" className="h-4 w-4" />}
+        {executionStatus === 'error' && <Icon icon="ci:close-big" className="h-4 w-4" />}
 
         <div className="font-mono text-xs">
           {executionStatus === 'running' && 'Running pipeline…'}
@@ -40,9 +41,7 @@ export const ExecutionToast = () => {
             onClick={clearExecution}
             className="ml-2 rounded-md p-1 opacity-60 hover:opacity-100 transition-opacity"
           >
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-3.5 w-3.5">
-              <path d="M18 6 6 18M6 6l12 12" />
-            </svg>
+            <Icon icon="ci:close-md" className="h-3.5 w-3.5" />
           </button>
         )}
       </div>

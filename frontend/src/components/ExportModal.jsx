@@ -1,5 +1,6 @@
 // components/ExportModal.jsx — Export pipeline to Python / SQL code
 import { useState } from 'react';
+import { Icon } from '@iconify/react';
 import { useStore } from '../store';
 import { topoSort } from '../utils/executor';
 
@@ -24,27 +25,31 @@ export function ExportModal({ onClose }) {
       <div className="modal-content export-modal" onClick={e => e.stopPropagation()}>
         <div className="modal-header">
           <div className="flex items-center gap-2">
-            <span className="text-xl">💻</span>
+            <Icon icon="ci:code" className="text-xl text-accent" />
             <div>
               <h3 className="font-bold text-ink text-base">Export Pipeline Code</h3>
               <p className="text-xs text-ink-muted">Auto-generated code reproducing your pipeline</p>
             </div>
           </div>
-          <button onClick={onClose} className="modal-close-btn">&times;</button>
+          <button onClick={onClose} className="modal-close-btn flex items-center justify-center">
+            <Icon icon="ci:close-md" className="h-5 w-5" />
+          </button>
         </div>
 
         <div className="flex border-b border-border px-4 pt-2 gap-4">
           <button
             onClick={() => setActiveTab('python')}
-            className={`pb-2 text-xs font-semibold border-b-2 transition-colors ${activeTab === 'python' ? 'border-accent text-accent' : 'border-transparent text-ink-muted hover:text-ink'}`}
+            className={`pb-2 text-xs font-semibold border-b-2 transition-colors flex items-center gap-1.5 ${activeTab === 'python' ? 'border-accent text-accent' : 'border-transparent text-ink-muted hover:text-ink'}`}
           >
-            🐍 Python (pandas)
+            <Icon icon="ci:file-code" className="h-3.5 w-3.5" />
+            <span>Python (pandas)</span>
           </button>
           <button
             onClick={() => setActiveTab('sql')}
-            className={`pb-2 text-xs font-semibold border-b-2 transition-colors ${activeTab === 'sql' ? 'border-accent text-accent' : 'border-transparent text-ink-muted hover:text-ink'}`}
+            className={`pb-2 text-xs font-semibold border-b-2 transition-colors flex items-center gap-1.5 ${activeTab === 'sql' ? 'border-accent text-accent' : 'border-transparent text-ink-muted hover:text-ink'}`}
           >
-            🗄️ SQL
+            <Icon icon="ci:data" className="h-3.5 w-3.5" />
+            <span>SQL</span>
           </button>
         </div>
 
@@ -53,7 +58,8 @@ export function ExportModal({ onClose }) {
             onClick={handleCopy}
             className="absolute top-6 right-6 px-3 py-1.5 rounded-lg border border-border bg-surface text-ink text-xs font-semibold hover:bg-surface-2 transition-colors shadow-sm flex items-center gap-1.5"
           >
-            {copied ? '✓ Copied!' : '📋 Copy Code'}
+            <Icon icon={copied ? 'ci:check' : 'ci:copy'} className="h-3.5 w-3.5 text-accent" />
+            <span>{copied ? 'Copied!' : 'Copy Code'}</span>
           </button>
           <pre className="p-4 rounded-xl border border-border bg-canvas text-ink font-mono text-xs overflow-x-auto max-h-[380px] leading-relaxed">
             <code>{code}</code>

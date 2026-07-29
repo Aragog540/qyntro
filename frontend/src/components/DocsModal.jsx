@@ -1,5 +1,6 @@
 // components/DocsModal.jsx — Interactive User Guide & Node Reference documentation
 import { useState, useMemo } from 'react';
+import { Icon } from '@iconify/react';
 
 const NODE_DOCS = [
   // Input / Output
@@ -547,10 +548,10 @@ export function DocsModal({ onClose }) {
           <div className="flex items-center gap-3">
             <button
               onClick={onClose}
-              className="flex h-8 w-8 items-center justify-center rounded-lg border border-border text-ink-muted hover:bg-surface-2 hover:text-ink transition-all text-lg font-bold"
+              className="flex h-8 w-8 items-center justify-center rounded-lg border border-border text-ink-muted hover:bg-surface-2 hover:text-ink transition-all"
               title="Close documentation (Esc)"
             >
-              &times;
+              <Icon icon="ci:close-md" className="h-5 w-5" />
             </button>
           </div>
         </div>
@@ -580,7 +581,7 @@ export function DocsModal({ onClose }) {
 
           {/* Search box */}
           <div className="relative flex-1 max-w-xs">
-            <span className="absolute left-2.5 top-1/2 -translate-y-1/2 text-xs text-ink-muted">🔍</span>
+            <Icon icon="ci:search" className="absolute left-2.5 top-1/2 -translate-y-1/2 text-xs text-ink-muted" />
             <input
               type="text"
               value={searchQuery}
@@ -596,7 +597,7 @@ export function DocsModal({ onClose }) {
                 onClick={() => setSearchQuery('')}
                 className="absolute right-2 top-1/2 -translate-y-1/2 text-xs text-ink-muted hover:text-ink"
               >
-                ✕
+                <Icon icon="ci:close-md" className="h-3 w-3" />
               </button>
             )}
           </div>

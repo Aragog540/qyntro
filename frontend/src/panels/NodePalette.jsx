@@ -1,11 +1,12 @@
 // panels/NodePalette.jsx — Left sidebar with draggable nodes grouped by category
 import { useState } from 'react';
+import { Icon } from '@iconify/react';
 import { nodeTemplates, CATEGORIES } from '../nodes/nodeTemplates';
 import { NODE_ICONS } from '../nodes/icons';
 import { TemplateGallery } from './TemplateGallery';
 
 function DraggableNode({ type, label, accent }) {
-  const Icon = NODE_ICONS[type] || (() => null);
+  const IconComponent = NODE_ICONS[type] || (() => null);
 
   const onDragStart = (e) => {
     e.dataTransfer.setData('application/dataflow', JSON.stringify({ nodeType: type }));
@@ -23,7 +24,7 @@ function DraggableNode({ type, label, accent }) {
         className="flex h-6 w-6 shrink-0 items-center justify-center rounded-md transition-transform group-hover:scale-110"
         style={{ background: accent }}
       >
-        <Icon className="h-3 w-3 text-canvas" />
+        <IconComponent className="h-3 w-3 text-canvas" />
       </div>
       <span className="text-xs font-medium text-ink group-hover:text-accent transition-colors">{label}</span>
     </div>
@@ -39,7 +40,7 @@ export const NodePalette = () => {
         {/* Header */}
         <div className="border-b border-border px-4 py-3.5" style={{background: 'linear-gradient(180deg, var(--color-surface) 0%, var(--color-surface-2) 100%)'}}>
           <div className="flex items-center gap-2">
-            <span className="text-sm">⚡</span>
+            <Icon icon="ci:coolicons" className="text-base text-accent" />
             <span className="text-sm font-bold brand-gradient">Qyntro</span>
           </div>
           <p className="mt-0.5 text-[10px] text-ink-muted font-mono">Drag nodes to canvas</p>
@@ -50,12 +51,14 @@ export const NodePalette = () => {
           <button
             id="open-templates-btn"
             onClick={() => setShowGallery(true)}
-            className="templates-palette-btn"
+            className="templates-palette-btn flex items-center justify-between"
             title="Browse pre-built pipeline templates"
           >
-            <span className="templates-palette-btn-icon">📋</span>
-            <span>Templates</span>
-            <span className="templates-palette-btn-badge">{/* arrow */}→</span>
+            <div className="flex items-center gap-1.5">
+              <Icon icon="ci:layers" className="h-3.5 w-3.5 text-accent" />
+              <span>Templates</span>
+            </div>
+            <Icon icon="ci:chevron-right" className="h-3.5 w-3.5" />
           </button>
         </div>
 

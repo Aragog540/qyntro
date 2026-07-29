@@ -1,4 +1,5 @@
 // panels/NodeInspector.jsx — Right panel: field editor + data preview
+import { Icon } from '@iconify/react';
 import { useStore } from '../store';
 import { templateByType } from '../nodes/nodeTemplates';
 import { DataTable } from '../components/DataTable';
@@ -49,9 +50,7 @@ function FieldEditor({ nodeId, field, value, onChange, locked, columns = [] }) {
           text-xs text-ink-muted hover:border-accent hover:text-accent transition-all duration-150
           ${locked ? 'pointer-events-none opacity-50' : ''}`}
         >
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-4 w-4 shrink-0">
-            <path d="M12 2v10m0 0 3-3m-3 3-3-3M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2" />
-          </svg>
+          <Icon icon="ci:cloud-upload" className="h-4 w-4 shrink-0" />
           <span>{value?.[0]?.name || `Choose ${field.accept || 'file'}…`}</span>
           <input
             type="file"
@@ -143,9 +142,7 @@ const NodeInspectorInner = () => {
             onClick={() => useStore.getState().selectPreviewNode(null)}
             className="rounded-md p-1 text-ink-muted hover:text-ink hover:bg-surface-2 transition-colors"
           >
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-4 w-4">
-              <path d="M18 6 6 18M6 6l12 12" />
-            </svg>
+            <Icon icon="ci:close-md" className="h-4 w-4" />
           </button>
         </div>
         <div className="flex-1 overflow-hidden">

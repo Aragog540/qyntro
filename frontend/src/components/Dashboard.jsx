@@ -1,4 +1,5 @@
 // components/Dashboard.jsx — Bottom drawer showing all chart outputs side-by-side
+import { Icon } from '@iconify/react';
 import { useStore } from '../store';
 import { ChartRenderer } from './ChartRenderer';
 
@@ -20,16 +21,14 @@ export function Dashboard() {
         {/* Header */}
         <div className="dashboard-header">
           <div className="dashboard-title-group">
-            <span className="dashboard-icon">📊</span>
+            <Icon icon="ci:dashboard" className="text-lg text-accent" />
             <h2 className="dashboard-title">Dashboard</h2>
             <span className="dashboard-meta">
               {populatedCharts.length} of {chartNodes.length} chart{chartNodes.length !== 1 ? 's' : ''} populated
             </span>
           </div>
           <button className="dashboard-close" onClick={toggleDashboard} title="Close dashboard">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-4 w-4">
-              <path d="M18 6 6 18M6 6l12 12" />
-            </svg>
+            <Icon icon="ci:close-md" className="h-4 w-4" />
           </button>
         </div>
 
@@ -37,14 +36,14 @@ export function Dashboard() {
         <div className="dashboard-grid">
           {chartNodes.length === 0 && (
             <div className="dashboard-empty">
-              <span>📈</span>
+              <Icon icon="ci:line-chart-up" className="text-3xl text-ink-muted" />
               <p>No Chart nodes on canvas</p>
               <p className="dashboard-empty-sub">Add Chart nodes from the Visualise section in the sidebar</p>
             </div>
           )}
           {chartNodes.length > 0 && populatedCharts.length === 0 && (
             <div className="dashboard-empty">
-              <span>▶️</span>
+              <Icon icon="ci:play" className="text-3xl text-accent" />
               <p>Run the pipeline to populate charts</p>
             </div>
           )}

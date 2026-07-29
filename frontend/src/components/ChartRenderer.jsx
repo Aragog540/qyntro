@@ -24,7 +24,7 @@ const tooltipStyle = {
   boxShadow: '0 8px 24px rgba(0,0,0,0.4)',
 };
 
-const axisStyle = { fontSize: 10, fill: 'var(--color-ink-muted)', fontFamily: 'JetBrains Mono, monospace' };
+const axisStyle = { fontSize: 10, fill: 'var(--color-ink-muted)', fontFamily: 'Geist Mono, monospace' };
 
 // ─── Histogram helper ────────────────────────────────────────────────────────
 function buildHistogram(rows, col, bins = 20) {
@@ -210,7 +210,7 @@ function PlotlyWrapper({ data, layout }) {
       margin: { t: 30, r: 20, l: 40, b: 40 },
       paper_bgcolor: 'transparent',
       plot_bgcolor: 'transparent',
-      font: { color: 'var(--color-ink)', family: 'Outfit, sans-serif', size: 11 },
+      font: { color: 'var(--color-ink)', family: 'Geist, sans-serif', size: 11 },
       showlegend: false,
       ...layout,
     };
