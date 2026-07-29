@@ -77,7 +77,7 @@ The AI Mode drawer enables natural language prompt-to-pipeline generation:
   5. One-Click Canvas Mount: User clicks "✨ Build on Canvas" to instantly replace canvas nodes and run the pipeline.
 
 --------------------------------------------------------------------------------
-5. NODE CATALOG (27 NODES ACROSS 6 CATEGORIES)
+5. NODE CATALOG (28 NODES ACROSS 6 CATEGORIES)
 --------------------------------------------------------------------------------
 
 [ I/O CATEGORY ]
@@ -91,6 +91,7 @@ The AI Mode drawer enables natural language prompt-to-pipeline generation:
   6. Deduplicate: Remove duplicate records based on specified subset columns.
   7. Type Cast: Cast column types to number, string, boolean, or date.
   8. Trim Strings: Strip leading/trailing whitespace from string fields.
+  9. Scale & Normalize: Feature engineering scaler (Min-Max [0, 1], Z-Score Standardization, Log transform).
 
 [ TRANSFORM CATEGORY ]
   9. Filter Rows: Filter rows by comparison operations (=, ≠, >, <, >=, <=, contains, starts with, regex, is null).

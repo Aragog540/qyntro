@@ -132,6 +132,23 @@ const NODE_DOCS = [
     ],
     example: 'Trim whitespace from user-entered text fields like "email" or "category".',
   },
+  {
+    type: 'normalize',
+    label: 'Scale & Normalize',
+    category: 'clean',
+    categoryName: 'Clean',
+    badgeColor: 'var(--color-clean)',
+    icon: '📊',
+    summary: 'Scale numeric feature columns using Min-Max [0, 1] scaling, Z-Score standardization (μ=0, σ=1), or Log(x+1) transformation.',
+    inputs: '1 DataFrame',
+    outputs: '1 Scaled DataFrame',
+    fields: [
+      { name: 'Column to Scale', desc: 'Target numeric column name to scale/normalize.' },
+      { name: 'Scaling Method', desc: 'Min-Max Scaling [0, 1], Z-Score Standardization, or Log(x+1) Transformation.' },
+      { name: 'New Column Name', desc: 'Output column name (leave blank for col_scaled).' },
+    ],
+    example: 'Scale numeric feature "fare" using "Min-Max Scaling [0, 1]" into new column "fare_scaled".',
+  },
 
   // Transform
   {

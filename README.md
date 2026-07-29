@@ -100,7 +100,7 @@ DataFlow provides a rich library of nodes categorized by function:
 | Category | Available Nodes & Description |
 | :--- | :--- |
 | **📥 Input / Output** | **Load** (CSV/JSON/Sample data), **Preview** (Table preview), **Export** (CSV/JSON/JSONL download). |
-| **🧹 Data Cleaning** | **Drop Nulls** (Remove missing values), **Deduplicate** (Drop duplicate rows), **Fill Missing** (Impute values), **String Clean** (Trim/Case/Strip). |
+| **🧹 Data Cleaning** | **Drop Nulls** (Remove missing values), **Deduplicate** (Drop duplicate rows), **Fill Missing** (Impute values), **String Clean** (Trim/Case/Strip), **Scale & Normalize** (Min-Max, Z-Score, Log). |
 | **🔄 Transformation** | **Column Filter** (Select/Drop columns), **Rename Column**, **Type Converter** (Cast types), **Calculated Field** (Custom math expressions), **Value Mapper**. |
 | **🔀 Combine & Reshape** | **Merge / Join** (Inner, Left, Right, Outer joins), **Concatenate** (Row stacking), **Pivot** (Reshape matrix). |
 | **📊 Aggregation & Profile** | **Group By & Aggregate** (Sum, Avg, Count, Min, Max), **Data Profiler** (Column stats & null distribution). |
