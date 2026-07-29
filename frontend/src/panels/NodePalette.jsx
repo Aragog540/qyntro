@@ -23,7 +23,7 @@ function DraggableNode({ type, label, accent }) {
         className="flex h-6 w-6 shrink-0 items-center justify-center rounded-md transition-transform group-hover:scale-110"
         style={{ background: accent }}
       >
-        <Icon className="h-3 w-3 text-white" />
+        <Icon className="h-3 w-3 text-canvas" />
       </div>
       <span className="text-xs font-medium text-ink group-hover:text-accent transition-colors">{label}</span>
     </div>

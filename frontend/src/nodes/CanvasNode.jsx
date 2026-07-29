@@ -120,7 +120,7 @@ export const CanvasNode = ({ id, data, type, selected }) => {
             className="flex items-center justify-center rounded-full"
             style={{ width: d - 20, height: d - 20, background: accentColor }}
           >
-            <Icon className="h-4 w-4 text-white" />
+            <Icon className="h-4 w-4 text-canvas" />
           </div>
         </div>
         <div className="w-full text-center">
@@ -164,7 +164,7 @@ export const CanvasNode = ({ id, data, type, selected }) => {
           className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg"
           style={{ background: accentColor }}
         >
-          <Icon className="h-3.5 w-3.5 text-white" />
+          <Icon className="h-3.5 w-3.5 text-canvas" />
         </div>
         <div className="min-w-0 flex-1">
           {labelEl}

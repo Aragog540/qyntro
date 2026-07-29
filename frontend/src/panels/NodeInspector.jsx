@@ -191,7 +191,7 @@ const NodeInspectorInner = () => {
             className="flex h-7 w-7 items-center justify-center rounded-lg shrink-0"
             style={{ background: template.accent }}
           >
-            <span className="text-white text-[11px] font-bold">
+            <span className="text-canvas text-[11px] font-bold">
               {template.label.slice(0, 1)}
             </span>
           </div>
