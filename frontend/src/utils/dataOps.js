@@ -7,6 +7,11 @@ import Papa from 'papaparse';
 
 // ─── Parse ──────────────────────────────────────────────────────────────────
 
+/**
+ * Parses uploaded file (CSV, TSV, JSON) into a pure DataFrame object.
+ * @param {File} file - Input file object from browser input
+ * @returns {Promise<{rows: Array, columns: Array, meta: Object}>} Parsed DataFrame
+ */
 export async function parseFile(file) {
   const name = file.name || 'data';
   const ext = name.split('.').pop().toLowerCase();
