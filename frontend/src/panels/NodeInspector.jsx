@@ -183,7 +183,7 @@ const NodeInspectorInner = () => {
 
 
   return (
-    <aside className={`flex ${panelWidth} shrink-0 flex-col border-l border-border bg-surface shadow-panel animate-slidein`}>
+    <aside aria-label="Node Inspector Panel" className={`flex ${panelWidth} shrink-0 flex-col border-l border-border bg-surface shadow-panel animate-slidein`}>
       {/* Node header */}
       <div className="shrink-0 border-b border-border px-4 py-3.5">
         <div className="flex items-center gap-2.5">
