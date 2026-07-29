@@ -32,6 +32,8 @@ export default function App() {
   const loadPipelineFromJSON = useStore(s => s.loadPipelineFromJSON);
   const toggleDashboard = useStore(s => s.toggleDashboard);
   const toggleAIDrawer = useStore(s => s.toggleAIDrawer);
+  const sidebarOpen = useStore(s => s.sidebarOpen);
+  const toggleSidebar = useStore(s => s.toggleSidebar);
   const hasChartNodes = useStore(s => s.nodes.some(n => n.type === 'chart'));
 
   useEffect(() => {
@@ -59,11 +61,20 @@ export default function App() {
     <div className="flex h-screen flex-col bg-canvas overflow-hidden">
       {/* Header */}
       <header className="flex shrink-0 items-center justify-between border-b border-border bg-surface px-5 py-3 shadow-sm z-10">
-        <div className="flex items-center gap-2.5">
-          <Icon icon="ci:coolicons" className="text-xl text-accent" />
-          <div>
-            <span className="text-sm font-bold tracking-tight brand-gradient">Qyntro</span>
-            <span className="ml-2 font-mono text-[9px] text-ink-muted">{APP_VERSION}</span>
+        <div className="flex items-center gap-3">
+          <button
+            onClick={toggleSidebar}
+            className="flex h-8 w-8 items-center justify-center rounded-lg border border-border bg-surface-2 text-ink-muted hover:bg-border hover:text-ink transition-all shadow-sm"
+            title={sidebarOpen ? 'Collapse sidebar drawer' : 'Expand sidebar drawer'}
+          >
+            <Icon icon="ci:hamburger" className="h-4 w-4" />
+          </button>
+          <div className="flex items-center gap-2">
+            <Icon icon="ci:coolicons" className="text-xl text-accent" />
+            <div>
+              <span className="text-sm font-bold tracking-tight brand-gradient">Qyntro</span>
+              <span className="ml-2 font-mono text-[9px] text-ink-muted">{APP_VERSION}</span>
+            </div>
           </div>
         </div>
 
@@ -151,6 +162,16 @@ export default function App() {
       <div className="flex flex-1 overflow-hidden">
         <NodePalette />
         <main className="relative flex-1 overflow-hidden">
+          {!sidebarOpen && (
+            <button
+              onClick={toggleSidebar}
+              className="absolute top-4 left-4 z-30 flex items-center gap-2 rounded-xl border border-border bg-surface/90 backdrop-blur-md px-3.5 py-2 text-xs font-semibold text-ink shadow-lg hover:bg-surface-2 transition-all animate-fadein"
+              title="Open side panel drawer"
+            >
+              <Icon icon="ci:hamburger" className="h-4 w-4 text-accent" />
+              <span>Nodes Palette</span>
+            </button>
+          )}
           <PipelineUI />
           <ExecutionToast />
           <Dashboard />

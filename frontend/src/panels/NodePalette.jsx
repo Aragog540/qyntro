@@ -4,6 +4,7 @@ import { Icon } from '@iconify/react';
 import { nodeTemplates, CATEGORIES } from '../nodes/nodeTemplates';
 import { NODE_ICONS } from '../nodes/icons';
 import { TemplateGallery } from './TemplateGallery';
+import { useStore } from '../store';
 
 function DraggableNode({ type, label, accent }) {
   const IconComponent = NODE_ICONS[type] || (() => null);
@@ -33,17 +34,32 @@ function DraggableNode({ type, label, accent }) {
 
 export const NodePalette = () => {
   const [showGallery, setShowGallery] = useState(false);
+  const sidebarOpen = useStore(s => s.sidebarOpen);
+  const toggleSidebar = useStore(s => s.toggleSidebar);
 
   return (
     <>
-      <aside className="flex w-56 shrink-0 flex-col border-r border-border bg-surface shadow-panel">
+      <aside
+        className={`flex shrink-0 flex-col border-r border-border bg-surface shadow-panel transition-all duration-300 ease-in-out overflow-hidden z-20 ${
+          sidebarOpen ? 'w-60 opacity-100' : 'w-0 opacity-0 border-r-0 pointer-events-none'
+        }`}
+      >
         {/* Header */}
-        <div className="border-b border-border px-4 py-3.5" style={{background: 'linear-gradient(180deg, var(--color-surface) 0%, var(--color-surface-2) 100%)'}}>
-          <div className="flex items-center gap-2">
-            <Icon icon="ci:coolicons" className="text-base text-accent" />
-            <span className="text-sm font-bold brand-gradient">Qyntro</span>
+        <div className="flex items-center justify-between border-b border-border px-4 py-3.5" style={{background: 'linear-gradient(180deg, var(--color-surface) 0%, var(--color-surface-2) 100%)'}}>
+          <div>
+            <div className="flex items-center gap-2">
+              <Icon icon="ci:coolicons" className="text-base text-accent" />
+              <span className="text-sm font-bold brand-gradient">Qyntro</span>
+            </div>
+            <p className="mt-0.5 text-[10px] text-ink-muted font-mono">Drag nodes to canvas</p>
           </div>
-          <p className="mt-0.5 text-[10px] text-ink-muted font-mono">Drag nodes to canvas</p>
+          <button
+            onClick={toggleSidebar}
+            title="Close sidebar drawer"
+            className="flex h-7 w-7 items-center justify-center rounded-lg border border-border bg-surface hover:bg-surface-2 text-ink-muted hover:text-ink transition-all shadow-sm"
+          >
+            <Icon icon="ci:hamburger" className="h-4 w-4" />
+          </button>
         </div>
 
         {/* Templates button */}

@@ -20,6 +20,7 @@ export const useStore = create((set, get) => ({
   selectedPreviewNodeId: null,
   dashboardOpen: false,
   aiDrawerOpen: false,
+  sidebarOpen: localStorage.getItem('qyntro-sidebar') !== 'closed',
   groqApiKey: localStorage.getItem('qyntro-groq-key') || '',
 
   setGroqApiKey: (key) => {
@@ -28,6 +29,15 @@ export const useStore = create((set, get) => ({
   },
   toggleAIDrawer: () => set(s => ({ aiDrawerOpen: !s.aiDrawerOpen })),
   setAIDrawerOpen: (open) => set({ aiDrawerOpen: open }),
+  toggleSidebar: () => set(s => {
+    const next = !s.sidebarOpen;
+    localStorage.setItem('qyntro-sidebar', next ? 'open' : 'closed');
+    return { sidebarOpen: next };
+  }),
+  setSidebarOpen: (open) => {
+    localStorage.setItem('qyntro-sidebar', open ? 'open' : 'closed');
+    set({ sidebarOpen: open });
+  },
 
   setExecutionRunning: () => set({ executionStatus: 'running', executionError: '', nodeExecutionState: {}, previewData: {}, profileData: {} }),
 
