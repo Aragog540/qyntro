@@ -25,7 +25,7 @@ export const cleanNodes = [
     subtitle: (data) => `drop if ${data?.mode ?? 'any'} null`,
     handles: mapHandles,
     run: async (df, data) => {
-      if (!df) throw new Error('No data connected.');
+      if (!df || !df.rows) throw new Error('No valid dataset connected.');
       const cols = (data?.cols || '').split(',').map(s => s.trim()).filter(Boolean);
       return dropNulls(df, data?.mode ?? 'any', cols);
     },
