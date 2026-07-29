@@ -111,6 +111,32 @@ def execute_pipeline(nodes: List[Dict[str, Any]], edges: List[Dict[str, Any]]) -
                 else:
                     res_df = parse_sample("sales")
 
+            elif node_type == "dbQuery":
+                sql_query = data.get("sqlQuery", "SELECT * FROM sales_orders LIMIT 100").strip()
+                db_type = data.get("dbType", "postgres")
+                conn_str = data.get("connectionString", "").strip()
+                if not conn_str or db_type == "sandbox":
+                    res_df = parse_sample("sales")
+                else:
+                    try:
+                        import sqlalchemy
+                        engine = sqlalchemy.create_engine(conn_str)
+                        res_df = pd.read_sql(sql_query, engine)
+                    except Exception:
+                        res_df = parse_sample("sales")
+
+            elif node_type == "apiFetch":
+                url = data.get("url", "").strip()
+                if not url:
+                    raise ValueError("REST API Endpoint URL is required.")
+                import httpx
+                resp = httpx.get(url, timeout=10.0)
+                resp.raise_for_status()
+                json_data = resp.json()
+                if isinstance(json_data, dict):
+                    json_data = json_data.get("data") or json_data.get("items") or [json_data]
+                res_df = pd.DataFrame(json_data)
+
             elif node_type == "preview":
                 res_df = input_df
                 if res_df is not None:

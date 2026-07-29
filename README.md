@@ -99,7 +99,7 @@ DataFlow provides a rich library of nodes categorized by function:
 
 | Category | Available Nodes & Description |
 | :--- | :--- |
-| **📥 Input / Output** | **Load** (CSV/JSON/Sample data), **Preview** (Table preview), **Export** (CSV/JSON/JSONL download). |
+| **📥 Input / Output** | **Load** (CSV/JSON/Sample data), **SQL Database** (PostgreSQL/MySQL/SQLite queries), **REST API Source** (Live API data fetch), **Preview** (Table preview), **Export** (ZIP/CSV/JSON bundle download). |
 | **🧹 Data Cleaning** | **Drop Nulls** (Remove missing values), **Deduplicate** (Drop duplicate rows), **Fill Missing** (Impute values), **String Clean** (Trim/Case/Strip), **Scale & Normalize** (Min-Max, Z-Score, Log). |
 | **🔄 Transformation** | **Column Filter** (Select/Drop columns), **Rename Column**, **Type Converter** (Cast types), **Calculated Field** (Custom math expressions), **Value Mapper**. |
 | **🔀 Combine & Reshape** | **Merge / Join** (Inner, Left, Right, Outer joins), **Concatenate** (Row stacking), **Pivot** (Reshape matrix). |

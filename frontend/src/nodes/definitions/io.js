@@ -169,6 +169,61 @@ export const ioNodes = [
   }),
 
   defineNode({
+    type: 'dbQuery',
+    category: 'io',
+    shape: 'trigger',
+    label: 'SQL Database',
+    lane: 'client',
+    defaultData: () => ({ dbType: 'postgres', connectionString: '', sqlQuery: 'SELECT * FROM sales_orders LIMIT 100' }),
+    fields: [
+      { id: 'dbType', label: 'Database Engine', type: 'select', options: [
+        { value: 'postgres', label: 'PostgreSQL Server' },
+        { value: 'mysql',    label: 'MySQL Server' },
+        { value: 'sqlite',   label: 'SQLite / DuckDB' },
+        { value: 'sandbox',  label: 'Public SQL Sandbox (Demo)' },
+      ]},
+      { id: 'connectionString', label: 'Connection URL / Host', type: 'text', monospace: true, placeholder: 'postgresql://user:pass@localhost:5432/db' },
+      { id: 'sqlQuery', label: 'SQL Query', type: 'textarea', monospace: true, placeholder: 'SELECT * FROM table_name' },
+    ],
+    subtitle: (data) => `${data?.dbType || 'SQL'} -- ${data?.sqlQuery?.slice(0, 20) || 'Query'}`,
+    handles: (id) => [{ type: 'source', position: Position.Right, id: `${id}-output`, cardinality: 'multi' }],
+    run: async (_input, data) => {
+      const query = (data?.sqlQuery || '').trim();
+      if (!query) throw new Error('SQL Query cannot be empty.');
+      if (data?.dbType === 'sandbox' || !data?.connectionString) {
+        return parseSample('sales');
+      }
+      throw new Error(`Connecting to ${data?.dbType}... Python backend executing query: ${query}`);
+    },
+  }),
+
+  defineNode({
+    type: 'apiFetch',
+    category: 'io',
+    shape: 'trigger',
+    label: 'REST API Source',
+    lane: 'client',
+    defaultData: () => ({ url: 'https://jsonplaceholder.typicode.com/users', method: 'GET' }),
+    fields: [
+      { id: 'url', label: 'REST API Endpoint URL', type: 'text', monospace: true, placeholder: 'https://api.example.com/data' },
+      { id: 'method', label: 'HTTP Method', type: 'select', options: [
+        { value: 'GET',  label: 'GET Request' },
+        { value: 'POST', label: 'POST Request' },
+      ]},
+    ],
+    subtitle: (data) => (data?.url ? data.url.split('/').pop() : 'REST API'),
+    handles: (id) => [{ type: 'source', position: Position.Right, id: `${id}-output`, cardinality: 'multi' }],
+    run: async (_input, data) => {
+      if (!data?.url) throw new Error('REST API Endpoint URL required.');
+      const res = await fetch(data.url, { method: data?.method || 'GET' });
+      if (!res.ok) throw new Error(`API HTTP Error ${res.status}: ${res.statusText}`);
+      const json = await res.json();
+      const { parseJSONData } = await import('../../utils/dataOps');
+      return parseJSONData(json, data.url.split('/').pop() || 'api');
+    },
+  }),
+
+  defineNode({
     type: 'preview',
     category: 'io',
     shape: 'card',

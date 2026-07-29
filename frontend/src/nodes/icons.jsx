@@ -35,9 +35,13 @@ export const IconProfiler      = (p) => <I {...p} d={['M2 3h6a4 4 0 0 1 4 4v14a3
 export const IconSchemaVal     = (p) => <I {...p} d={['M9 11l3 3L22 4', 'M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11']} />;
 export const IconNormalize     = (p) => <I {...p} d={['M3 20h18', 'M4 17l6-10 5 6 5-9', 'M12 4v16']} />;
 export const IconComment       = (p) => <I {...p} d={['M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z']} />;
+export const IconDatabase      = (p) => <I {...p} d={['M12 2C6.5 2 2 3.8 2 6v12c0 2.2 4.5 4 10 4s10-1.8 10-4V6c0-2.2-4.5-4-10-4z', 'M2 6c0 2.2 4.5 4 10 4s10-1.8 10-4', 'M2 12c0 2.2 4.5 4 10 4s10-1.8 10-4']} />;
+export const IconAPI           = (p) => <I {...p} d={['M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71', 'M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71']} />;
 
 export const NODE_ICONS = {
   load:            IconLoad,
+  dbQuery:         IconDatabase,
+  apiFetch:        IconAPI,
   preview:         IconPreview,
   export:          IconExport,
   dropNulls:       IconDropNulls,

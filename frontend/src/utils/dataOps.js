@@ -565,3 +565,20 @@ export function normalizeColumn(df, col, method = 'minmax', newColName = '') {
   const columns = df.columns.includes(targetCol) ? df.columns : [...df.columns, targetCol];
   return makeDF(rows, columns, df.meta);
 }
+
+/**
+ * Parses raw JSON or REST API payload into a structured DataFrame.
+ * @param {Array|Object} jsonData - Input JSON payload
+ * @param {string} sourceName - Source name label
+ */
+export function parseJSONData(jsonData, sourceName = 'api') {
+  let list = Array.isArray(jsonData) ? jsonData : (jsonData?.data || jsonData?.items || jsonData?.results || [jsonData]);
+  if (!Array.isArray(list) || !list.length) {
+    throw new Error('API response does not contain an array of record objects.');
+  }
+
+  const columns = [...new Set(list.flatMap(item => (typeof item === 'object' && item ? Object.keys(item) : [])))];
+  const rows = list.map(item => (typeof item === 'object' && item ? item : { value: item }));
+
+  return makeDF(rows, columns.length ? columns : ['value'], { source: sourceName, rowCount: rows.length });
+}

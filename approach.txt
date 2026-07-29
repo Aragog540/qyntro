@@ -77,13 +77,15 @@ The AI Mode drawer enables natural language prompt-to-pipeline generation:
   5. One-Click Canvas Mount: User clicks "✨ Build on Canvas" to instantly replace canvas nodes and run the pipeline.
 
 --------------------------------------------------------------------------------
-5. NODE CATALOG (28 NODES ACROSS 6 CATEGORIES)
+5. NODE CATALOG (30 NODES ACROSS 6 CATEGORIES)
 --------------------------------------------------------------------------------
 
 [ I/O CATEGORY ]
   1. Load: Upload CSV/TSV/JSON files, paste raw CSV text, fetch via URL, or pick sample datasets (Iris, Titanic, Sales).
-  2. Preview: Scrollable virtualized data grid inspector for real-time table inspection.
-  3. Export: Packages data (CSV, JSON, TSV) and generated chart images (PNG) into a ZIP bundle.
+  2. SQL Database: Connect and run live SQL SELECT queries against PostgreSQL, MySQL, SQLite, or Public Sandbox databases.
+  3. REST API Source: Fetch live JSON/CSV data from remote HTTP REST API endpoints in real-time.
+  4. Preview: Scrollable virtualized data grid inspector for real-time table inspection.
+  5. Export: Packages data (CSV, JSON, TSV) and generated chart images (PNG) into a ZIP bundle.
 
 [ CLEAN CATEGORY ]
   4. Drop Nulls: Remove rows with null/missing values across all or specific columns.
