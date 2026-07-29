@@ -1,0 +1,26 @@
+employee_id,full_name,department,job_title,salary,hire_date,email,phone,city,performance_score,is_active
+E001,  James Carter  ,Engineering,Senior Developer,95000,2019-03-12,james.carter@company.com,555-0101,Austin,4.5,true
+E002,Sophia Nguyen,Marketing,Marketing Manager,72000,2020-07-01,sophia.nguyen@company.com,,Chicago,4.2,true
+E003,Michael Torres,Engineering,Junior Developer,62000,2022-01-15,michael.torres@company.com,555-0103,Seattle,3.8,true
+E004,Emily Davis,HR,HR Specialist,58000,2021-05-20,,555-0104,New York,4.0,true
+E005,Chris Wilson,Engineering,Senior Developer,95000,2019-03-12,james.carter@company.com,555-0101,Austin,4.5,true
+E006,Amanda Lee,Sales,Sales Representative,55000,2023-02-10,amanda.lee@company.com,555-0106,Dallas,3.5,true
+E007,  Daniel Kim  ,Engineering,DevOps Engineer,88000,2020-11-30,daniel.kim@company.com,555-0107,Seattle,4.7,true
+E008,Rachel Green,Marketing,Content Strategist,,2021-08-22,rachel.green@company.com,555-0108,Chicago,,true
+E009,Kevin Brown,Sales,Sales Manager,85000,2018-06-15,kevin.brown@company.com,555-0109,Dallas,4.3,true
+E010,Laura White,HR,,48000,2022-09-05,laura.white@company.com,555-0110,New York,3.9,true
+E011,James Carter,Engineering,Senior Developer,95000,2019-03-12,james.carter@company.com,555-0101,Austin,4.5,true
+E012,  Olivia Hall  ,Finance,Financial Analyst,78000,2020-04-18,olivia.hall@company.com,555-0112,Boston,4.1,true
+E013,Ryan Martinez,Engineering,Full Stack Developer,82000,2021-12-01,ryan.martinez@company.com,555-0113,Austin,4.4,true
+E014,Jessica Taylor,Marketing,SEO Specialist,61000,2022-06-30,,555-0114,Chicago,3.7,true
+E015,Brandon Scott,Sales,Sales Representative,55000,2023-05-15,brandon.scott@company.com,555-0115,Dallas,3.2,false
+E016,Megan Adams,Finance,Senior Analyst,91000,2017-09-10,megan.adams@company.com,555-0116,Boston,4.8,true
+E017,Tyler Nelson,Engineering,Junior Developer,62000,2023-08-20,tyler.nelson@company.com,,Seattle,3.6,true
+E018,Ashley Clark,HR,HR Manager,69000,2019-11-05,ashley.clark@company.com,555-0118,New York,4.2,true
+E019,Jordan Baker,Sales,,52000,2023-01-25,jordan.baker@company.com,555-0119,Dallas,,false
+E020,Samantha Ross,Engineering,DevOps Engineer,88000,2020-11-30,daniel.kim@company.com,555-0107,Seattle,4.7,true
+E021,Chris Evans,Finance,Financial Analyst,78000,2021-03-14,chris.evans@company.com,555-0121,Boston,4.0,true
+E022,Natalie Park,Marketing,,65000,2022-07-19,natalie.park@company.com,555-0122,Chicago,,true
+E023,Dylan Hughes,Engineering,Backend Developer,84000,2020-08-25,dylan.hughes@company.com,555-0123,Austin,4.6,true
+E024,Stephanie Cox,HR,HR Specialist,58000,2021-05-20,,555-0124,New York,3.8,false
+E025,Aaron Reed,Sales,Sales Representative,55000,2023-09-01,aaron.reed@company.com,555-0125,Dallas,3.4,true

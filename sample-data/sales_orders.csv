@@ -1,0 +1,26 @@
+order_id,customer_name,product,category,quantity,unit_price,total,order_date,status,region
+1001,Alice Johnson,Wireless Mouse,Electronics,2,29.99,59.98,2024-01-15,completed,North
+1002,  Bob Smith  ,USB-C Hub,Electronics,1,49.99,49.99,2024-01-17,completed,South
+1003,Carol White,Mechanical Keyboard,Electronics,1,89.99,89.99,2024-01-20,pending,East
+1004,David Brown,,Accessories,3,15.00,45.00,2024-01-22,completed,West
+1005,Alice Johnson,Webcam HD,Electronics,2,79.99,159.98,2024-01-25,completed,North
+1006,,Laptop Stand,Accessories,1,35.00,35.00,2024-01-28,cancelled,South
+1007,Eve Davis,Noise Cancelling Headphones,Audio,1,199.99,199.99,2024-02-01,completed,East
+1008,Frank Miller,USB-C Hub,Electronics,2,49.99,99.98,2024-02-03,completed,West
+1009,Grace Lee,  Webcam HD  ,Electronics,,79.99,,2024-02-05,pending,North
+1010,Henry Wilson,Laptop Stand,Accessories,2,35.00,70.00,2024-02-07,completed,South
+1011,Alice Johnson,Wireless Mouse,Electronics,2,29.99,59.98,2024-01-15,completed,North
+1012,Iris Chen,Bluetooth Speaker,Audio,1,59.99,59.99,2024-02-10,completed,East
+1013,Jack Taylor,Mechanical Keyboard,Electronics,3,89.99,269.97,2024-02-12,completed,West
+1014,  Bob Smith  ,USB-C Hub,Electronics,1,49.99,49.99,2024-01-17,completed,South
+1015,Karen White,Monitor Arm,Accessories,,45.00,,2024-02-15,pending,North
+1016,Leo Martinez,Noise Cancelling Headphones,Audio,2,199.99,399.98,2024-02-18,completed,East
+1017,Mary Anderson,Webcam HD,Electronics,1,79.99,79.99,2024-02-20,completed,West
+1018,Nathan Clark,Wireless Mouse,Electronics,5,29.99,149.95,2024-02-22,completed,South
+1019,Olivia Scott,,Accessories,1,20.00,20.00,2024-02-25,cancelled,North
+1020,Peter Harris,Bluetooth Speaker,Audio,2,59.99,119.98,2024-02-28,completed,East
+1021,Quinn Adams,Laptop Stand,Accessories,1,35.00,35.00,2024-03-01,completed,West
+1022,Rachel Brown,Webcam HD,Electronics,1,79.99,79.99,2024-03-03,completed,South
+1023,Sam Johnson,USB-C Hub,Electronics,3,49.99,149.97,2024-03-05,pending,North
+1024,Tina Lee,Monitor Arm,Accessories,2,45.00,90.00,2024-03-07,completed,East
+1025,Uma Patel,Wireless Mouse,Electronics,,29.99,,2024-03-10,cancelled,West
