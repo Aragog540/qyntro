@@ -48,10 +48,10 @@ export const RunButton = () => {
       <button
         onClick={handleRun}
         disabled={isRunning || nodes.length === 0}
-        className={`flex items-center gap-2 rounded-lg px-4 py-2 text-xs font-semibold transition-all duration-150
+        className={`flex items-center gap-2 rounded-lg px-4 py-2 text-xs font-bold transition-all duration-150
           ${isRunning
-            ? 'bg-accent/20 text-accent cursor-not-allowed'
-            : 'bg-accent text-white hover:bg-accent-dim active:scale-95 shadow-lg'
+            ? 'bg-surface-2 text-ink-muted border border-border cursor-not-allowed'
+            : 'bg-accent text-canvas hover:opacity-90 active:scale-95 shadow-md'
           }
           disabled:opacity-50`}
       >

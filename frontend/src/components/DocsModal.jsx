@@ -517,9 +517,9 @@ export function DocsModal({ onClose }) {
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all flex items-center gap-1.5 ${
+                className={`px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 ${
                   activeTab === tab.id
-                    ? 'bg-accent text-white shadow-md shadow-accent/20'
+                    ? 'bg-accent text-canvas shadow-md'
                     : 'text-ink-muted hover:bg-surface-2 hover:text-ink'
                 }`}
               >
@@ -539,7 +539,7 @@ export function DocsModal({ onClose }) {
                 if (activeTab !== 'nodes') setActiveTab('nodes');
               }}
               placeholder="Search nodes, features, fields..."
-              className="w-full rounded-lg border border-border bg-canvas pl-8 pr-3 py-1.5 text-xs text-ink placeholder:text-ink-muted focus:border-accent focus:outline-none transition-colors"
+              className="w-full rounded-lg border border-border bg-canvas pl-8 pr-3 py-1.5 text-xs text-ink placeholder:text-ink-muted focus:border-border-hover focus:outline-none transition-colors"
             />
             {searchQuery && (
               <button
@@ -594,7 +594,7 @@ function OverviewTab({ onNavigateNodes }) {
   return (
     <div className="space-y-6 max-w-4xl mx-auto">
       {/* Banner */}
-      <div className="rounded-2xl border border-accent/30 bg-gradient-to-r from-accent/10 via-surface to-accent/5 p-6 shadow-sm">
+      <div className="rounded-2xl border border-border bg-surface p-6 shadow-sm">
         <div className="flex items-start gap-4">
           <span className="text-4xl">⚡</span>
           <div className="space-y-2">
@@ -606,7 +606,7 @@ function OverviewTab({ onNavigateNodes }) {
             <div className="pt-2 flex flex-wrap gap-2">
               <button
                 onClick={onNavigateNodes}
-                className="px-3.5 py-1.5 rounded-lg bg-accent text-white text-xs font-semibold hover:opacity-90 transition-all shadow-md shadow-accent/20"
+                className="px-3.5 py-1.5 rounded-lg bg-accent text-canvas text-xs font-bold hover:opacity-90 transition-all shadow-md"
               >
                 Browse All 27 Nodes →
               </button>
