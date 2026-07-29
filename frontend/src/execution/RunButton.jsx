@@ -44,10 +44,6 @@ export const RunButton = () => {
 
   return (
     <div className="flex items-center gap-2">
-      <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-emerald-500/10 border border-emerald-500/30 text-[11px] font-medium text-emerald-400">
-        <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-        Python Engine (FastAPI + Pandas)
-      </div>
 
       <button
         onClick={handleRun}

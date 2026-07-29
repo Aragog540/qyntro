@@ -72,10 +72,6 @@ export default function App() {
             <span className="text-sm font-bold tracking-tight brand-gradient">Qyntro</span>
             <span className="ml-2 font-mono text-[9px] text-ink-muted">v1.0</span>
           </div>
-          <div className="ml-4 hidden sm:flex items-center gap-1 rounded-full border border-border px-2.5 py-1" style={{background: 'var(--color-accent-glow2)'}}>
-            <span className="h-1.5 w-1.5 rounded-full bg-success animate-pulse" />
-            <span className="font-mono text-[9px] text-ink-muted">Python FastAPI</span>
-          </div>
         </div>
 
         <div className="flex items-center gap-2">
