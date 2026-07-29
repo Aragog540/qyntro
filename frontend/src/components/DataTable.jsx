@@ -26,7 +26,7 @@ function ColHeader({ col, stats }) {
         <span className={`rounded px-1 py-0.5 text-[8px] font-bold font-mono ${badge.bg}`}>
           {badge.label}
         </span>
-        <span className="truncate max-w-[120px]">{col}</span>
+        <span className="truncate max-w-[120px]" title={col}>{col}</span>
       </div>
 
       {/* Stats tooltip */}
