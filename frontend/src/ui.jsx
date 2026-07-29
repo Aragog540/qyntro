@@ -119,6 +119,8 @@ export const PipelineUI = () => {
       {/* Context menu */}
       {contextMenu && (
         <div
+          role="menu"
+          aria-label="Node Actions Menu"
           style={{ top: contextMenu.y, left: contextMenu.x }}
           className="fixed z-50 animate-fadein rounded-lg border border-border bg-surface shadow-xl py-1 min-w-[140px]"
           onMouseLeave={() => setContextMenu(null)}
@@ -129,6 +131,7 @@ export const PipelineUI = () => {
           ].map(item => (
             <button
               key={item.label}
+              role="menuitem"
               onClick={item.action}
               className="w-full px-3 py-2 text-left text-xs text-ink hover:bg-surface-2 transition-colors"
             >
