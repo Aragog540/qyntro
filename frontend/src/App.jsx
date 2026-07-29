@@ -78,7 +78,7 @@ export default function App() {
           {/* AI Mode Assistant toggle */}
           <button
             onClick={toggleAIDrawer}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-purple-500/30 bg-purple-500/10 text-xs font-semibold text-purple-300 hover:bg-purple-500/20 hover:border-purple-500/50 transition-all shadow-sm"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-border bg-surface-2 text-xs font-semibold text-ink hover:bg-border transition-all shadow-sm"
             title="Open AI Mode Pipeline Generator (Groq Llama 3)"
           >
             ✨ AI Mode

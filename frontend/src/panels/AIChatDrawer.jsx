@@ -90,22 +90,22 @@ export const AIChatDrawer = () => {
   };
 
   return (
-    <div className="fixed inset-y-0 right-0 z-50 flex w-full max-w-md flex-col border-l border-white/10 bg-slate-900/95 p-4 text-slate-100 shadow-2xl backdrop-blur-xl animate-in slide-in-from-right duration-200">
+    <div className="fixed inset-y-0 right-0 z-50 flex w-full max-w-md flex-col border-l border-border bg-surface/95 p-4 text-ink shadow-2xl backdrop-blur-xl animate-in slide-in-from-right duration-200">
       
       {/* Header */}
-      <div className="flex items-center justify-between border-b border-white/10 pb-3">
+      <div className="flex items-center justify-between border-b border-border pb-3">
         <div className="flex items-center gap-2">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-tr from-purple-500 to-indigo-500 text-white font-bold shadow-md">
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-surface-2 border border-border text-ink font-bold shadow-md">
             ✨
           </div>
           <div>
-            <h2 className="text-sm font-semibold text-white flex items-center gap-2">
+            <h2 className="text-sm font-semibold text-ink flex items-center gap-2">
               DataFlow AI Mode
-              <span className="rounded bg-purple-500/20 px-1.5 py-0.5 text-[10px] font-medium text-purple-300 border border-purple-500/30">
+              <span className="rounded bg-surface-2 px-1.5 py-0.5 text-[10px] font-medium text-ink-muted border border-border">
                 Groq Llama 3
               </span>
             </h2>
-            <p className="text-[11px] text-slate-400">Natural Language Pipeline Designer</p>
+            <p className="text-[11px] text-ink-muted">Natural Language Pipeline Designer</p>
           </div>
         </div>
 
@@ -114,7 +114,7 @@ export const AIChatDrawer = () => {
             onClick={() => setShowKeyInput(!showKeyInput)}
             title="Configure Groq API Key"
             className={`rounded-md p-1.5 text-xs transition-colors ${
-              groqApiKey ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30' : 'bg-slate-800 text-slate-400 hover:text-white'
+              groqApiKey ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' : 'bg-surface-2 text-ink-muted hover:text-ink border border-border'
             }`}
           >
             🔑 {groqApiKey ? 'Key Saved' : 'Add Key'}
@@ -122,7 +122,7 @@ export const AIChatDrawer = () => {
 
           <button
             onClick={() => setAIDrawerOpen(false)}
-            className="rounded-md p-1 text-slate-400 hover:bg-white/10 hover:text-white"
+            className="rounded-md p-1 text-ink-muted hover:bg-surface-2 hover:text-ink"
           >
             ✕
           </button>
@@ -131,9 +131,9 @@ export const AIChatDrawer = () => {
 
       {/* Groq API Key Input Form */}
       {showKeyInput && (
-        <form onSubmit={handleSaveKey} className="my-3 rounded-lg border border-purple-500/30 bg-purple-950/40 p-3 text-xs">
-          <div className="font-semibold text-purple-200 mb-1">Groq API Key (Optional)</div>
-          <p className="text-[11px] text-purple-300/80 mb-2">
+        <form onSubmit={handleSaveKey} className="my-3 rounded-lg border border-border bg-surface-2 p-3 text-xs">
+          <div className="font-semibold text-ink mb-1">Groq API Key (Optional)</div>
+          <p className="text-[11px] text-ink-muted mb-2">
             Enter your free Groq API Key (`gsk_...`) for custom AI generation. Leave blank to use built-in smart generator.
           </p>
           <div className="flex gap-2">
@@ -142,11 +142,11 @@ export const AIChatDrawer = () => {
               value={tempKey}
               onChange={(e) => setTempKey(e.target.value)}
               placeholder="gsk_..."
-              className="flex-1 rounded border border-white/10 bg-slate-950 px-2 py-1 text-xs text-white focus:outline-none focus:ring-1 focus:ring-purple-500"
+              className="flex-1 rounded border border-border bg-canvas px-2 py-1 text-xs text-ink focus:outline-none focus:ring-1 focus:ring-accent"
             />
             <button
               type="submit"
-              className="rounded bg-purple-600 px-3 py-1 font-semibold text-white hover:bg-purple-500"
+              className="rounded bg-accent px-3 py-1 font-semibold text-canvas hover:opacity-90"
             >
               Save
             </button>
@@ -161,7 +161,7 @@ export const AIChatDrawer = () => {
             key={idx}
             onClick={() => handleGenerate(sp.prompt)}
             disabled={loading}
-            className="flex items-center gap-1 rounded-full border border-white/10 bg-slate-800/80 px-2.5 py-1 text-[11px] text-slate-300 transition hover:border-purple-500/50 hover:bg-purple-500/10 hover:text-purple-200"
+            className="flex items-center gap-1 rounded-full border border-border bg-surface-2 px-2.5 py-1 text-[11px] text-ink-muted transition hover:border-border-hover hover:text-ink"
           >
             <span>{sp.icon}</span>
             <span>{sp.label}</span>
@@ -179,23 +179,23 @@ export const AIChatDrawer = () => {
             <div
               className={`max-w-[90%] rounded-2xl px-3.5 py-2.5 leading-relaxed shadow-sm ${
                 m.role === 'user'
-                  ? 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-br-none'
-                  : 'bg-slate-800/90 text-slate-200 border border-white/10 rounded-bl-none'
+                  ? 'bg-accent text-canvas font-medium rounded-br-none'
+                  : 'bg-surface-2 text-ink border border-border rounded-bl-none'
               }`}
             >
               <div className="whitespace-pre-wrap">{m.text}</div>
 
               {/* AI Result Card */}
               {m.aiResult && (
-                <div className="mt-3 rounded-lg border border-purple-500/30 bg-purple-950/30 p-2.5">
-                  <div className="flex items-center justify-between text-[10px] text-purple-300 mb-2 font-mono">
+                <div className="mt-3 rounded-lg border border-border bg-canvas p-2.5">
+                  <div className="flex items-center justify-between text-[10px] text-ink-muted mb-2 font-mono">
                     <span>⚡ {m.engine || 'DataFlow AI'}</span>
                     <span>{m.aiResult.nodes?.length || 0} Nodes · {m.aiResult.edges?.length || 0} Edges</span>
                   </div>
 
                   <div className="flex flex-wrap gap-1 mb-3">
                     {m.aiResult.nodes?.map((n, i) => (
-                      <span key={i} className="rounded bg-slate-900 px-1.5 py-0.5 text-[10px] font-mono text-slate-300 border border-white/10">
+                      <span key={i} className="rounded bg-surface-2 px-1.5 py-0.5 text-[10px] font-mono text-ink border border-border">
                         {n.type}
                       </span>
                     ))}
@@ -204,13 +204,13 @@ export const AIChatDrawer = () => {
                   <div className="flex gap-2">
                     <button
                       onClick={() => handleApplyToCanvas(m.aiResult, false)}
-                      className="flex-1 rounded bg-purple-600 py-1 text-center font-semibold text-white hover:bg-purple-500 shadow-md text-xs"
+                      className="flex-1 rounded bg-surface-2 border border-border py-1 text-center font-semibold text-ink hover:bg-border shadow-md text-xs"
                     >
                       ✨ Build on Canvas
                     </button>
                     <button
                       onClick={() => handleApplyToCanvas(m.aiResult, true)}
-                      className="flex-1 rounded bg-emerald-600 py-1 text-center font-semibold text-white hover:bg-emerald-500 shadow-md text-xs flex items-center justify-center gap-1"
+                      className="flex-1 rounded bg-accent py-1 text-center font-semibold text-canvas hover:opacity-90 shadow-md text-xs flex items-center justify-center gap-1"
                     >
                       ▶️ Build & Run
                     </button>
@@ -222,15 +222,15 @@ export const AIChatDrawer = () => {
         ))}
 
         {loading && (
-          <div className="flex items-center gap-2 text-xs text-purple-300 bg-purple-500/10 border border-purple-500/20 p-3 rounded-xl animate-pulse">
-            <span className="h-2 w-2 rounded-full bg-purple-400 animate-ping"></span>
+          <div className="flex items-center gap-2 text-xs text-ink-muted bg-surface-2 border border-border p-3 rounded-xl animate-pulse">
+            <span className="h-2 w-2 rounded-full bg-ink animate-ping"></span>
             Designing pipeline architecture via Groq LLM...
           </div>
         )}
       </div>
 
       {/* Text Area Input */}
-      <div className="mt-3 border-t border-white/10 pt-3">
+      <div className="mt-3 border-t border-border pt-3">
         <div className="relative flex items-center">
           <textarea
             value={inputPrompt}
@@ -243,19 +243,19 @@ export const AIChatDrawer = () => {
             }}
             placeholder="Describe your pipeline (e.g. Filter sales > 500 & create bar chart)..."
             rows={2}
-            className="w-full resize-none rounded-xl border border-white/15 bg-slate-950 p-2.5 pr-10 text-xs text-slate-100 placeholder-slate-500 focus:border-purple-500 focus:outline-none focus:ring-1 focus:ring-purple-500"
+            className="w-full resize-none rounded-xl border border-border bg-canvas p-2.5 pr-10 text-xs text-ink placeholder-ink-muted focus:border-border-hover focus:outline-none focus:ring-1 focus:ring-accent"
           />
           <button
             onClick={() => handleGenerate()}
             disabled={loading || !inputPrompt.trim()}
-            className="absolute right-2 bottom-2.5 rounded-lg bg-gradient-to-tr from-purple-500 to-indigo-500 p-1.5 text-white shadow-md hover:opacity-90 disabled:opacity-40"
+            className="absolute right-2 bottom-2.5 rounded-lg bg-accent p-1.5 text-canvas shadow-md hover:opacity-90 disabled:opacity-40"
           >
             <svg viewBox="0 0 24 24" fill="currentColor" className="h-4 w-4">
               <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" />
             </svg>
           </button>
         </div>
-        <p className="mt-1 text-[10px] text-slate-500 text-center">Press Enter to generate pipeline</p>
+        <p className="mt-1 text-[10px] text-ink-muted text-center">Press Enter to generate pipeline</p>
       </div>
 
     </div>

@@ -21,72 +21,69 @@
   --color-node-bg:     var(--color-node-bg);
 }
 
-/* ─── Design tokens — Qyntro Dark (default) ────────────────────────── */
+/* ─── Design tokens — ChatGPT Monochrome Dark (default) ──────────── */
 :root {
-  --color-canvas:       #09090f;
-  --color-surface:      #111118;
-  --color-surface-2:    #18181f;
-  --color-border:       #252535;
-  --color-border-hover: #3d3d58;
-  --color-accent:       #a855f7;     /* violet-500 */
-  --color-accent-2:     #6366f1;     /* indigo-500 */
-  --color-accent-dim:   #7c3aed;     /* violet-700 */
-  --color-accent-glow:  rgba(168,85,247,0.18);
-  --color-accent-glow2: rgba(99,102,241,0.12);
-  --color-ink:          #f0eeff;
-  --color-ink-muted:    #8b8aac;
-  --color-ink-faint:    #3f3f5a;
-  --color-success:      #34d399;     /* emerald */
-  --color-warning:      #fbbf24;     /* amber */
-  --color-danger:       #f87171;     /* red */
-  --color-node-bg:      #111118;
-  --color-grid-dot:     #1c1c2e;
-  --color-handle:       #a855f7;
+  --color-canvas:       #171717;
+  --color-surface:      #212121;
+  --color-surface-2:    #2f2f2f;
+  --color-border:       #383838;
+  --color-border-hover: #5e5e5e;
+  --color-accent:       #ffffff;
+  --color-accent-2:     #e3e3e3;
+  --color-accent-dim:   #d4d4d4;
+  --color-accent-glow:  rgba(255, 255, 255, 0.12);
+  --color-accent-glow2: rgba(255, 255, 255, 0.05);
+  --color-ink:          #ececec;
+  --color-ink-muted:    #a3a3a3;
+  --color-ink-faint:    #525252;
+  --color-success:      #10b981;
+  --color-warning:      #f59e0b;
+  --color-danger:       #ef4444;
+  --color-node-bg:      #212121;
+  --color-grid-dot:     #333333;
+  --color-handle:       #ffffff;
 
-  /* Category accents */
-  --color-io:        #6366f1;   /* indigo */
-  --color-clean:     #a855f7;   /* violet */
-  --color-transform: #f59e0b;   /* amber */
-  --color-organize:  #ec4899;   /* pink */
-  --color-combine:   #06b6d4;   /* cyan */
-  --color-visualise: #10b981;   /* emerald */
-  --color-quality:   #f97316;   /* orange */
-  --color-utility:   #64748b;   /* slate */
-
-
+  /* ChatGPT Monochrome Category Accents */
+  --color-io:        #ffffff;
+  --color-clean:     #e5e5e5;
+  --color-transform: #d4d4d4;
+  --color-organize:  #a3a3a3;
+  --color-combine:   #8e8e8e;
+  --color-visualise: #ffffff;
+  --color-quality:   #c2c2c2;
+  --color-utility:   #737373;
 }
 
-/* ─── Light mode ────────────────────────────────────────────────────── */
+/* ─── ChatGPT Monochrome Light mode ────────────────────────────────── */
 .light {
-  --color-canvas:       #f4f3ff;
-  --color-surface:      #ffffff;
-  --color-surface-2:    #f9f8ff;
-  --color-border:       #e2dff7;
-  --color-border-hover: #b8b0e8;
-  --color-accent:       #7c3aed;
-  --color-accent-2:     #4f46e5;
-  --color-accent-dim:   #6d28d9;
-  --color-accent-glow:  rgba(124,58,237,0.12);
-  --color-accent-glow2: rgba(79,70,229,0.10);
-  --color-ink:          #1a1535;
-  --color-ink-muted:    #6b6891;
-  --color-ink-faint:    #c4c0dc;
+  --color-canvas:       #ffffff;
+  --color-surface:      #f9f9f9;
+  --color-surface-2:    #f3f3f3;
+  --color-border:       #e5e5e5;
+  --color-border-hover: #cdcdcd;
+  --color-accent:       #0d0d0d;
+  --color-accent-2:     #262626;
+  --color-accent-dim:   #404040;
+  --color-accent-glow:  rgba(0, 0, 0, 0.08);
+  --color-accent-glow2: rgba(0, 0, 0, 0.04);
+  --color-ink:          #0d0d0d;
+  --color-ink-muted:    #676767;
+  --color-ink-faint:    #a3a3a3;
   --color-success:      #059669;
   --color-warning:      #d97706;
   --color-danger:       #dc2626;
   --color-node-bg:      #ffffff;
-  --color-grid-dot:     #e2dff7;
-  --color-handle:       #7c3aed;
-  --color-io:        #4f46e5;
-  --color-clean:     #7c3aed;
-  --color-transform: #d97706;
-  --color-organize:  #db2777;
-  --color-combine:   #0891b2;
-  --color-visualise: #059669;
-  --color-quality:   #ea580c;
-  --color-utility:   #475569;
+  --color-grid-dot:     #e5e5e5;
+  --color-handle:       #0d0d0d;
 
-
+  --color-io:        #0d0d0d;
+  --color-clean:     #262626;
+  --color-transform: #404040;
+  --color-organize:  #525252;
+  --color-combine:   #676767;
+  --color-visualise: #0d0d0d;
+  --color-quality:   #333333;
+  --color-utility:   #737373;
 }
 
 /* ─── Base ─────────────────────────────────────────────────────────── */
@@ -216,7 +213,7 @@ html, body, #root {
 
 /* ─── Qyntro brand gradient text ────────────────────────────────────── */
 .brand-gradient {
-  background: linear-gradient(135deg, #a855f7 0%, #6366f1 60%, #06b6d4 100%);
+  background: linear-gradient(135deg, var(--color-ink) 0%, var(--color-ink-muted) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
