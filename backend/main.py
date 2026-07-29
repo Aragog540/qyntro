@@ -5,7 +5,11 @@ from typing import List, Optional, Dict, Any
 from executor import execute_pipeline
 from ai_generator import generate_pipeline_ai
 
-app = FastAPI(title="DataFlow API — Python Engine & AI Generator")
+app = FastAPI(
+    title="Qyntro (DataFlow) API Engine",
+    version="1.0.8",
+    description="Vectorized Python Pandas & Polars ETL Pipeline Execution Engine & Groq AI Synthesis API",
+)
 
 app.add_middleware(
     CORSMiddleware,
