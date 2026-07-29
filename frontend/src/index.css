@@ -21,6 +21,11 @@
   --color-node-bg:     var(--color-node-bg);
 }
 
+html, body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
 /* ─── Design tokens — ChatGPT Monochrome Dark (default) ──────────── */
 :root {
   --color-canvas:       #171717;
