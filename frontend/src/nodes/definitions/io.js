@@ -98,6 +98,8 @@ const SAMPLE_DATASETS = {
 1020,2024-05-02,Widget A,Electronics,North,16,29.99,479.84`,
 };
 
+import { exportPipelineArtifacts } from '../../utils/exportBundler';
+
 function parseSample(name) {
   const csv = SAMPLE_DATASETS[name];
   if (!csv) throw new Error('Unknown sample dataset: ' + name);
@@ -185,26 +187,29 @@ export const ioNodes = [
     shape: 'round',
     label: 'Export',
     lane: 'client',
-    defaultData: () => ({ format: 'csv', filename: 'output' }),
+    defaultData: () => ({ format: 'csv', filename: 'output', bundleZip: 'auto' }),
     fields: [
-      { id: 'format', label: 'Format', type: 'select', options: [
-        { value: 'csv',  label: 'CSV' },
-        { value: 'json', label: 'JSON' },
-        { value: 'tsv',  label: 'TSV' },
+      { id: 'format', label: 'Data Format', type: 'select', options: [
+        { value: 'csv',  label: 'CSV Data' },
+        { value: 'json', label: 'JSON Data' },
+        { value: 'tsv',  label: 'TSV Data' },
       ]},
-      { id: 'filename', label: 'Filename (no ext)', type: 'text', monospace: true },
+      { id: 'bundleZip', label: 'ZIP Bundle Mode', type: 'select', options: [
+        { value: 'auto',   label: 'Auto (ZIP if charts/multiple exist)' },
+        { value: 'always', label: 'Always Export ZIP Bundle' },
+      ]},
+      { id: 'filename', label: 'Filename Prefix', type: 'text', monospace: true },
     ],
-    subtitle: (data) => '.' + (data?.format ?? 'csv') + ' -- ' + (data?.filename || 'output'),
+    subtitle: (data) => (data?.bundleZip === 'always' ? '📦 ZIP Bundle' : '.' + (data?.format ?? 'csv')) + ' -- ' + (data?.filename || 'output'),
     handles: (id) => [{ type: 'target', position: Position.Left, id: `${id}-input`, cardinality: 'multi' }],
     run: async (df, data) => {
       if (!df || !df.rows?.length) throw new Error('No data to export.');
-      const fmt = data?.format ?? 'csv';
-      const name = (data?.filename || 'output') + '.' + fmt;
-      let blob;
-      if (fmt === 'json') blob = exportJSON(df);
-      else if (fmt === 'tsv') blob = exportTSV(df);
-      else blob = exportCSV(df);
-      triggerDownload(blob, name);
+      const zipAlways = data?.bundleZip === 'always';
+      await exportPipelineArtifacts(df, {
+        format: data?.format || 'csv',
+        filename: data?.filename || 'output',
+        zipAlways,
+      });
       return df;
     },
   }),
