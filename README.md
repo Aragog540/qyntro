@@ -41,6 +41,7 @@ Data processes, transformations, joins, and aggregations can be executed by the 
 * **Styling**: Tailwind CSS v4 + Custom CSS Design System
 * **Data Parsing**: PapaParse (CSV)
 * **Visualizations**: Plotly.js & Recharts
+* **Export Bundler**: JSZip + HTML2Canvas (Programmatic PNG chart rendering + ZIP packaging)
 * **Table Virtualization**: `@tanstack/react-virtual`
 * **Linter**: Oxlint
 
