@@ -275,7 +275,10 @@ function HeatmapView({ df }) {
   return <PlotlyWrapper data={plotData} layout={{ margin: { t: 20, r: 20, l: 60, b: 60 } }} />;
 }
 
-// ─── Main export ─────────────────────────────────────────────────────────────
+/**
+ * Main Chart Renderer Component — renders Recharts or Plotly charts based on config.chartType
+ * @param {{ df: Object, config: Object }} props
+ */
 export function ChartRenderer({ df, config }) {
   if (!df || !df.rows?.length) {
     return <ChartPlaceholder message="Run the pipeline to generate chart data" />;
