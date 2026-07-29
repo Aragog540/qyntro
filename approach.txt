@@ -1,0 +1,151 @@
+================================================================================
+                        QYNTRO (DATAFLOW) — ARCHITECTURE & TECHNICAL SPECIFICATION
+================================================================================
+
+1. EXECUTIVE OVERVIEW
+--------------------------------------------------------------------------------
+Qyntro (DataFlow) is a modern, high-performance visual ETL (Extract, Transform, Load) 
+and data analytics workspace. It enables data engineers, analysts, and developers 
+to visually construct, execute, profile, and export data transformation workflows (DAGs) 
+in real-time inside the web browser.
+
+Key Highlights:
+  - Dual Execution Architecture: Fast Python FastAPI (Pandas/Polars) backend paired 
+    with a zero-latency client-side JavaScript engine fallback.
+  - Natural Language AI Pipeline Generator: Powered by Groq's Llama-3.3-70b-versatile 
+    with structured JSON DAG synthesis and smart offline fallback rules.
+  - Programmatic Artifact Export Bundler: Packages CSV/JSON datasets and 2x high-res 
+    PNG chart renders into a single clean ZIP archive in 1 click.
+  - ChatGPT-Inspired Monochrome Aesthetics: Premium dark and light theme tokens with 
+    accessible high-contrast typography and micro-interactions.
+
+--------------------------------------------------------------------------------
+2. SYSTEM ARCHITECTURE & DATA FLOW
+--------------------------------------------------------------------------------
+The application is structured as a decoupled full-stack monorepo:
+
+  [ User Interface (React 19 + ReactFlow) ]
+                   │
+                   ▼
+  [ Zustand Global State Store (Nodes, Edges, ExecState) ]
+                   │
+       ┌───────────┴───────────┐
+       ▼                       ▼
+ [ Python Backend ]    [ Client JS Engine ]  (Fallback if server is unreachable)
+ (FastAPI + Pandas)    (Vectorized JS Ops)
+       │                       │
+       └───────────┬───────────┘
+                   ▼
+  [ Result Map: DataFrames, Charts, Profiles, Preview Data ]
+                   │
+                   ▼
+  [ Export Bundler (JSZip + HTML2Canvas) ] ──> Downloads zip file (CSV + PNGs)
+
+Core Tech Stack:
+  - Frontend: React 19, Vite 8, ReactFlow 11, Zustand 5, Tailwind CSS v4, PapaParse
+  - Charting & Virtualization: Plotly.js, Recharts, @tanstack/react-virtual
+  - Export Engine: JSZip, HTML2Canvas
+  - Backend: Python 3.11, FastAPI, Pandas, Pydantic v2, Uvicorn
+  - AI Engine: Groq REST API (`llama-3.3-70b-versatile`)
+  - Deployment: Vercel Serverless Functions (`/api/index.py`) + Static Asset Hosting
+
+--------------------------------------------------------------------------------
+3. DUAL EXECUTION MODEL
+--------------------------------------------------------------------------------
+Qyntro guarantees 100% operational uptime by implementing a seamless dual execution model:
+
+  A. Python FastAPI Backend Engine (`/pipelines/execute`):
+     - Executes Directed Acyclic Graphs (DAGs) topographically via Topological Sort.
+     - Utilizes Pandas vectorized memory operations for maximum throughput.
+     - Computes full column profiling statistics (mean, median, standard deviation, nulls, unique count, quantiles).
+     - Returns structured node execution results, preview tables, and chart datasets.
+
+  B. Client-side JavaScript Fallback Engine (`executor.js` + `dataOps.js`):
+     - Automatically kicks in if the Python server is offline, cold-starting, or running locally without backend.
+     - Pure functional immutable DataFrame operations (never mutates in place).
+     - Handles dataset parsing, filtering, aggregation, deduplication, and joins in-memory.
+
+--------------------------------------------------------------------------------
+4. GROQ AI PIPELINE BUILDER
+--------------------------------------------------------------------------------
+The AI Mode drawer enables natural language prompt-to-pipeline generation:
+
+  1. Prompt Input: User inputs a prompt (e.g. "Load titanic data, drop null fares, group by passenger class, and render pie chart").
+  2. LLM Synthesis: Requests Groq API (`llama-3.3-70b-versatile`) with a strict System Prompt defining node parameters and schemas.
+  3. Response Validation: Validates and parses the returned JSON schema into nodes, edges, and positioning coordinates.
+  4. Smart Rule-Engine Fallback: If Groq API key is missing or server is unreachable, `aiFallback.js` analyzes prompt keywords (e.g. "iris", "titanic", "group", "chart", "filter") and generates a valid DAG locally.
+  5. One-Click Canvas Mount: User clicks "✨ Build on Canvas" to instantly replace canvas nodes and run the pipeline.
+
+--------------------------------------------------------------------------------
+5. NODE CATALOG (27 NODES ACROSS 6 CATEGORIES)
+--------------------------------------------------------------------------------
+
+[ I/O CATEGORY ]
+  1. Load: Upload CSV/TSV/JSON files, paste raw CSV text, fetch via URL, or pick sample datasets (Iris, Titanic, Sales).
+  2. Preview: Scrollable virtualized data grid inspector for real-time table inspection.
+  3. Export: Packages data (CSV, JSON, TSV) and generated chart images (PNG) into a ZIP bundle.
+
+[ CLEAN CATEGORY ]
+  4. Drop Nulls: Remove rows with null/missing values across all or specific columns.
+  5. Fill Nulls: Replace null values using mean, median, mode, or custom static values.
+  6. Deduplicate: Remove duplicate records based on specified subset columns.
+  7. Type Cast: Cast column types to number, string, boolean, or date.
+  8. Trim Strings: Strip leading/trailing whitespace from string fields.
+
+[ TRANSFORM CATEGORY ]
+  9. Filter Rows: Filter rows by comparison operations (=, ≠, >, <, >=, <=, contains, starts with, regex, is null).
+ 10. Select Columns: Keep or drop specific column subsets.
+ 11. Rename Columns: Rename fields using `old_name -> new_name` mapping syntax.
+ 12. Add Column: Compute calculated fields (e.g. `unit_price * quantity`).
+ 13. Sort Rows: Sort data ascending or descending by specified columns.
+ 14. Slice / Limit: Limit output to top N or bottom N rows.
+
+[ AGGREGATE & RESHAPE CATEGORY ]
+ 15. Aggregate / Group By: Group data by dimensions and compute aggregations (sum, avg, count, min, max).
+ 16. Pivot Table: Reshape dataset into a cross-tabulation pivot matrix.
+ 17. Join: Merge two DataFrames via inner, left, or right join keys.
+
+[ OUTPUT & ANALYTICS CATEGORY ]
+ 18. Chart / Visualizer: Render interactive Bar, Line, Area, Scatter, Histogram, Pie, Box Plot, Violin, and Heatmap charts.
+ 19. Profiler: Detailed statistical dataset summary (distribution, null ratio, unique counts, quantiles).
+
+--------------------------------------------------------------------------------
+6. BUILT-IN PIPELINE TEMPLATES
+--------------------------------------------------------------------------------
+Qyntro includes pre-built pipeline templates accessible via the Templates modal:
+
+  - Quick Preview: Load dataset -> Table Preview.
+  - Clean & Export: Load -> Drop Nulls -> Deduplicate -> Export.
+  - Sales Analysis: Load -> Trim Strings -> Filter Rows -> Sort -> Export.
+  - Data Type Fixer: Load -> Type Cast -> Fill Nulls -> Table Preview.
+  - Aggregate & Report: Load -> Drop Nulls -> Group By Aggregate -> Sort -> Export.
+  - Full Clean Workflow: Load -> Drop Nulls -> Deduplicate -> Trim Strings -> Export.
+
+--------------------------------------------------------------------------------
+7. SMART ZIP EXPORT BUNDLER
+--------------------------------------------------------------------------------
+When an Export node is attached or executed:
+
+  1. Dataset Export: Formats the processed DataFrame into the requested format (.csv, .json, .tsv).
+  2. Programmatic Offscreen PNG Capture:
+     - Scans for all chart nodes in the pipeline.
+     - Mounts an offscreen DOM container at 2x scale.
+     - Renders chart components (Recharts / Plotly) into the offscreen container.
+     - Captures PNG image blobs using HTML2Canvas.
+  3. Single ZIP Archive: Bundles `output_data.csv` and `charts/chart_1.png` into `output_bundle.zip` using JSZip.
+  4. Automatic Download: Triggers a single clean browser download, preventing multi-window popups.
+
+--------------------------------------------------------------------------------
+8. VERCEL DEPLOYMENT ARCHITECTURE
+--------------------------------------------------------------------------------
+  - Repository Root: `./`
+  - Build Command: `cd frontend && npm run build` (Output: `frontend/dist`)
+  - Serverless API Endpoint: `api/index.py` exports FastAPI ASGI application.
+  - Rewrites Routing:
+      /api/(.*)       --> /api/index.py
+      /pipelines/(.*) --> /api/index.py
+      /ai/(.*)        --> /api/index.py
+
+================================================================================
+                              END OF SPECIFICATION
+================================================================================
