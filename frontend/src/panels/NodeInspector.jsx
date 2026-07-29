@@ -243,6 +243,21 @@ const NodeInspectorInner = () => {
           </div>
         ))}
 
+        {selectedNode.type === 'export' && (
+          <button
+            onClick={async () => {
+              const df = previewData[selectedNode.id] || Object.values(previewData)[0];
+              if (df) {
+                const { exportPipelineArtifacts } = await import('../utils/exportBundler');
+                await exportPipelineArtifacts(df, data, useStore.getState());
+              }
+            }}
+            className="w-full mt-2 flex items-center justify-center gap-2 rounded-lg bg-accent px-4 py-2.5 text-xs font-bold text-canvas hover:opacity-90 active:scale-95 transition-all shadow-md"
+          >
+            📥 Download Export Bundle (ZIP / PNG + CSV)
+          </button>
+        )}
+
         {/* Chart panel — shown after pipeline runs */}
         {isChartNode && (
           <div className="chart-inspector-panel">

@@ -35,6 +35,18 @@ export const RunButton = () => {
       outputMap.forEach((df, nodeId) => {
         if (df?.columns) setNodeOutputColumns(nodeId, df.columns);
       });
+
+      // Automatically trigger ZIP / artifact export bundle for all Export nodes attached
+      const exportNodes = currentNodes.filter(n => n.type === 'export');
+      for (const expNode of exportNodes) {
+        const incomingEdge = currentEdges.find(e => e.target === expNode.id);
+        const sourceDF = incomingEdge ? outputMap.get(incomingEdge.source) : null;
+        if (sourceDF && sourceDF.rows?.length) {
+          const { exportPipelineArtifacts } = await import('../utils/exportBundler');
+          await exportPipelineArtifacts(sourceDF, expNode.data || {}, useStore.getState());
+        }
+      }
+
       setExecutionDone();
     } catch (err) {
       markCycleEdges(currentNodes, currentEdges);
