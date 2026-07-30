@@ -16,30 +16,30 @@ export const ExecutionToast = () => {
     .reduce((sum, s) => Math.max(sum, s.rowCount), 0);
 
   return (
-    <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-40 animate-fadein">
-      <div className={`flex items-center gap-3 rounded-xl border px-5 py-3 shadow-2xl backdrop-blur-sm
-        ${executionStatus === 'error'   ? 'border-danger/40 bg-danger/10 text-danger' :
-          executionStatus === 'done'    ? 'border-success/40 bg-success/10 text-success' :
-                                          'border-accent/40 bg-accent/10 text-accent'}`}
+    <div className="absolute bottom-5 left-1/2 -translate-x-1/2 z-40 animate-fadein">
+      <div className={`flex items-center gap-3 rounded border px-4 py-2.5 shadow-2xl font-mono text-xs
+        ${executionStatus === 'error'   ? 'border-[#E55353] bg-[#14171C] text-[#E55353]' :
+          executionStatus === 'done'    ? 'border-[#5FC9BA] bg-[#14171C] text-[#5FC9BA]' :
+                                          'border-[#E8823C] bg-[#14171C] text-[#E8823C]'}`}
       >
         {executionStatus === 'running' && (
-          <span className="h-3 w-3 rounded-full border-2 border-current border-t-transparent animate-spin" />
+          <span className="h-3 w-3 rounded-full border-2 border-[#E8823C] border-t-transparent animate-spin" />
         )}
-        {executionStatus === 'done' && <Icon icon="ci:check" className="h-4 w-4" />}
-        {executionStatus === 'error' && <Icon icon="ci:close-big" className="h-4 w-4" />}
+        {executionStatus === 'done' && <Icon icon="ci:check" className="h-4 w-4 text-[#5FC9BA]" />}
+        {executionStatus === 'error' && <Icon icon="ci:close-big" className="h-4 w-4 text-[#E55353]" />}
 
-        <div className="font-mono text-xs">
-          {executionStatus === 'running' && 'Running pipeline…'}
+        <div>
+          {executionStatus === 'running' && '[RUNNING CURRENT TOPOLOGY...]'}
           {executionStatus === 'done' && (
-            <>Pipeline complete · {doneNodes} nodes · {totalRows.toLocaleString()} rows processed</>
+            <>[PIPELINE COMPLETE] • {doneNodes} MODULES • {totalRows.toLocaleString()} ROWS PROCESSED</>
           )}
-          {executionStatus === 'error' && `Error: ${executionError}`}
+          {executionStatus === 'error' && `[CIRCUIT ERROR] ${executionError}`}
         </div>
 
         {(executionStatus === 'done' || executionStatus === 'error') && (
           <button
             onClick={clearExecution}
-            className="ml-2 rounded-md p-1 opacity-60 hover:opacity-100 transition-opacity"
+            className="ml-2 rounded p-1 opacity-60 hover:opacity-100 hover:bg-[#232B36] transition-all"
           >
             <Icon icon="ci:close-md" className="h-3.5 w-3.5" />
           </button>

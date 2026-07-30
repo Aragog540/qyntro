@@ -2,14 +2,14 @@
 import { Position } from 'reactflow';
 
 export const CATEGORIES = [
-  { id: 'io',        label: 'Input / Output', color: 'var(--color-io)' },
-  { id: 'clean',     label: 'Clean',          color: 'var(--color-clean)' },
-  { id: 'transform', label: 'Transform',      color: 'var(--color-transform)' },
-  { id: 'organize',  label: 'Organize',       color: 'var(--color-organize)' },
-  { id: 'combine',   label: 'Combine',        color: 'var(--color-combine)' },
-  { id: 'quality',   label: 'Quality',        color: 'var(--color-quality)' },
-  { id: 'visualise', label: 'Visualise',      color: 'var(--color-visualise)' },
-  { id: 'utility',   label: 'Utility',        color: 'var(--color-utility)' },
+  { id: 'io',        label: 'Input / Output', tag: '[IN/OUT]',    color: '#E8823C' },
+  { id: 'clean',     label: 'Clean',          tag: '[CLEAN]',     color: '#5FC9BA' },
+  { id: 'transform', label: 'Transform',      tag: '[TRANSFORM]', color: '#E8823C' },
+  { id: 'organize',  label: 'Organize',       tag: '[ORGANIZE]',  color: '#7C8698' },
+  { id: 'combine',   label: 'Combine',        tag: '[COMBINE]',   color: '#5FC9BA' },
+  { id: 'quality',   label: 'Quality',        tag: '[QUALITY]',   color: '#E8823C' },
+  { id: 'visualise', label: 'Visualise',      tag: '[VISUALISE]', color: '#5FC9BA' },
+  { id: 'utility',   label: 'Utility',        tag: '[UTILITY]',   color: '#7C8698' },
 ];
 
 

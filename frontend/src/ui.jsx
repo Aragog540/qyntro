@@ -1,4 +1,4 @@
-// ui.jsx — React Flow canvas with connection validation
+// ui.jsx — React Flow canvas with blueprint schematic styling & circuit edge flow
 import { useState, useRef, useCallback, useMemo } from 'react';
 import ReactFlow, { Controls, Background, BackgroundVariant, MiniMap } from 'reactflow';
 import { useStore } from './store';
@@ -35,6 +35,7 @@ export const PipelineUI = () => {
   const nodes = useStore(s => s.nodes);
   const edges = useStore(s => s.edges);
   const cycleEdgeIds = useStore(s => s.cycleEdgeIds);
+  const executionStatus = useStore(s => s.executionStatus);
   const getNodeID = useStore(s => s.getNodeID);
   const addNode = useStore(s => s.addNode);
   const removeNode = useStore(s => s.removeNode);
@@ -44,21 +45,27 @@ export const PipelineUI = () => {
   const onConnect = useStore(s => s.onConnect);
   const selectPreviewNode = useStore(s => s.selectPreviewNode);
 
+  const isRunning = executionStatus === 'running';
+
   const styledNodes = useMemo(() =>
     nodes.map(n => ({ ...n, draggable: !n.data?.locked, deletable: !n.data?.locked })),
     [nodes]
   );
 
   const styledEdges = useMemo(() =>
-    edges.map(e => ({
-      ...e,
-      style: {
-        stroke: cycleEdgeIds.includes(e.id) ? 'var(--color-warning)' : 'var(--color-border-hover)',
-        strokeWidth: 2,
-      },
-      animated: false,
-    })),
-    [edges, cycleEdgeIds]
+    edges.map(e => {
+      const isCycle = cycleEdgeIds.includes(e.id);
+      return {
+        ...e,
+        className: isRunning ? 'running' : isCycle ? 'cycle' : '',
+        style: {
+          stroke: isCycle ? '#E55353' : isRunning ? '#E8823C' : '#283242',
+          strokeWidth: 2,
+        },
+        animated: isRunning,
+      };
+    }),
+    [edges, cycleEdgeIds, isRunning]
   );
 
   const onDrop = useCallback(event => {
@@ -85,7 +92,7 @@ export const PipelineUI = () => {
   }, [selectPreviewNode]);
 
   return (
-    <div ref={wrapperRef} className="relative h-full w-full" style={{ height: '100%' }}>
+    <div ref={wrapperRef} className="relative h-full w-full bg-[#14171C]">
       <ReactFlow
         nodes={styledNodes}
         edges={styledEdges}
@@ -104,15 +111,15 @@ export const PipelineUI = () => {
         proOptions={proOptions}
         snapGrid={[gridSize, gridSize]}
         snapToGrid
-        connectionLineStyle={{ stroke: 'var(--color-accent)', strokeWidth: 2 }}
-        defaultEdgeOptions={{ style: { stroke: 'var(--color-border-hover)', strokeWidth: 2 } }}
+        connectionLineStyle={{ stroke: '#E8823C', strokeWidth: 2, strokeDasharray: '4 4' }}
+        defaultEdgeOptions={{ style: { stroke: '#283242', strokeWidth: 2 } }}
       >
-        <Background variant={BackgroundVariant.Dots} color="var(--color-grid-dot)" gap={gridSize} size={1.5} />
-        <Controls showInteractive={false} className="!bg-surface !border-border !rounded-xl overflow-hidden" />
+        <Background variant={BackgroundVariant.Lines} color="#223047" gap={gridSize} lineWidth={1} />
+        <Controls showInteractive={false} className="!bg-[#1B2028] !border-[#283242] !rounded overflow-hidden" />
         <MiniMap
-          nodeColor={() => 'var(--color-accent-dim)'}
-          maskColor="rgba(0,0,0,0.4)"
-          style={{ background: 'var(--color-surface)', border: '1px solid var(--color-border)', borderRadius: 8 }}
+          nodeColor={() => '#E8823C'}
+          maskColor="rgba(20,23,28,0.8)"
+          style={{ background: '#1B2028', border: '1px solid #283242', borderRadius: 4 }}
         />
       </ReactFlow>
 
@@ -122,18 +129,18 @@ export const PipelineUI = () => {
           role="menu"
           aria-label="Node Actions Menu"
           style={{ top: contextMenu.y, left: contextMenu.x }}
-          className="fixed z-50 animate-fadein rounded-lg border border-border bg-surface shadow-xl py-1 min-w-[140px]"
+          className="fixed z-50 animate-fadein rounded border border-[#283242] bg-[#1B2028] shadow-xl py-1 min-w-[150px]"
           onMouseLeave={() => setContextMenu(null)}
         >
           {[
-            { label: '🗑 Delete', action: () => { removeNode(contextMenu.nodeId); setContextMenu(null); } },
-            { label: '🔒 Toggle Lock', action: () => { toggleNodeLock(contextMenu.nodeId); setContextMenu(null); } },
+            { label: '🗑 Delete Module', action: () => { removeNode(contextMenu.nodeId); setContextMenu(null); } },
+            { label: '🔒 Toggle Lock State', action: () => { toggleNodeLock(contextMenu.nodeId); setContextMenu(null); } },
           ].map(item => (
             <button
               key={item.label}
               role="menuitem"
               onClick={item.action}
-              className="w-full px-3 py-2 text-left text-xs text-ink hover:bg-surface-2 transition-colors"
+              className="w-full px-3 py-1.5 text-left font-mono text-xs text-[#EDEFF2] hover:bg-[#232B36] hover:text-[#E8823C] transition-colors"
             >
               {item.label}
             </button>

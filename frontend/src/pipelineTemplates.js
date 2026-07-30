@@ -332,16 +332,16 @@ export const PIPELINE_TEMPLATES = [
   },
 ];
 
-// Tag color mapping
+// Tag color mapping — Qyntro Dev-Tool Palette
 export const TAG_COLORS = {
-  beginner:  { bg: 'rgba(52,211,153,0.15)',  text: '#34d399' },
-  io:        { bg: 'rgba(99,102,241,0.15)',   text: '#818cf8' },
-  cleaning:  { bg: 'rgba(168,85,247,0.15)',   text: '#c084fc' },
-  analysis:  { bg: 'rgba(251,191,36,0.15)',   text: '#fbbf24' },
-  transform: { bg: 'rgba(245,158,11,0.15)',   text: '#f59e0b' },
-  types:     { bg: 'rgba(6,182,212,0.15)',    text: '#22d3ee' },
-  organize:  { bg: 'rgba(236,72,153,0.15)',   text: '#f472b6' },
-  advanced:  { bg: 'rgba(248,113,113,0.15)',  text: '#f87171' },
-  visualise: { bg: 'rgba(16,185,129,0.15)',   text: '#34d399' },
-  quality:   { bg: 'rgba(249,115,22,0.15)',   text: '#fb923c' },
+  beginner:  { bg: 'rgba(95,201,186,0.12)',   text: '#5FC9BA' },
+  io:        { bg: 'rgba(232,130,60,0.12)',   text: '#E8823C' },
+  cleaning:  { bg: 'rgba(95,201,186,0.12)',   text: '#5FC9BA' },
+  analysis:  { bg: 'rgba(232,130,60,0.12)',   text: '#E8823C' },
+  transform: { bg: 'rgba(232,130,60,0.12)',   text: '#E8823C' },
+  types:     { bg: 'rgba(124,134,152,0.12)',  text: '#7C8698' },
+  organize:  { bg: 'rgba(124,134,152,0.12)',  text: '#7C8698' },
+  advanced:  { bg: 'rgba(232,130,60,0.12)',   text: '#E8823C' },
+  visualise: { bg: 'rgba(95,201,186,0.12)',   text: '#5FC9BA' },
+  quality:   { bg: 'rgba(232,130,60,0.12)',   text: '#E8823C' },
 };

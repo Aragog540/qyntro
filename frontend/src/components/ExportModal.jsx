@@ -21,47 +21,50 @@ export function ExportModal({ onClose }) {
   };
 
   return (
-    <div className="modal-backdrop" onClick={onClose}>
-      <div className="modal-content export-modal" onClick={e => e.stopPropagation()}>
-        <div className="modal-header">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4 animate-fadein" onClick={onClose}>
+      <div className="w-full max-w-2xl rounded border border-[#283242] bg-[#1B2028] shadow-2xl overflow-hidden" onClick={e => e.stopPropagation()}>
+        {/* Header */}
+        <div className="flex items-center justify-between border-b border-[#283242] bg-[#14171C] px-4 py-3">
           <div className="flex items-center gap-2">
-            <Icon icon="ci:code" className="text-xl text-accent" />
+            <Icon icon="ci:code" className="text-lg text-[#E8823C]" />
             <div>
-              <h3 className="font-bold text-ink text-base">Export Pipeline Code</h3>
-              <p className="text-xs text-ink-muted">Auto-generated code reproducing your pipeline</p>
+              <h3 className="font-sans text-sm font-bold text-[#EDEFF2]">[CODE GENERATOR]</h3>
+              <p className="font-mono text-[10px] text-[#7C8698]">Auto-generated Python/SQL script for current pipeline topology</p>
             </div>
           </div>
-          <button onClick={onClose} className="modal-close-btn flex items-center justify-center">
-            <Icon icon="ci:close-md" className="h-5 w-5" />
+          <button onClick={onClose} className="flex h-6 w-6 items-center justify-center rounded border border-[#283242] text-[#7C8698] hover:text-[#EDEFF2] hover:bg-[#232B36]">
+            <Icon icon="ci:close-md" className="h-4 w-4" />
           </button>
         </div>
 
-        <div className="flex border-b border-border px-4 pt-2 gap-4">
+        {/* Tabs */}
+        <div className="flex border-b border-[#283242] bg-[#14171C] px-4 pt-2 gap-4">
           <button
             onClick={() => setActiveTab('python')}
-            className={`pb-2 text-xs font-semibold border-b-2 transition-colors flex items-center gap-1.5 ${activeTab === 'python' ? 'border-accent text-accent' : 'border-transparent text-ink-muted hover:text-ink'}`}
+            className={`pb-2 font-mono text-xs font-semibold border-b-2 transition-colors flex items-center gap-1.5 ${activeTab === 'python' ? 'border-[#E8823C] text-[#E8823C]' : 'border-transparent text-[#7C8698] hover:text-[#EDEFF2]'}`}
           >
             <Icon icon="ci:file-code" className="h-3.5 w-3.5" />
-            <span>Python (pandas)</span>
+            <span>[PYTHON (PANDAS)]</span>
           </button>
           <button
             onClick={() => setActiveTab('sql')}
-            className={`pb-2 text-xs font-semibold border-b-2 transition-colors flex items-center gap-1.5 ${activeTab === 'sql' ? 'border-accent text-accent' : 'border-transparent text-ink-muted hover:text-ink'}`}
+            className={`pb-2 font-mono text-xs font-semibold border-b-2 transition-colors flex items-center gap-1.5 ${activeTab === 'sql' ? 'border-[#E8823C] text-[#E8823C]' : 'border-transparent text-[#7C8698] hover:text-[#EDEFF2]'}`}
           >
             <Icon icon="ci:data" className="h-3.5 w-3.5" />
-            <span>SQL</span>
+            <span>[SQL (ANSI)]</span>
           </button>
         </div>
 
+        {/* Code area */}
         <div className="p-4 relative">
           <button
             onClick={handleCopy}
-            className="absolute top-6 right-6 px-3 py-1.5 rounded-lg border border-border bg-surface text-ink text-xs font-semibold hover:bg-surface-2 transition-colors shadow-sm flex items-center gap-1.5"
+            className="btn-copper absolute top-6 right-6 font-mono text-xs py-1 px-3"
           >
-            <Icon icon={copied ? 'ci:check' : 'ci:copy'} className="h-3.5 w-3.5 text-accent" />
-            <span>{copied ? 'Copied!' : 'Copy Code'}</span>
+            <Icon icon={copied ? 'ci:check' : 'ci:copy'} className="h-3.5 w-3.5 text-[#14171C]" />
+            <span>{copied ? 'COPIED!' : 'COPY CODE'}</span>
           </button>
-          <pre className="p-4 rounded-xl border border-border bg-canvas text-ink font-mono text-xs overflow-x-auto max-h-[380px] leading-relaxed">
+          <pre className="p-4 rounded border border-[#283242] bg-[#14171C] text-[#EDEFF2] font-mono text-xs overflow-x-auto max-h-[380px] leading-relaxed">
             <code>{code}</code>
           </pre>
         </div>

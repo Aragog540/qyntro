@@ -3,11 +3,11 @@ import { useMemo, useState } from 'react';
 import { columnStats } from '../utils/dataOps';
 
 const TYPE_BADGE = {
-  number:  { label: '#',   bg: 'bg-blue-500/20 text-blue-400' },
-  string:  { label: 'Aa',  bg: 'bg-violet-500/20 text-violet-400' },
-  boolean: { label: '✓',   bg: 'bg-green-500/20 text-green-400' },
-  date:    { label: '📅',  bg: 'bg-orange-500/20 text-orange-400' },
-  empty:   { label: '∅',   bg: 'bg-gray-500/20 text-gray-400' },
+  number:  { label: '#',   bg: 'bg-[#5FC9BA]/10 text-[#5FC9BA] border border-[#5FC9BA]/30' },
+  string:  { label: 'Aa',  bg: 'bg-[#E8823C]/10 text-[#E8823C] border border-[#E8823C]/30' },
+  boolean: { label: '✓',   bg: 'bg-[#5FC9BA]/10 text-[#5FC9BA] border border-[#5FC9BA]/30' },
+  date:    { label: '📅',  bg: 'bg-[#E8823C]/10 text-[#E8823C] border border-[#E8823C]/30' },
+  empty:   { label: '∅',   bg: 'bg-[#232B36] text-[#7C8698] border border-[#283242]' },
 };
 
 const MAX_DISPLAY_ROWS = 500;

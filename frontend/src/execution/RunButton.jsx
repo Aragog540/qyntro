@@ -57,26 +57,25 @@ export const RunButton = () => {
 
   return (
     <div className="flex items-center gap-2">
-
       <button
+        id="run-pipeline-btn"
         onClick={handleRun}
         disabled={isRunning || nodes.length === 0}
-        className={`flex items-center gap-2 rounded-lg px-4 py-2 text-xs font-bold transition-all duration-150
-          ${isRunning
-            ? 'bg-surface-2 text-ink-muted border border-border cursor-not-allowed'
-            : 'bg-accent text-canvas hover:opacity-90 active:scale-95 shadow-md'
-          }
-          disabled:opacity-50`}
+        className={`${
+          isRunning
+            ? 'btn-hardware !bg-[#232B36] !text-[#5FC9BA] !border-[#5FC9BA]/50 cursor-not-allowed'
+            : 'btn-copper'
+        } disabled:opacity-40 disabled:cursor-not-allowed`}
       >
         {isRunning ? (
           <>
-            <span className="h-3 w-3 rounded-full border-2 border-accent border-t-transparent animate-spin" />
-            Running…
+            <span className="h-3 w-3 rounded-full border-2 border-[#5FC9BA] border-t-transparent animate-spin" />
+            <span className="font-mono text-xs">[RUNNING CURRENT...]</span>
           </>
         ) : (
           <>
-            <Icon icon="ci:play" className="h-3.5 w-3.5" />
-            Run Pipeline
+            <Icon icon="ci:play" className="h-3.5 w-3.5 fill-current" />
+            <span>RUN PIPELINE</span>
           </>
         )}
       </button>
